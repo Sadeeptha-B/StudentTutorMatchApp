@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">StudentTutorMatchApp</string>
+    <string name="login_string">Login</string>
+    <string name="password_string">Password</string>
+    <string name="user_name_string">User Name</string>
+    <string name="open_string">Open</string>
+    <string name="close_string">Close</string>
 </resources>
