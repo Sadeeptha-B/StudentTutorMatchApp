@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Create Bid" />
-    <item android:title="Signout" />
+    <item
+        android:id="@+id/createBid"
+        android:title="Create Bid" />
+    <item
+        android:id="@+id/signout"
+        android:title="Signout" />
 </menu>
