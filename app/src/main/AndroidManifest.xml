@@ -20,6 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="com.FIT3077.API_KEY"
+            android:value="${FIT3077_API_KEY}" />
     </application>
 
 </manifest>
