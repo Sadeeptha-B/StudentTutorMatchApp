@@ -8,16 +8,16 @@ public class User {
     @Expose
     private int id;
 
-    @SerializedName("name")
+    @SerializedName("userName")
     @Expose
-    private String name;
+    private String userName;
 
     public User(){
     }
 
-    public User(int id, String name){
+    public User(int id, String userName){
         this.id = id;
-        this.name = name;
+        this.userName = userName;
     }
 
     public int getId(){
@@ -28,11 +28,11 @@ public class User {
         this.id = id;
     }
 
-    public String getName(){
-        return name;
+    public String getUserName(){
+        return userName;
     }
 
-    public void setName(String name){
-        this.name = name;
+    public void setUserName(String name){
+        this.userName = userName;
     }
 }
