@@ -29,7 +29,10 @@ public interface UserService {
     @DELETE("delete/{id}")
     Call<User> deleteUser(@Path("id") int id);
 
+//    @POST("user/login")
+//    Call<ResponseBody> loginUser(@Header("Authorization") String key, @Body Credentials user);
+
     @POST("user/login")
-    Call<ResponseBody> loginUser(@Header ("Authorization") String key, @Body Credentials user);
+    Call<ResponseBody> loginUser(@Body Credentials user);
 
 }

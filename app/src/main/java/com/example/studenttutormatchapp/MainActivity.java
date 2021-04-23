@@ -22,9 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     TextView user;
     TextView password;
-
     UserService apiInterface;
-
     Context context;
 
     @Override
@@ -42,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void login(View v){
 
-        Call<ResponseBody> call  = apiInterface.loginUser(BuildConfig.FIT3077_API_KEY, new Credentials(user.getText().toString(), password.getText().toString()));
+        Call<ResponseBody> call  = apiInterface.loginUser(new Credentials(user.getText().toString(), password.getText().toString()));
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -70,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.d("Login debug", t.getMessage());
-
             }
         });
 
