@@ -5,4 +5,5 @@
     <string name="user_name_string">User Name</string>
     <string name="open_string">Open</string>
     <string name="close_string">Close</string>
+    <string name="JWT_KEY">JWT</string>
 </resources>

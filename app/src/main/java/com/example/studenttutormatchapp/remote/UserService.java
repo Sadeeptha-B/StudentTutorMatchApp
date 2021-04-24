@@ -1,6 +1,7 @@
 package com.example.studenttutormatchapp.remote;
 
 import com.example.studenttutormatchapp.Credentials;
+import com.example.studenttutormatchapp.JWT;
 import com.example.studenttutormatchapp.model.User;
 
 import java.util.List;
@@ -29,10 +30,7 @@ public interface UserService {
     @DELETE("delete/{id}")
     Call<User> deleteUser(@Path("id") int id);
 
-//    @POST("user/login")
-//    Call<ResponseBody> loginUser(@Header("Authorization") String key, @Body Credentials user);
-
-    @POST("user/login")
+    @POST("user/login?jwt=true")
     Call<ResponseBody> loginUser(@Body Credentials user);
 
 }

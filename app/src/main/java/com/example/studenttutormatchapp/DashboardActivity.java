@@ -1,8 +1,12 @@
 package com.example.studenttutormatchapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -13,16 +17,29 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+
 public class DashboardActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
 
+    SharedPreferences jwtFile;
+    SharedPreferences.Editor jwtFileEditor;
+
+    JSONObject jwtObject;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_dashboard_layout);
+
+        jwtFile = getSharedPreferences("jwt", 0);
+//        jwtFileEditor = jwtFile.edit();
+
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -45,7 +62,7 @@ public class DashboardActivity extends AppCompatActivity {
                         openBidPage();
                         break;
                     case R.id.signout:
-                        //TODO Implement actual signout
+                        jwtFileEditor.clear().apply();
                         finish();
                         break;
                 }
@@ -53,6 +70,12 @@ public class DashboardActivity extends AppCompatActivity {
                 return true;
             }
         });
+        try {
+            decodeJWT();
+            toolbar.setTitle(jwtObject.getString("givenName"));
+        } catch (JSONException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
     }
     public void openBidPage(){
@@ -60,4 +83,11 @@ public class DashboardActivity extends AppCompatActivity {
         startActivity(activity);
 
     }
+    public void decodeJWT() throws UnsupportedEncodingException, JSONException {
+        String[] jwt = jwtFile.getString("JWT", "").split("\\.");
+        byte[] decodedBytes = Base64.decode(jwt[1], Base64.URL_SAFE);
+        String body = new String(decodedBytes, "UTF-8");
+        jwtObject = new JSONObject(body);
+    }
+
 }
