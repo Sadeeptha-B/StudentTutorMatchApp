@@ -12,6 +12,9 @@ public class Competency {
     @Expose
     private String id;
 
+    @Expose
+    private Subject subject;
+
     @SerializedName("level")
     @Expose
     private Integer level;
@@ -32,5 +35,9 @@ public class Competency {
     public void setLevel(Integer level) {
         this.level = level;
     }
+
+    public Subject getSubject(){return subject;}
+
+    public void setSubject(Subject subject){this.subject = subject;}
 
 }

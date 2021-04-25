@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName3"
+        android:id="@+id/RateField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -31,7 +31,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/textView7"
-        app:layout_constraintTop_toBottomOf="@+id/spinner2"
+        app:layout_constraintTop_toBottomOf="@+id/RateTypeDropdown"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
@@ -68,7 +68,7 @@
         android:text="Desired Qualification"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/textView6"
-        app:layout_constraintEnd_toStartOf="@+id/editTextTextPersonName"
+        app:layout_constraintEnd_toStartOf="@+id/QualificationsField"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
@@ -81,7 +81,7 @@
         android:text="Prefered Time/Day"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/textView9"
-        app:layout_constraintEnd_toStartOf="@+id/editTextTextPersonName2"
+        app:layout_constraintEnd_toStartOf="@+id/TimeField"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
@@ -94,13 +94,13 @@
         android:layout_marginTop="32dp"
         android:text="Preferred Rate"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/editTextTextPersonName3"
+        app:layout_constraintEnd_toStartOf="@+id/RateField"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <Spinner
-        android:id="@+id/spinner2"
+        android:id="@+id/RateTypeDropdown"
         android:layout_width="0dp"
         android:layout_height="44dp"
         android:layout_marginStart="8dp"
@@ -110,10 +110,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/textView9"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+        app:layout_constraintTop_toBottomOf="@+id/TimeField" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/QualificationsField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -128,7 +128,7 @@
         app:layout_constraintTop_toBottomOf="@+id/subjectDropdown" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/TimeField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -140,7 +140,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintTop_toBottomOf="@+id/QualificationsField" />
 
     <TextView
         android:id="@+id/textView9"
@@ -150,7 +150,7 @@
         android:text="Rate Type"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/textView7"
-        app:layout_constraintEnd_toStartOf="@+id/spinner2"
+        app:layout_constraintEnd_toStartOf="@+id/RateTypeDropdown"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
@@ -169,24 +169,24 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
 
     <RadioGroup
-        android:id="@+id/radioGroup2"
+        android:id="@+id/BidGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="64dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName4"
+        app:layout_constraintTop_toBottomOf="@+id/DescriptionField"
         app:layout_constraintVertical_bias="0.32999998">
 
         <RadioButton
-            android:id="@+id/radioButton"
+            android:id="@+id/OpenBidBtn"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:text="Open Bid" />
 
         <RadioButton
-            android:id="@+id/radioButton2"
+            android:id="@+id/ClosedBidBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Closed Bid" />
@@ -219,7 +219,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName4"
+        android:id="@+id/DescriptionField"
         android:layout_width="362dp"
         android:layout_height="59dp"
         android:layout_marginStart="16dp"

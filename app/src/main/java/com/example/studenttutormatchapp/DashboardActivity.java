@@ -1,5 +1,6 @@
 package com.example.studenttutormatchapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,12 +16,21 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.studenttutormatchapp.model.Competency;
+import com.example.studenttutormatchapp.model.User;
+import com.example.studenttutormatchapp.remote.APIUtils;
+import com.example.studenttutormatchapp.remote.UserService;
 import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DashboardActivity extends AppCompatActivity {
 
@@ -28,8 +38,12 @@ public class DashboardActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     NavigationView navigationView;
 
+    UserService apiUserInterface;
+
     SharedPreferences jwtFile;
     SharedPreferences.Editor jwtFileEditor;
+
+    Context context;
 
     JSONObject jwtObject;
     @Override
@@ -37,9 +51,11 @@ public class DashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_dashboard_layout);
 
+        apiUserInterface = APIUtils.getUserService();
+
         jwtFile = getSharedPreferences("jwt", 0);
 //        jwtFileEditor = jwtFile.edit();
-
+        context = this;
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -72,11 +88,11 @@ public class DashboardActivity extends AppCompatActivity {
         });
         try {
             decodeJWT();
-            toolbar.setTitle(jwtObject.getString("givenName"));
+            storeUserId();
+            toolbar.setTitle("Welcome, " + jwtObject.getString("username"));
         } catch (JSONException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-
     }
     public void openBidPage(){
         Intent activity = new Intent(this, BidFormActivity.class);
@@ -90,4 +106,12 @@ public class DashboardActivity extends AppCompatActivity {
         jwtObject = new JSONObject(body);
     }
 
+    public void storeUserId() throws JSONException {
+        // User Id will be stored in the main shared pref file
+        SharedPreferences userIdFile = getSharedPreferences("id", 0);
+        SharedPreferences.Editor userIdFileEditor = userIdFile.edit();
+
+        userIdFileEditor.putString("USER_ID", jwtObject.getString("sub"));
+        userIdFileEditor.apply();
+    }
 }

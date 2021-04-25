@@ -35,11 +35,11 @@ public class User {
 
     @SerializedName("competencies")
     @Expose
-    private List<Object> competencies = null;
+    private List<Competency> competencies = null;
 
     @SerializedName("qualifications")
     @Expose
-    private List<Object> qualifications = null;
+    private List<Qualification> qualifications = null;
 
     @SerializedName("initiatedBids")
     @Expose
@@ -93,19 +93,19 @@ public class User {
         this.isTutor = isTutor;
     }
 
-    public List<Object> getCompetencies() {
+    public List<Competency> getCompetencies() {
         return competencies;
     }
 
-    public void setCompetencies(List<Object> competencies) {
+    public void setCompetencies(List<Competency> competencies) {
         this.competencies = competencies;
     }
 
-    public List<Object> getQualifications() {
+    public List<Qualification> getQualifications() {
         return qualifications;
     }
 
-    public void setQualifications(List<Object> qualifications) {
+    public void setQualifications(List<Qualification> qualifications) {
         this.qualifications = qualifications;
     }
 
