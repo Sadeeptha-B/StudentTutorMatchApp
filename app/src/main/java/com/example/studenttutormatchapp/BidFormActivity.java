@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -55,14 +56,20 @@ public class BidFormActivity extends AppCompatActivity {
     }
 
 
-
+    public void createBid(View v){
+        RadioGroup bidGroup = findViewById(R.id.BidGroup);
+        if (bidGroup.getCheckedRadioButtonId() == R.id.ClosedBidBtn){
+            Toast.makeText(context, "Closed bid", Toast.LENGTH_LONG).show();
+        }
+    }
 
 
     public void createSubjectDropdown(){
         Spinner subjectSpinner = findViewById(R.id.subjectDropdown);
 
-        ArrayAdapter<String> subjectAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, subjectStrings);
-        subjectAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> subjectAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, subjectStrings);
+//        subjectAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        subjectSpinner.setPrompt("Subject");
 
         subjectSpinner.setAdapter(subjectAdapter);
     }
