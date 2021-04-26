@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -14,13 +15,17 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.studenttutormatchapp.model.Bid;
 import com.example.studenttutormatchapp.model.Competency;
 import com.example.studenttutormatchapp.model.Subject;
 import com.example.studenttutormatchapp.model.User;
 import com.example.studenttutormatchapp.remote.APIUtils;
+import com.example.studenttutormatchapp.remote.BidService;
 import com.example.studenttutormatchapp.remote.UserService;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -49,27 +54,85 @@ public class BidFormActivity extends AppCompatActivity {
 
         apiUserInterface = APIUtils.getUserService();
 
+        getUserSubjects();
+
         createSubjectDropdown();
 
-        getUserSubjects();
 
     }
 
 
     public void createBid(View v){
-        RadioGroup bidGroup = findViewById(R.id.BidGroup);
-        if (bidGroup.getCheckedRadioButtonId() == R.id.ClosedBidBtn){
-            Toast.makeText(context, "Closed bid", Toast.LENGTH_LONG).show();
-        }
+        BidService apiBidService = APIUtils.getBidService();
+
+        Call<Bid> bidCall = apiBidService.createBid(createBidClass());
+        bidCall.enqueue(new Callback<Bid>() {
+            @Override
+            public void onResponse(Call<Bid> call, Response<Bid> response) {
+                Toast.makeText(context, "Bid created successfully", Toast.LENGTH_LONG).show();
+//                finish();
+            }
+
+            @Override
+            public void onFailure(Call<Bid> call, Throwable t) {
+
+            }
+        });
     }
+
+    public Bid createBidClass(){
+        Spinner subject = findViewById(R.id.subjectDropdown);
+
+        EditText qualification = findViewById(R.id.QualificationsField);
+        EditText preferredTime = findViewById(R.id.TimeField);
+
+        EditText preferredRate = findViewById(R.id.RateField);
+        EditText description = findViewById(R.id.DescriptionField);
+
+        String bidType = "open";
+
+        RadioGroup bidGroup = findViewById(R.id.BidGroup);
+
+        Calendar calendar = Calendar.getInstance();
+
+        Date dateOpened = calendar.getTime();
+        calendar.add(Calendar.MINUTE, 30);
+        Date dateClosing = calendar.getTime();
+
+
+        if (bidGroup.getCheckedRadioButtonId() == R.id.ClosedBidBtn){
+            calendar.add(Calendar.MINUTE, -30);
+            calendar.add(Calendar.WEEK_OF_YEAR, 1);
+            dateClosing = calendar.getTime();
+            bidType = "closed";
+
+        }
+
+        Toast.makeText(context, dateClosing.toString(), Toast.LENGTH_LONG).show();
+        Bid createdBid = new Bid(bidType, dateOpened, dateOpened, null);
+        return createdBid;
+
+    }
+
 
 
     public void createSubjectDropdown(){
         Spinner subjectSpinner = findViewById(R.id.subjectDropdown);
 
-        ArrayAdapter<String> subjectAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, subjectStrings);
-//        subjectAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        subjectSpinner.setPrompt("Subject");
+        ArrayAdapter<String> subjectAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, subjectStrings);
+        subjectAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        subjectSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                parent.setSelection(parent.getSelectedItemPosition());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         subjectSpinner.setAdapter(subjectAdapter);
     }

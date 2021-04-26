@@ -5,6 +5,8 @@ package com.example.studenttutormatchapp.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 public class Bid {
 
     @SerializedName("id")
@@ -17,15 +19,22 @@ public class Bid {
 
     @SerializedName("dateCreated")
     @Expose
-    private String dateCreated;
+    private Date dateCreated;
 
     @SerializedName("dateClosedDown")
     @Expose
-    private Object dateClosedDown;
+    private Date dateClosedDown;
 
     @SerializedName("subject")
     @Expose
     private Subject subject;
+
+    public Bid(String type, Date dateCreated, Date dateClosedDown, Subject subject){
+        this.type = type;
+        this.dateCreated = dateCreated;
+        this.dateClosedDown = dateClosedDown;
+        this.subject = subject;
+    }
 
 
     public String getId() {
@@ -44,19 +53,19 @@ public class Bid {
         this.type = type;
     }
 
-    public String getDateCreated() {
+    public Date getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(String dateCreated) {
+    public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
     }
 
-    public Object getDateClosedDown() {
+    public Date getDateClosedDown() {
         return dateClosedDown;
     }
 
-    public void setDateClosedDown(Object dateClosedDown) {
+    public void setDateClosedDown(Date dateClosedDown) {
         this.dateClosedDown = dateClosedDown;
     }
 
