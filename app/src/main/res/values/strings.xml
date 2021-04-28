@@ -6,4 +6,5 @@
     <string name="open_string">Open</string>
     <string name="close_string">Close</string>
     <string name="JWT_KEY">JWT</string>
+    <string name="messages_string">Messages</string>
 </resources>

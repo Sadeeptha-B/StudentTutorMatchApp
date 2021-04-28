@@ -1,7 +1,10 @@
 package com.example.studenttutormatchapp.model;
 
+import com.example.studenttutormatchapp.MessageAdditionalInfo;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import org.json.JSONObject;
 
 public class Message {
 
@@ -28,6 +31,11 @@ public class Message {
     @Expose
     private String content;
 
+    @Expose
+    private MessageAdditionalInfo additionalInfo;
+
+
+    // Creating a message as a Tutor
     public Message(String id, String bidId, String posterId, String datePosted, String content) {
         this.id = id;
         this.bidId = bidId;
@@ -36,6 +44,7 @@ public class Message {
         this.content = content;
     }
 
+    //Receiving a message as a Student
     public Message(String id, String bidId, User poster, String datePosted, String content){
         this.id = id;
         this.bidId = bidId;
@@ -43,7 +52,15 @@ public class Message {
         this.datePosted = datePosted;
         this.content = content;
     }
-
+    // Creating a message as a Student
+    public Message(String id, String bidId, User poster, String datePosted, String content, MessageAdditionalInfo additionalInfo){
+        this.id = id;
+        this.bidId = bidId;
+        this.poster = poster;
+        this.datePosted = datePosted;
+        this.content = content;
+        this.additionalInfo = additionalInfo;
+    }
 
     public String getId() {
         return id;
@@ -100,5 +117,9 @@ public class Message {
     public void setContent(String content) {
         this.content = content;
     }
+
+    public MessageAdditionalInfo getAdditionalInfo(){return additionalInfo;}
+
+    public void setAdditionalInfo(MessageAdditionalInfo additionalInfo){this.additionalInfo = additionalInfo;}
 
 }
