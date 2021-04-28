@@ -6,10 +6,6 @@
             android:id="@+id/createBid"
             android:title="Create Bid" />
 
-        <item
-            android:id="@+id/showOffers"
-            android:title="Show Offers" />
-
     </group>
 
     <group android:id="@+id/tutorMenuItems">

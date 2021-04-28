@@ -33,18 +33,16 @@ import retrofit2.Response;
 public class BidFormActivity extends AppCompatActivity {
 
     private String userID;
-
     private List<Competency> competencies = new ArrayList<>();
     private ArrayList<String> subjectStrings = new ArrayList<>();
 
     UserService apiUserInterface;
-
     Context context;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bid_form_layout);
-
         context = this;
 
         SharedPreferences sharedPreferences = getSharedPreferences("id", 0);
@@ -70,7 +68,6 @@ public class BidFormActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 Log.d("Bidding_debug","Response:" + t.getMessage());
-
             }
         });
     }
@@ -144,14 +141,12 @@ public class BidFormActivity extends AppCompatActivity {
             calendar.add(Calendar.WEEK_OF_YEAR, 1);
             dateClosing = calendar.getTime();
             bidType = "closed";
-
         }
 
         Toast.makeText(context, dateClosing.toString(), Toast.LENGTH_LONG).show();
         Subject subject = competencies.get(0).getSubject();
         Bid createdBid = new Bid(bidType,userID ,dateOpened, dateOpened, subject);
         return createdBid;
-
     }
 }
 

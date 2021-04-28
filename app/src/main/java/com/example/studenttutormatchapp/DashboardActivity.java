@@ -107,8 +107,6 @@ public class DashboardActivity extends AppCompatActivity {
                     case R.id.createBid:
                         bidFormPage();
                         break;
-                    case R.id.showOffers:
-                        break;
                     case R.id.findBidRequests:
                         findBidRequests();
                         break;
