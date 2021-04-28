@@ -50,12 +50,48 @@ public class BidFormActivity extends AppCompatActivity {
         userID = sharedPreferences.getString("USER_ID", "");
 
         apiUserInterface = APIUtils.getUserService();
-
         getUserSubjects();
-
         createSubjectDropdown();
     }
 
+    public void getUserSubjects(){
+        Call<User> call = apiUserInterface.getStudentSubject(userID);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                List<Competency> competencies = response.body().getCompetencies();
+                for (int i = 0; i < competencies.size(); i++){
+                    Subject subject = competencies.get(i).getSubject();
+                    subjectStrings.add(subject.getDescription() + " - " + subject.getName());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.d("Bidding_debug","Response:" + t.getMessage());
+
+            }
+        });
+    }
+
+    public void createSubjectDropdown(){
+        Spinner subjectSpinner = findViewById(R.id.subjectDropdown);
+        ArrayAdapter<String> subjectAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, subjectStrings);
+        subjectAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        subjectSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                parent.setSelection(parent.getSelectedItemPosition());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        subjectSpinner.setAdapter(subjectAdapter);
+    }
 
     public void createBid(View v){
         BidService apiBidService = APIUtils.getBidService();
@@ -70,7 +106,6 @@ public class BidFormActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Bid> call, Throwable t) {
-
             }
         });
     }
@@ -109,48 +144,4 @@ public class BidFormActivity extends AppCompatActivity {
 
     }
 
-
-
-    public void createSubjectDropdown(){
-        Spinner subjectSpinner = findViewById(R.id.subjectDropdown);
-
-        ArrayAdapter<String> subjectAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, subjectStrings);
-        subjectAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        subjectSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                parent.setSelection(parent.getSelectedItemPosition());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        subjectSpinner.setAdapter(subjectAdapter);
-    }
-
-
-    public void getUserSubjects(){
-        Call<User> call = apiUserInterface.getStudentSubject(userID);
-
-        call.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                List<Competency> competencies = response.body().getCompetencies();
-                for (int i = 0; i < competencies.size(); i++){
-                    Subject subject = competencies.get(i).getSubject();
-                    subjectStrings.add(subject.getDescription() + " - " + subject.getName());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                Log.d("Bidding_debug","Response:" + t.getMessage());
-
-            }
-        });
-    }
 }

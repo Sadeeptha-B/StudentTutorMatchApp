@@ -28,31 +28,32 @@ public class MainActivity extends AppCompatActivity {
 
     TextView user;
     TextView password;
-    UserService apiInterface;
     Context context;
 
+    /* API interface */
+    UserService apiInterface;
     JSONObject loginResponse;
 
+    /* Shared Pref */
     SharedPreferences jwtFile;
     SharedPreferences.Editor jwtFileEditor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         user = findViewById(R.id.userName);
         password = findViewById(R.id.Password);
 
         jwtFile = getSharedPreferences("jwt", 0);
         jwtFileEditor = jwtFile.edit();
+
         apiInterface = APIUtils.getUserService();
         context = this;
-
     }
 
     public void login(View v){
-
         Call<ResponseBody> call  = apiInterface.loginUser(new Credentials(user.getText().toString(), password.getText().toString()));
         call.enqueue(new Callback<ResponseBody>() {
             @Override

@@ -8,7 +8,6 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -17,8 +16,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.example.studenttutormatchapp.model.Competency;
-import com.example.studenttutormatchapp.model.User;
 import com.example.studenttutormatchapp.remote.APIUtils;
 import com.example.studenttutormatchapp.remote.UserService;
 import com.google.android.material.navigation.NavigationView;
@@ -27,11 +24,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class DashboardActivity extends AppCompatActivity {
 
@@ -55,26 +47,17 @@ public class DashboardActivity extends AppCompatActivity {
         apiUserInterface = APIUtils.getUserService();
 
         jwtFile = getSharedPreferences("jwt", 0);
-//        jwtFileEditor = jwtFile.edit();
         context = this;
 
         try {
             decodeJWT();
             storeUserId();
             setToolbarAndNavMenu();
-            toolbar.setTitle("Welcome, " + jwtObject.getString("username"));
         } catch (JSONException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }
 
-
-    
-    public void openBidPage(){
-        Intent activity = new Intent(this, BidFormActivity.class);
-        startActivity(activity);
-
-    }
     public void decodeJWT() throws UnsupportedEncodingException, JSONException {
         String[] jwt = jwtFile.getString("JWT", "").split("\\.");
         byte[] decodedBytes = Base64.decode(jwt[1], Base64.URL_SAFE);
@@ -97,14 +80,13 @@ public class DashboardActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         drawerLayout = findViewById(R.id.drawer_layout);
-
         ActionBarDrawerToggle navToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_string,R.string.close_string);
-
         drawerLayout.addDrawerListener(navToggle);
         navToggle.syncState();
 
-        navigationView = findViewById(R.id.nav_view);
+        toolbar.setTitle("Welcome, " + jwtObject.getString("username"));
 
+        navigationView = findViewById(R.id.nav_view);
         Menu menuNav = navigationView.getMenu();
 
         if (jwtObject.getBoolean("isStudent")){
@@ -123,7 +105,12 @@ public class DashboardActivity extends AppCompatActivity {
                 int id = item.getItemId();
                 switch (id) {
                     case R.id.createBid:
-                        openBidPage();
+                        bidFormPage();
+                        break;
+                    case R.id.showOffers:
+                        break;
+                    case R.id.findBidRequests:
+                        findBidRequests();
                         break;
                     case R.id.signout:
                         jwtFileEditor.clear().apply();
@@ -134,5 +121,21 @@ public class DashboardActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    /*Navigation Menu callback */
+    private void bidFormPage(){
+        Intent activity = new Intent(this, BidFormActivity.class);
+        startActivity(activity);
+    }
+
+    private void listOffersPage(){
+        Intent activity = new Intent(this, BidFormActivity.class);
+        startActivity(activity);
+    }
+
+    private void findBidRequests(){
+        Intent activity = new Intent(this, FindBidsActivity.class);
+        startActivity(activity);
     }
 }
