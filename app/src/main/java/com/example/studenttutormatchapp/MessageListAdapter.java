@@ -1,5 +1,6 @@
 package com.example.studenttutormatchapp;
 
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +11,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studenttutormatchapp.model.Message;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.ViewHolder> {
 
-    List<Message> messages;
+    List<Message> messages  = new ArrayList<>();
+
+    String userId;
+    public MessageListAdapter(String userId){
+        this.userId = userId;
+    }
 
     @NonNull
     @Override
@@ -25,7 +32,13 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull MessageListAdapter.ViewHolder holder, int position) {
-        holder.name.setText(messages.get(position).getPoster().getUserName());
+        String posterId = messages.get(position).getPoster().getId();
+        if (posterId.equals(userId)){
+            holder.name.setText(messages.get(position).getAdditionalInfo().getReceiverName());
+        }
+        else {
+            holder.name.setText(messages.get(position).getPoster().getUserName());
+        }
 
     }
 
@@ -34,6 +47,10 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
         if (messages == null)
             return 0;
         return messages.size();
+    }
+
+    public void addMessage(Message message){
+        messages.add(message);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

@@ -51,7 +51,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         try {
             decodeJWT();
-            storeUserId();
+            storeUserData();
             setToolbarAndNavMenu();
         } catch (JSONException | UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -66,12 +66,14 @@ public class DashboardActivity extends AppCompatActivity {
         Log.i("CHECK", jwtObject.toString());
     }
 
-    public void storeUserId() throws JSONException {
+    public void storeUserData() throws JSONException {
         // User Id will be stored in the main shared pref file
         SharedPreferences userIdFile = getSharedPreferences("id", 0);
         SharedPreferences.Editor userIdFileEditor = userIdFile.edit();
 
         userIdFileEditor.putString("USER_ID", jwtObject.getString("sub"));
+        userIdFileEditor.putBoolean("IS_STUDENT", jwtObject.getBoolean("isStudent"));
+        userIdFileEditor.putBoolean("IS_TUTOR", jwtObject.getBoolean("isTutor"));
         userIdFileEditor.apply();
     }
 
@@ -137,5 +139,18 @@ public class DashboardActivity extends AppCompatActivity {
     private void findBidRequests(){
         Intent activity = new Intent(this, FindBidsActivity.class);
         startActivity(activity);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.options_menu_dashboard, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent activity = new Intent(this, MessageListActivity.class);
+        startActivity(activity);
+        return true;
     }
 }
