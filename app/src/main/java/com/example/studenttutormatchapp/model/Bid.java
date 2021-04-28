@@ -17,6 +17,12 @@ public class Bid {
     @Expose
     private String type;
 
+    @Expose
+    private String initiatorId;
+
+    @Expose
+    private User initiator;
+
     @SerializedName("dateCreated")
     @Expose
     private Date dateCreated;
@@ -29,8 +35,17 @@ public class Bid {
     @Expose
     private Subject subject;
 
-    public Bid(String type, Date dateCreated, Date dateClosedDown, Subject subject){
+    public Bid(String type,String initiatorId , Date dateCreated, Date dateClosedDown, Subject subject){
         this.type = type;
+        this.initiatorId = initiatorId;
+        this.dateCreated = dateCreated;
+        this.dateClosedDown = dateClosedDown;
+        this.subject = subject;
+    }
+
+    public Bid(String type,User initiator , Date dateCreated, Date dateClosedDown, Subject subject){
+        this.type = type;
+        this.initiator = initiator;
         this.dateCreated = dateCreated;
         this.dateClosedDown = dateClosedDown;
         this.subject = subject;

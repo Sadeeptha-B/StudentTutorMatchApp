@@ -1,7 +1,5 @@
 package com.example.studenttutormatchapp.remote;
 
-import android.util.Log;
-
 import com.example.studenttutormatchapp.BuildConfig;
 
 public class APIUtils {
@@ -19,6 +17,11 @@ public class APIUtils {
     public static BidService getBidService(){
 
         return RetrofitClient.getClient(API_URL, API_KEY).create(BidService.class);
+    }
+
+    public static MessageService getMessageService(){
+
+        return RetrofitClient.getClient(API_URL, API_KEY).create(MessageService.class);
     }
 
 

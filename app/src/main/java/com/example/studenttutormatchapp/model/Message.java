@@ -12,6 +12,12 @@ public class Message {
     @Expose
     private String bidId;
 
+    @Expose
+    private String posterId;
+
+    @Expose
+    private User poster;
+
     @SerializedName("datePosted")
     @Expose
     private String datePosted;
@@ -21,6 +27,22 @@ public class Message {
     @SerializedName("content")
     @Expose
     private String content;
+
+    public Message(String id, String bidId, String posterId, String datePosted, String content) {
+        this.id = id;
+        this.bidId = bidId;
+        this.posterId = posterId;
+        this.datePosted = datePosted;
+        this.content = content;
+    }
+
+    public Message(String id, String bidId, User poster, String datePosted, String content){
+        this.id = id;
+        this.bidId = bidId;
+        this.poster = poster;
+        this.datePosted = datePosted;
+        this.content = content;
+    }
 
 
     public String getId() {
@@ -37,6 +59,22 @@ public class Message {
 
     public void setBidId(String bidId) {
         this.bidId = bidId;
+    }
+
+    public String getPosterId() {
+        return posterId;
+    }
+
+    public void setPosterId(String posterId) {
+        this.posterId = posterId;
+    }
+
+    public User getPoster() {
+        return poster;
+    }
+
+    public void setPoster(User poster) {
+        this.poster = poster;
     }
 
     public String getDatePosted() {

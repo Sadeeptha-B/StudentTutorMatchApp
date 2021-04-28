@@ -20,6 +20,7 @@ import com.example.studenttutormatchapp.remote.APIUtils;
 import com.example.studenttutormatchapp.remote.BidService;
 import com.example.studenttutormatchapp.remote.UserService;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -33,7 +34,7 @@ public class BidFormActivity extends AppCompatActivity {
 
     private String userID;
 
-    private ArrayList<Competency> competencies;
+    private List<Competency> competencies = new ArrayList<>();
     private ArrayList<String> subjectStrings = new ArrayList<>();
 
     UserService apiUserInterface;
@@ -100,18 +101,26 @@ public class BidFormActivity extends AppCompatActivity {
         bidCall.enqueue(new Callback<Bid>() {
             @Override
             public void onResponse(Call<Bid> call, Response<Bid> response) {
-                Toast.makeText(context, "Bid created successfully", Toast.LENGTH_LONG).show();
-//                finish();
+                if (response.isSuccessful()){
+                    Toast.makeText(context, "Bid created successfully" + response.message(), Toast.LENGTH_LONG).show();
+//                    finish();
+                }
+                try {
+                    Log.d("Bidding_debug", response.errorBody().string());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
             public void onFailure(Call<Bid> call, Throwable t) {
+                Log.d("Bidding_debug", t.getMessage());
             }
         });
     }
 
     public Bid createBidClass(){
-        Spinner subject = findViewById(R.id.subjectDropdown);
+        Spinner subjects = findViewById(R.id.subjectDropdown);
 
         EditText qualification = findViewById(R.id.QualificationsField);
         EditText preferredTime = findViewById(R.id.TimeField);
@@ -139,9 +148,14 @@ public class BidFormActivity extends AppCompatActivity {
         }
 
         Toast.makeText(context, dateClosing.toString(), Toast.LENGTH_LONG).show();
-        Bid createdBid = new Bid(bidType, dateOpened, dateOpened, null);
+        Subject subject = competencies.get(0).getSubject();
+        Bid createdBid = new Bid(bidType,userID ,dateOpened, dateOpened, subject);
         return createdBid;
 
     }
-
 }
+
+// Bid creation is bugged(Date time formatting passing in initiator ID)
+// Messages might only be a one time thing 
+// If student look for all bids that they've created using initiator
+// If tutor look for offers using 
