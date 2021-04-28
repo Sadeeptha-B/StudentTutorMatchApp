@@ -63,7 +63,7 @@ public class DashboardActivity extends AppCompatActivity {
         byte[] decodedBytes = Base64.decode(jwt[1], Base64.URL_SAFE);
         String body = new String(decodedBytes, "UTF-8");
         jwtObject = new JSONObject(body);
-        Log.i("CHECK", jwtObject.toString());
+//        Log.i("CHECK", jwtObject.toString());
     }
 
     public void storeUserData() throws JSONException {
@@ -125,11 +125,6 @@ public class DashboardActivity extends AppCompatActivity {
 
     /*Navigation Menu callback */
     private void bidFormPage(){
-        Intent activity = new Intent(this, BidFormActivity.class);
-        startActivity(activity);
-    }
-
-    private void listOffersPage(){
         Intent activity = new Intent(this, BidFormActivity.class);
         startActivity(activity);
     }

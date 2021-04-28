@@ -21,9 +21,11 @@ import com.example.studenttutormatchapp.remote.BidService;
 import com.example.studenttutormatchapp.remote.UserService;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -33,7 +35,7 @@ import retrofit2.Response;
 public class BidFormActivity extends AppCompatActivity {
 
     private String userID;
-    private List<Competency> competencies = new ArrayList<>();
+    private List<Competency> competencies;
     private ArrayList<String> subjectStrings = new ArrayList<>();
 
     UserService apiUserInterface;
@@ -47,8 +49,8 @@ public class BidFormActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences("id", 0);
         userID = sharedPreferences.getString("USER_ID", "");
-
         apiUserInterface = APIUtils.getUserService();
+
         getUserSubjects();
         createSubjectDropdown();
     }
@@ -58,18 +60,23 @@ public class BidFormActivity extends AppCompatActivity {
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                List<Competency> competencies = response.body().getCompetencies();
+                competencies = response.body().getCompetencies();
                 for (int i = 0; i < competencies.size(); i++){
                     Subject subject = competencies.get(i).getSubject();
                     subjectStrings.add(subject.getDescription() + " - " + subject.getName());
+                }
+
+                for (int i=0; i< competencies.size(); i++){
+                    Log.d("CHECK", competencies.get(i).getSubject().getName());
                 }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                Log.d("Bidding_debug","Response:" + t.getMessage());
+                Log.d("CHECK","Response:" + t.getMessage());
             }
         });
+
     }
 
     public void createSubjectDropdown(){
@@ -99,13 +106,8 @@ public class BidFormActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Bid> call, Response<Bid> response) {
                 if (response.isSuccessful()){
-                    Toast.makeText(context, "Bid created successfully" + response.message(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Bid created successfully", Toast.LENGTH_LONG).show();
 //                    finish();
-                }
-                try {
-                    Log.d("Bidding_debug", response.errorBody().string());
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
 
@@ -117,40 +119,36 @@ public class BidFormActivity extends AppCompatActivity {
     }
 
     public Bid createBidClass(){
+        ZonedDateTime dateOpened;
+        String dateOpenedStr;
+        String dateClosedStr;
         Spinner subjects = findViewById(R.id.subjectDropdown);
 
         EditText qualification = findViewById(R.id.QualificationsField);
         EditText preferredTime = findViewById(R.id.TimeField);
-
         EditText preferredRate = findViewById(R.id.RateField);
         EditText description = findViewById(R.id.DescriptionField);
 
+        /* Default bid Type: Open */
+        dateOpened = ZonedDateTime.now();
+        dateOpenedStr = dateOpened.format(DateTimeFormatter.ISO_INSTANT);
+        dateClosedStr = dateOpened.plus(30, ChronoUnit.MINUTES).format(DateTimeFormatter.ISO_INSTANT);
         String bidType = "open";
 
         RadioGroup bidGroup = findViewById(R.id.BidGroup);
 
-        Calendar calendar = Calendar.getInstance();
-
-        Date dateOpened = calendar.getTime();
-        calendar.add(Calendar.MINUTE, 30);
-        Date dateClosing = calendar.getTime();
-
-
         if (bidGroup.getCheckedRadioButtonId() == R.id.ClosedBidBtn){
-            calendar.add(Calendar.MINUTE, -30);
-            calendar.add(Calendar.WEEK_OF_YEAR, 1);
-            dateClosing = calendar.getTime();
+            dateClosedStr = dateOpened.plus(1, ChronoUnit.WEEKS).format(DateTimeFormatter.ISO_INSTANT);
             bidType = "closed";
         }
 
-        Toast.makeText(context, dateClosing.toString(), Toast.LENGTH_LONG).show();
         Subject subject = competencies.get(0).getSubject();
-        Bid createdBid = new Bid(bidType,userID ,dateOpened, dateOpened, subject);
+        Bid createdBid = new Bid(bidType, userID ,dateOpenedStr, dateClosedStr, subject);
         return createdBid;
     }
 }
 
-// Bid creation is bugged(Date time formatting passing in initiator ID)
+
 // Messages might only be a one time thing 
 // If student look for all bids that they've created using initiator
 // If tutor look for offers using 

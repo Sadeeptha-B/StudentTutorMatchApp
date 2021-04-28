@@ -5,6 +5,7 @@ package com.example.studenttutormatchapp.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.time.Instant;
 import java.util.Date;
 
 public class Bid {
@@ -25,25 +26,30 @@ public class Bid {
 
     @SerializedName("dateCreated")
     @Expose
-    private Date dateCreated;
+    private String dateCreated;
 
     @SerializedName("dateClosedDown")
     @Expose
-    private Date dateClosedDown;
+    private String dateClosedDown;
 
     @SerializedName("subject")
     @Expose
     private Subject subject;
 
-    public Bid(String type,String initiatorId , Date dateCreated, Date dateClosedDown, Subject subject){
+    @SerializedName("subjectId")
+    @Expose
+    private String subjectId;
+
+    public Bid(String type,String initiatorId , String dateCreated, String dateClosedDown, Subject subject){
         this.type = type;
         this.initiatorId = initiatorId;
         this.dateCreated = dateCreated;
         this.dateClosedDown = dateClosedDown;
         this.subject = subject;
+        this.subjectId = this.subject.getId();
     }
 
-    public Bid(String type,User initiator , Date dateCreated, Date dateClosedDown, Subject subject){
+    public Bid(String type,User initiator , String dateCreated, String dateClosedDown, Subject subject){
         this.type = type;
         this.initiator = initiator;
         this.dateCreated = dateCreated;
@@ -68,19 +74,19 @@ public class Bid {
         this.type = type;
     }
 
-    public Date getDateCreated() {
+    public String getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(Date dateCreated) {
+    public void setDateCreated(String dateCreated) {
         this.dateCreated = dateCreated;
     }
 
-    public Date getDateClosedDown() {
+    public String getDateClosedDown() {
         return dateClosedDown;
     }
 
-    public void setDateClosedDown(Date dateClosedDown) {
+    public void setDateClosedDown(String dateClosedDown) {
         this.dateClosedDown = dateClosedDown;
     }
 
