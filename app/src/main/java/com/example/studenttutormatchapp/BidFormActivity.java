@@ -15,10 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.studenttutormatchapp.model.Bid;
-import com.example.studenttutormatchapp.model.Competency;
-import com.example.studenttutormatchapp.model.Subject;
-import com.example.studenttutormatchapp.model.User;
+import com.example.studenttutormatchapp.model.*;
 import com.example.studenttutormatchapp.remote.APIUtils;
 import com.example.studenttutormatchapp.remote.BidService;
 import com.example.studenttutormatchapp.remote.UserService;
@@ -57,8 +54,6 @@ public class BidFormActivity extends AppCompatActivity {
         getUserSubjects();
 
         createSubjectDropdown();
-
-
     }
 
 
@@ -138,8 +133,6 @@ public class BidFormActivity extends AppCompatActivity {
     }
 
 
-
-
     public void getUserSubjects(){
         Call<User> call = apiUserInterface.getStudentSubject(userID);
 
@@ -151,7 +144,6 @@ public class BidFormActivity extends AppCompatActivity {
                     Subject subject = competencies.get(i).getSubject();
                     subjectStrings.add(subject.getDescription() + " - " + subject.getName());
                 }
-
             }
 
             @Override

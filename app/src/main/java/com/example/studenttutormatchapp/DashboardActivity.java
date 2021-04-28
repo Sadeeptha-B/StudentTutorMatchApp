@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -44,8 +45,8 @@ public class DashboardActivity extends AppCompatActivity {
     SharedPreferences.Editor jwtFileEditor;
 
     Context context;
-
     JSONObject jwtObject;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,11 +58,10 @@ public class DashboardActivity extends AppCompatActivity {
 //        jwtFileEditor = jwtFile.edit();
         context = this;
 
-        setToolbarAndNavMenu();
-
         try {
             decodeJWT();
             storeUserId();
+            setToolbarAndNavMenu();
             toolbar.setTitle("Welcome, " + jwtObject.getString("username"));
         } catch (JSONException | UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -80,6 +80,7 @@ public class DashboardActivity extends AppCompatActivity {
         byte[] decodedBytes = Base64.decode(jwt[1], Base64.URL_SAFE);
         String body = new String(decodedBytes, "UTF-8");
         jwtObject = new JSONObject(body);
+        Log.i("CHECK", jwtObject.toString());
     }
 
     public void storeUserId() throws JSONException {
@@ -91,7 +92,7 @@ public class DashboardActivity extends AppCompatActivity {
         userIdFileEditor.apply();
     }
 
-    public void setToolbarAndNavMenu(){
+    public void setToolbarAndNavMenu() throws JSONException {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -103,6 +104,18 @@ public class DashboardActivity extends AppCompatActivity {
         navToggle.syncState();
 
         navigationView = findViewById(R.id.nav_view);
+
+        Menu menuNav = navigationView.getMenu();
+
+        if (jwtObject.getBoolean("isStudent")){
+            menuNav.setGroupVisible(R.id.studentMenuItems, true);
+            menuNav.setGroupVisible(R.id.tutorMenuItems, false);
+        }
+
+        if (jwtObject.getBoolean("isTutor")){
+            menuNav.setGroupVisible(R.id.tutorMenuItems, true);
+            menuNav.setGroupVisible(R.id.studentMenuItems, false);
+        }
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override

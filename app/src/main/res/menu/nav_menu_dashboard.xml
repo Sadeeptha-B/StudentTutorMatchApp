@@ -1,10 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/createBid"
-        android:title="Create Bid" />
+    <group android:id="@+id/studentMenuItems">
+        <item
+            android:id="@+id/createBid"
+            android:title="Create Bid" />
+
+        <item
+            android:id="@+id/showOffers"
+            android:title="Show Offers" />
+
+    </group>
+
+    <group android:id="@+id/tutorMenuItems">
+        <item
+            android:id="@+id/findBidRequests"
+            android:title="Find Bid Requests" />
+    </group>
+
     <item
         android:id="@+id/signout"
         android:title="Signout" />
+
+
 </menu>
