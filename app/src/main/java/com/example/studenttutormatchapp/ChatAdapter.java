@@ -1,5 +1,6 @@
 package com.example.studenttutormatchapp;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studenttutormatchapp.model.Message;
 
+import java.util.Collections;
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
@@ -26,11 +28,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
 
     @Override
     public int getItemViewType(int position) {
-
         if (messages.get(position).getPoster().getId().equals(userId)){
             sent = true;
             return 0;
         }
+        sent = false;
         return 1;
     }
 
@@ -76,6 +78,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
     }
 
     public void setMessages(List<Message> messages) {
+        Collections.reverse(messages);
         this.messages = messages;
     }
 

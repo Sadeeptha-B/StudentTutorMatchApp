@@ -61,7 +61,7 @@ public class ChatActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.chatRecycler);
         layoutManager = new LinearLayoutManager(this);
-//        layoutManager.setOrientation(RecyclerView.VERTICAL);
+        layoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
 
         recyclerView.setAdapter(adapter);

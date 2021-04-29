@@ -16,6 +16,7 @@ import com.example.studenttutormatchapp.remote.MessageService;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -58,13 +59,24 @@ public class MessageListActivity extends AppCompatActivity {
             public void onResponse(Call<List<Message>> call, Response<List<Message>> response) {
 
                 List<Message> messages = response.body();
-
+                List<String> contacts = new ArrayList<>();
                     for (int i = 0; i < messages.size(); i++){
                         Message msg = messages.get(i);
-                        boolean isSender = msg.getPoster().getId().equals(userIdFile.getString("USER_ID", ""));
-                        boolean isReceiver = msg.getAdditionalInfo().getReceiver().equals(userIdFile.getString("USER_ID", ""));
 
-                        if (isSender || isReceiver){
+                        String senderID = msg.getPoster().getId();
+                        String receiverID = msg.getAdditionalInfo().getReceiver();
+
+                        String userID = userIdFile.getString("USER_ID", "");
+
+                        boolean isSender = senderID.equals(userID);
+                        boolean isReceiver = receiverID.equals(userID);
+                        if (isSender){
+                            contacts.add(msg.getAdditionalInfo().getReceiver());
+                        }
+                        else if (isReceiver){
+                            contacts.add(msg.getPoster().getId());
+                        }
+                        if (isSender || isReceiver && !(contacts.contains(senderID) || contacts.contains(receiverID))){
                             adapter.addMessage(msg);
                             adapter.notifyDataSetChanged();
                         }
