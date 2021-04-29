@@ -70,16 +70,18 @@ public class MessageListActivity extends AppCompatActivity {
 
                         boolean isSender = senderID.equals(userID);
                         boolean isReceiver = receiverID.equals(userID);
+                        if ((isSender || isReceiver) && !(contacts.contains(senderID) || contacts.contains(receiverID))){
+
+                            adapter.addMessage(msg);
+                            adapter.notifyDataSetChanged();
+                        }
                         if (isSender){
                             contacts.add(msg.getAdditionalInfo().getReceiver());
                         }
                         else if (isReceiver){
                             contacts.add(msg.getPoster().getId());
                         }
-                        if (isSender || isReceiver && !(contacts.contains(senderID) || contacts.contains(receiverID))){
-                            adapter.addMessage(msg);
-                            adapter.notifyDataSetChanged();
-                        }
+
                     }
             }
 

@@ -78,7 +78,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
     }
 
     public void setMessages(List<Message> messages) {
-        Collections.reverse(messages);
         this.messages = messages;
     }
 

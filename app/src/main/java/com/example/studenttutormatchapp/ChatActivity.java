@@ -18,6 +18,7 @@ import com.example.studenttutormatchapp.remote.MessageService;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -98,6 +99,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Bid> call, Response<Bid> response) {
                 List<Message> messages = response.body().getMessages();
+                Collections.sort(messages,new MessageComparator());
                 if (response.isSuccessful()){
                     adapter.setMessages(messages);
                     adapter.notifyDataSetChanged();

@@ -131,9 +131,11 @@ public class DashboardActivity extends AppCompatActivity {
         call.enqueue(new Callback<Subject>() {
             @Override
             public void onResponse(Call<Subject> call, Response<Subject> response) {
-                String subjectName = response.body().getName();
-                Log.d("CHECK", subjectName);
-                ongoingBidDataList.add(new OngoingBidData(subjectName, bidTime));
+                if(response.isSuccessful()){
+                    String subjectName = response.body().getName();
+//                    Log.d("CHECK", subjectName);
+                    ongoingBidDataList.add(new OngoingBidData(subjectName, bidTime));
+                }
             }
 
             @Override
@@ -143,7 +145,7 @@ public class DashboardActivity extends AppCompatActivity {
         });
     }
 
-    private void fillData(){
+    private void fillData() {
         ongoingBidAdapter.setData(ongoingBidDataList);
         ongoingBidAdapter.notifyDataSetChanged();
     }
