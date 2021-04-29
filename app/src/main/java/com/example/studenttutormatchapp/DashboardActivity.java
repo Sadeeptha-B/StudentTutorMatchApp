@@ -8,6 +8,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -31,6 +32,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,9 +59,9 @@ public class DashboardActivity extends AppCompatActivity {
     Context context;
     JSONObject jwtObject;
 
-    RecyclerView ongoingBidRecycler;
-    RecyclerView.LayoutManager ongoingBidLayoutManager;
-    OngoingBidsAdapter ongoingBidAdapter;
+    RecyclerView bidRecycler;
+    RecyclerView.LayoutManager bidLayoutManager;
+    OngoingBidsAdapter bidAdapter;
 
     List<OngoingBidData> ongoingBidDataList = new ArrayList<OngoingBidData>();
 
@@ -79,11 +82,11 @@ public class DashboardActivity extends AppCompatActivity {
             setUIElements();
             getBids();
         } catch (JSONException | UnsupportedEncodingException e) {
-//            e.printStackTrace();
-              Toast.makeText(context, "Please log in again", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+//              Toast.makeText(context, "Please log in again", Toast.LENGTH_SHORT).show();
+//              finish();
         }
-
-        fillData();
+//
     }
 
     public void decodeJWT() throws UnsupportedEncodingException, JSONException {
@@ -127,15 +130,19 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     private void getSubject(String subjectId, String bidTime){
+        ZonedDateTime zdtime = ZonedDateTime.parse(bidTime);
+        final String formattedBidTime = DateTimeFormatter.ofPattern("dd/MM/yyyy - hh:mm").format(zdtime);
+
         Call<Subject> call = apiSubjectInterface.getSubject(subjectId);
         call.enqueue(new Callback<Subject>() {
             @Override
             public void onResponse(Call<Subject> call, Response<Subject> response) {
                 if(response.isSuccessful()){
                     String subjectName = response.body().getName();
-//                    Log.d("CHECK", subjectName);
-                    ongoingBidDataList.add(new OngoingBidData(subjectName, bidTime));
+                    ongoingBidDataList.add(new OngoingBidData(subjectName, formattedBidTime));
+                    
                 }
+                bidAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -145,10 +152,6 @@ public class DashboardActivity extends AppCompatActivity {
         });
     }
 
-    private void fillData() {
-        ongoingBidAdapter.setData(ongoingBidDataList);
-        ongoingBidAdapter.notifyDataSetChanged();
-    }
 
     public void setUIElements() throws JSONException {
         toolbar = findViewById(R.id.toolbar);
@@ -195,11 +198,14 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
 
-        ongoingBidRecycler = findViewById(R.id.ongoingBidsRecycler);
-        ongoingBidLayoutManager = new LinearLayoutManager(context);
-        ongoingBidRecycler.setLayoutManager(ongoingBidLayoutManager);
-        ongoingBidAdapter = new OngoingBidsAdapter(context);
-        ongoingBidRecycler.setAdapter(ongoingBidAdapter);
+        bidRecycler = findViewById(R.id.ongoingBidsRecycler);
+        bidLayoutManager = new LinearLayoutManager(context);
+        bidRecycler.setLayoutManager(bidLayoutManager);
+        bidRecycler.setHasFixedSize(true);
+
+        bidAdapter = new OngoingBidsAdapter(context);
+        bidAdapter.setData(ongoingBidDataList);
+        bidRecycler.setAdapter(bidAdapter);
     }
 
     /*Navigation Menu callback */

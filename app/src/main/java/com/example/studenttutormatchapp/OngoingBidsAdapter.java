@@ -1,6 +1,7 @@
 package com.example.studenttutormatchapp;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,12 +10,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OngoingBidsAdapter extends RecyclerView.Adapter<OngoingBidsAdapter.ViewHolder> {
 
     private Context context;
-    private List<OngoingBidData> data;
+    private List<OngoingBidData> data = new ArrayList<OngoingBidData>();
 
     @NonNull
     @Override
@@ -41,6 +43,7 @@ public class OngoingBidsAdapter extends RecyclerView.Adapter<OngoingBidsAdapter.
 
     @Override
     public int getItemCount() {
+        Log.d("CHECK", String.valueOf(data.size()));
         return data.size();
     }
 

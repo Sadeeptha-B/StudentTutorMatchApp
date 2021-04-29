@@ -3,7 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:outlineAmbientShadowColor="#FFFFFF"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="2dp"
+    app:cardPreventCornerOverlap="true"
+    app:contentPadding="5dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -17,7 +23,7 @@
             app:layout_constraintEnd_toStartOf="@+id/guideline20"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_baseline_account_balance_24" />
+            app:srcCompat="@drawable/ic_baseline_class_24" />
 
         <TextView
             android:id="@+id/textViewCreatedTime"
