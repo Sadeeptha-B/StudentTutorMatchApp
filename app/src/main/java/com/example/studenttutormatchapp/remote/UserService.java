@@ -39,4 +39,7 @@ public interface UserService {
     @GET("user/{id}?fields=competencies.subject")
     Call<User> getStudentSubject(@Path("id") String id);
 
+    @GET("user/{id}?fields=initiatedBids")
+    Call<User> getStudentBids(@Path("id") String id);
+
 }

@@ -8,6 +8,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -16,7 +17,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.studenttutormatchapp.model.Bid;
+import com.example.studenttutormatchapp.model.User;
 import com.example.studenttutormatchapp.remote.APIUtils;
+import com.example.studenttutormatchapp.remote.BidService;
 import com.example.studenttutormatchapp.remote.UserService;
 import com.google.android.material.navigation.NavigationView;
 
@@ -24,6 +28,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
+import java.util.logging.Handler;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DashboardActivity extends AppCompatActivity {
 
@@ -39,6 +49,8 @@ public class DashboardActivity extends AppCompatActivity {
     Context context;
     JSONObject jwtObject;
 
+    List<Bid> bids;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,8 +65,10 @@ public class DashboardActivity extends AppCompatActivity {
             decodeJWT();
             storeUserData();
             setToolbarAndNavMenu();
+            getBids();
         } catch (JSONException | UnsupportedEncodingException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+              Toast.makeText(context, "Please log in again", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -63,7 +77,7 @@ public class DashboardActivity extends AppCompatActivity {
         byte[] decodedBytes = Base64.decode(jwt[1], Base64.URL_SAFE);
         String body = new String(decodedBytes, "UTF-8");
         jwtObject = new JSONObject(body);
-//        Log.i("CHECK", jwtObject.toString());
+        Log.i("CHECK", jwtObject.toString());
     }
 
     public void storeUserData() throws JSONException {
@@ -72,9 +86,28 @@ public class DashboardActivity extends AppCompatActivity {
         SharedPreferences.Editor userIdFileEditor = userIdFile.edit();
 
         userIdFileEditor.putString("USER_ID", jwtObject.getString("sub"));
+        userIdFileEditor.putString("USERNAME", jwtObject.getString("username"));
         userIdFileEditor.putBoolean("IS_STUDENT", jwtObject.getBoolean("isStudent"));
         userIdFileEditor.putBoolean("IS_TUTOR", jwtObject.getBoolean("isTutor"));
         userIdFileEditor.apply();
+    }
+
+    public void getBids() throws JSONException {
+        Call<User> call = apiUserInterface.getStudentBids(jwtObject.getString("sub"));
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                bids = response.body().getBids();
+                for (int i=0; i< bids.size(); i++){
+                    String bidId = bids.get(i).getId();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.d("CHECK","Response:" + t.getMessage());
+            }
+        });
     }
 
     public void setToolbarAndNavMenu() throws JSONException {

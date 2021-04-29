@@ -20,8 +20,6 @@ import com.example.studenttutormatchapp.remote.APIUtils;
 import com.example.studenttutormatchapp.remote.BidService;
 import com.example.studenttutormatchapp.remote.UserService;
 
-import java.io.IOException;
-import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -64,10 +62,6 @@ public class BidFormActivity extends AppCompatActivity {
                 for (int i = 0; i < competencies.size(); i++){
                     Subject subject = competencies.get(i).getSubject();
                     subjectStrings.add(subject.getDescription() + " - " + subject.getName());
-                }
-
-                for (int i=0; i< competencies.size(); i++){
-                    Log.d("CHECK", competencies.get(i).getSubject().getName());
                 }
             }
 
