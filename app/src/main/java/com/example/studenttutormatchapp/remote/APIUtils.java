@@ -15,14 +15,14 @@ public class APIUtils {
     }
 
     public static BidService getBidService(){
-
         return RetrofitClient.getClient(API_URL, API_KEY).create(BidService.class);
     }
 
     public static MessageService getMessageService(){
-
         return RetrofitClient.getClient(API_URL, API_KEY).create(MessageService.class);
     }
 
-
+    public static SubjectService getSubjectService(){
+        return RetrofitClient.getClient(API_URL, API_KEY).create(SubjectService.class);
+    }
 }

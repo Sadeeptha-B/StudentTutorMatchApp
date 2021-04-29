@@ -16,11 +16,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studenttutormatchapp.model.Bid;
+import com.example.studenttutormatchapp.model.Subject;
 import com.example.studenttutormatchapp.model.User;
 import com.example.studenttutormatchapp.remote.APIUtils;
-import com.example.studenttutormatchapp.remote.BidService;
+import com.example.studenttutormatchapp.remote.SubjectService;
 import com.example.studenttutormatchapp.remote.UserService;
 import com.google.android.material.navigation.NavigationView;
 
@@ -28,8 +31,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Handler;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,19 +40,27 @@ import retrofit2.Response;
 
 public class DashboardActivity extends AppCompatActivity {
 
+    /* UI Elements */
     Toolbar toolbar;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
 
+    /* API interface */
     UserService apiUserInterface;
+    SubjectService apiSubjectInterface;
 
+    /*Shared Pref*/
     SharedPreferences jwtFile;
     SharedPreferences.Editor jwtFileEditor;
 
     Context context;
     JSONObject jwtObject;
 
-    List<Bid> bids;
+    RecyclerView ongoingBidRecycler;
+    RecyclerView.LayoutManager ongoingBidLayoutManager;
+    OngoingBidsAdapter ongoingBidAdapter;
+
+    List<OngoingBidData> ongoingBidDataList = new ArrayList<OngoingBidData>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +68,7 @@ public class DashboardActivity extends AppCompatActivity {
         setContentView(R.layout.drawer_dashboard_layout);
 
         apiUserInterface = APIUtils.getUserService();
+        apiSubjectInterface = APIUtils.getSubjectService();
 
         jwtFile = getSharedPreferences("jwt", 0);
         context = this;
@@ -64,12 +76,14 @@ public class DashboardActivity extends AppCompatActivity {
         try {
             decodeJWT();
             storeUserData();
-            setToolbarAndNavMenu();
+            setUIElements();
             getBids();
         } catch (JSONException | UnsupportedEncodingException e) {
 //            e.printStackTrace();
               Toast.makeText(context, "Please log in again", Toast.LENGTH_SHORT).show();
         }
+
+        fillData();
     }
 
     public void decodeJWT() throws UnsupportedEncodingException, JSONException {
@@ -97,9 +111,11 @@ public class DashboardActivity extends AppCompatActivity {
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                bids = response.body().getBids();
+                List<Bid> bids = response.body().getBids();
                 for (int i=0; i< bids.size(); i++){
-                    String bidId = bids.get(i).getId();
+                    String subjectId = bids.get(i).getSubject().getId();
+                    String bidTime = bids.get(i).getDateCreated();
+                    getSubject(subjectId, bidTime);
                 }
             }
 
@@ -110,7 +126,29 @@ public class DashboardActivity extends AppCompatActivity {
         });
     }
 
-    public void setToolbarAndNavMenu() throws JSONException {
+    private void getSubject(String subjectId, String bidTime){
+        Call<Subject> call = apiSubjectInterface.getSubject(subjectId);
+        call.enqueue(new Callback<Subject>() {
+            @Override
+            public void onResponse(Call<Subject> call, Response<Subject> response) {
+                String subjectName = response.body().getName();
+                Log.d("CHECK", subjectName);
+                ongoingBidDataList.add(new OngoingBidData(subjectName, bidTime));
+            }
+
+            @Override
+            public void onFailure(Call<Subject> call, Throwable t) {
+                Log.d("CHECK","Response:" + t.getMessage());
+            }
+        });
+    }
+
+    private void fillData(){
+        ongoingBidAdapter.setData(ongoingBidDataList);
+        ongoingBidAdapter.notifyDataSetChanged();
+    }
+
+    public void setUIElements() throws JSONException {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -154,6 +192,12 @@ public class DashboardActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        ongoingBidRecycler = findViewById(R.id.ongoingBidsRecycler);
+        ongoingBidLayoutManager = new LinearLayoutManager(context);
+        ongoingBidRecycler.setLayoutManager(ongoingBidLayoutManager);
+        ongoingBidAdapter = new OngoingBidsAdapter(context);
+        ongoingBidRecycler.setAdapter(ongoingBidAdapter);
     }
 
     /*Navigation Menu callback */
