@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 
 public class Bid {
 
@@ -36,6 +37,9 @@ public class Bid {
     @Expose
     private Subject subject;
 
+    @Expose
+    private List<Message> messages;
+
     @SerializedName("subjectId")
     @Expose
     private String subjectId;
@@ -49,12 +53,13 @@ public class Bid {
         this.subjectId = this.subject.getId();
     }
 
-    public Bid(String type,User initiator , String dateCreated, String dateClosedDown, Subject subject){
+    public Bid(String type,User initiator , String dateCreated, String dateClosedDown, Subject subject, List<Message> messages){
         this.type = type;
         this.initiator = initiator;
         this.dateCreated = dateCreated;
         this.dateClosedDown = dateClosedDown;
         this.subject = subject;
+        this.messages = messages;
     }
 
 
@@ -98,4 +103,11 @@ public class Bid {
         this.subject = subject;
     }
 
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
 }

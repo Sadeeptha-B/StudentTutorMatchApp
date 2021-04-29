@@ -1,6 +1,7 @@
 package com.example.studenttutormatchapp;
 
-import android.content.SharedPreferences;
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +18,11 @@ import java.util.List;
 public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.ViewHolder> {
 
     List<Message> messages  = new ArrayList<>();
+    Context context;
 
     String userId;
-    public MessageListAdapter(String userId){
+    public MessageListAdapter(Context context, String userId){
+        this.context = context;
         this.userId = userId;
     }
 
@@ -39,6 +42,15 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
         else {
             holder.name.setText(messages.get(position).getPoster().getUserName());
         }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent activity = new Intent(v.getContext(), ChatActivity.class);
+                activity.putExtra("bid_id", messages.get(position).getBidId());
+                activity.putExtra("user_id", userId);
+                context.startActivity(activity);
+            }
+        });
 
     }
 

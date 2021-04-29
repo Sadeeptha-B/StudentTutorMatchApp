@@ -30,8 +30,6 @@ public class MessageListActivity extends AppCompatActivity {
 
     MessageService APImsgInterface;
 
-
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +41,7 @@ public class MessageListActivity extends AppCompatActivity {
 
         SharedPreferences userIdFile = getSharedPreferences("id", 0);
 
-        adapter = new MessageListAdapter(userIdFile.getString("USER_ID", ""));
+        adapter = new MessageListAdapter(this, userIdFile.getString("USER_ID", ""));
         recyclerView.setAdapter(adapter);
 
         APImsgInterface = APIUtils.getMessageService();

@@ -24,6 +24,9 @@ public interface BidService {
     @GET("bid/{bidId}")
     Call<Bid> getBid(@Path("bidId") String id);
 
+    @GET("bid/{bidId}?fields=messages")
+    Call<Bid> getBidWithMessages(@Path("bidId") String id);
+
     @PATCH("bid/{bidId}")
     Call<Bid> updateBid(@Path("bidId") String id, Bid bid);
 

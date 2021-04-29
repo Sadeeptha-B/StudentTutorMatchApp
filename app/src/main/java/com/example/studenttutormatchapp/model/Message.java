@@ -35,31 +35,22 @@ public class Message {
     private MessageAdditionalInfo additionalInfo;
 
 
-    // Creating a message as a Tutor
-    public Message(String id, String bidId, String posterId, String datePosted, String content) {
-        this.id = id;
+    // Creating a message
+    public Message(String bidId, String posterId, String datePosted, String content, MessageAdditionalInfo additionalInfo) {
         this.bidId = bidId;
         this.posterId = posterId;
         this.datePosted = datePosted;
         this.content = content;
+        this.additionalInfo = additionalInfo;
     }
 
-    //Receiving a message as a Student
+    //Receiving a message
     public Message(String id, String bidId, User poster, String datePosted, String content){
         this.id = id;
         this.bidId = bidId;
         this.poster = poster;
         this.datePosted = datePosted;
         this.content = content;
-    }
-    // Creating a message as a Student
-    public Message(String id, String bidId, User poster, String datePosted, String content, MessageAdditionalInfo additionalInfo){
-        this.id = id;
-        this.bidId = bidId;
-        this.poster = poster;
-        this.datePosted = datePosted;
-        this.content = content;
-        this.additionalInfo = additionalInfo;
     }
 
     public String getId() {
