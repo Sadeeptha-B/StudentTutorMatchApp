@@ -3,13 +3,15 @@ package com.example.studenttutormatchapp;
 public class BidFormAdditionalInfo {
 
     private String competency;
-    private String preferredTime;
+    private String preferredDateTime;
     private String preferredRate;
     private String description;
+    private String rateType;
 
-    public BidFormAdditionalInfo(String competency, String preferredTime, String preferredRate, String description){
+    public BidFormAdditionalInfo(String competency, String preferredDateTime, String rateType, String preferredRate, String description){
         this.competency = competency;
-        this.preferredTime = preferredTime;
+        this.preferredDateTime = preferredDateTime;
+        this.rateType = rateType;
         this.preferredRate = preferredRate;
         this.description = description;
     }
@@ -22,12 +24,12 @@ public class BidFormAdditionalInfo {
         this.competency = competency;
     }
 
-    public String getPreferredTime() {
-        return preferredTime;
+    public String getPreferredDateTime() {
+        return preferredDateTime;
     }
 
-    public void setPreferredTime(String preferredTime) {
-        this.preferredTime = preferredTime;
+    public void setPreferredDateTime(String preferredDateTime) {
+        this.preferredDateTime = preferredDateTime;
     }
 
     public String getPreferredRate() {
@@ -45,5 +47,14 @@ public class BidFormAdditionalInfo {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getRateType() {
+        return rateType;
+    }
+
+    public void setRateType(String rateType) {
+        this.rateType = rateType;
+    }
+
 
 }

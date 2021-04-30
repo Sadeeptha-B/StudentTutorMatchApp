@@ -55,8 +55,8 @@ public class FindBidsActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-//        adapter = new FindBidsAdapter(filteredBids());
-//        recyclerView.setAdapter(adapter);
+        adapter = new FindBidsAdapter(filteredBids());
+        recyclerView.setAdapter(adapter);
     }
 
     public void getBids(){

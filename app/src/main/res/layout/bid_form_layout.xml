@@ -24,7 +24,7 @@
         android:background="@drawable/edittext_bg"
         android:ems="10"
         android:hint="Rate"
-        android:inputType="textPersonName"
+        android:inputType="number"
         android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="@+id/textView7"
         app:layout_constraintEnd_toStartOf="@+id/guideline10"
@@ -106,8 +106,8 @@
         app:layout_constraintStart_toStartOf="@+id/guideline15"
         app:layout_constraintTop_toTopOf="@+id/textView9" />
 
-    <EditText
-        android:id="@+id/QualificationsField"
+    <Spinner
+        android:id="@+id/CompetencyField"
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:background="@drawable/edittext_bg"

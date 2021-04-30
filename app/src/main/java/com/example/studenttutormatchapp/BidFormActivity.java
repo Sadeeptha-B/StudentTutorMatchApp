@@ -46,7 +46,7 @@ public class BidFormActivity extends AppCompatActivity {
 
     /* Fields : Used to extract data*/
     private TextView subjectField;
-    private EditText competencyField;
+    private Spinner competencyField;
     private Spinner daySpinner;
     private TextView preferredTimeField;
     private Spinner rateTypeSpinner;
@@ -55,6 +55,8 @@ public class BidFormActivity extends AppCompatActivity {
 
     private SubjectSpinner subjectSpinner;
     private RadioGroup bidGroup;
+
+    private static final int COMPETENCY_DIFF = 2;
 
 
     @Override
@@ -81,6 +83,12 @@ public class BidFormActivity extends AppCompatActivity {
                 for (int i = 0; i < competencies.size(); i++){
                     Subject subject = competencies.get(i).getSubject();
                     subjectStrings.add(subject.getDescription() + " | " + subject.getName());
+
+                }
+
+                if (subjectStrings.isEmpty()){
+                    Toast.makeText(context, "You cannot make a bid without a chosen subject.", Toast.LENGTH_LONG).show();
+                    finish();
                 }
             }
 
@@ -92,21 +100,15 @@ public class BidFormActivity extends AppCompatActivity {
     }
 
     public void setUIElements(){
-        /*Spinner selection logic*/
-        if (subjectStrings.isEmpty()){
-            Toast.makeText(context, "You cannot make a bid without a chosen subject.", Toast.LENGTH_LONG).show();
-            finish();
-        }
-
         /*Fields*/
         subjectField = findViewById(R.id.textViewSubjectBidForm);
-        competencyField = findViewById(R.id.QualificationsField);
         preferredTimeField = findViewById(R.id.TimeField);
         preferredRateField = findViewById(R.id.RateField);
         descriptionField = findViewById(R.id.DescriptionField);
 
         //RadioGroup
         bidGroup = findViewById(R.id.BidGroup);
+        bidGroup.check(R.id.OpenBidBtn);
 
         /*Spinners*/
         //Subject
@@ -122,6 +124,7 @@ public class BidFormActivity extends AppCompatActivity {
                 TextView textView = findViewById(R.id.textViewSubjectBidForm);
                 textView.setText(subjectSpinner.getSelectedItem().toString());
                 selectionPos = position;
+                competencyField.setSelection(competencies.get(0).getLevel() + COMPETENCY_DIFF);
             }
 
             @Override
@@ -141,7 +144,18 @@ public class BidFormActivity extends AppCompatActivity {
         dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         daySpinner.setAdapter(dayAdapter);
 
-        // listener for time
+        //Competency
+        competencyField = findViewById(R.id.CompetencyField);
+        List<String> list = new ArrayList<String>();
+        for (int i=0; i<=10; i++){
+            list.add(String.valueOf(i));
+        }
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, list);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        competencyField.setAdapter(dataAdapter);
+
+        // Listener for TimePicker
         preferredTimeField.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -164,28 +178,16 @@ public class BidFormActivity extends AppCompatActivity {
     public void validateData(View v){
         boolean returnFlag = false;
 
-        //All fields except description should be filled.
-        String subjectStr = subjectField.getText().toString();
-        String competency = competencyField.getText().toString();
-        String preferredDay = daySpinner.getSelectedItem().toString();
-        String rateType = rateTypeSpinner.getSelectedItem().toString();
-        String preferredRate = preferredRateField.getText().toString();
-        String description = descriptionField.getText().toString();
+        TextView[] nonEmptyFields = new TextView[]{subjectField, preferredTimeField, preferredRateField};
 
-
-
-        String[] nonEmptyFields = new String[]{subjectStr, competency, preferredDay, rateType, preferredRate};
-
-        for (int i=0; i< nonEmptyFields.length; i++){
-            if (nonEmptyFields[i].isEmpty()){
-                Toast.makeText(context, "You are required to fill in all fields except description", Toast.LENGTH_SHORT).show();
-
+        for (int i=0; i<nonEmptyFields.length; i++){
+            if (nonEmptyFields[i].getText().toString().isEmpty()){
+                nonEmptyFields[i].setError("Please fill this field");
+                return;
             }
         }
-
         Bid bid = createBidClass();
-//        createBid(bid);
-
+        createBid(bid);
     }
 
     private void createBid(Bid bid){
@@ -197,7 +199,6 @@ public class BidFormActivity extends AppCompatActivity {
             public void onResponse(Call<Bid> call, Response<Bid> response) {
                 if (response.isSuccessful()){
                     Toast.makeText(context, "Bid created successfully", Toast.LENGTH_LONG).show();
-//                    finish();
                 }
             }
 
@@ -209,43 +210,33 @@ public class BidFormActivity extends AppCompatActivity {
     }
 
     public Bid createBidClass(){
-        ZonedDateTime dateOpened;
         String dateOpenedStr;
         String dateClosedStr;
+        String bidType = "open"; /*Default*/
 
-        String subjectStr = subjectField.getText().toString();
-        String competency = competencyField.getText().toString();
-        String preferredDay = daySpinner.getSelectedItem().toString();
+        String competency = competencyField.getSelectedItem().toString();
+        String preferredDate = daySpinner.getSelectedItem().toString() + " " + preferredTimeField.getText().toString();
         String rateType = rateTypeSpinner.getSelectedItem().toString();
         String preferredRate = preferredRateField.getText().toString();
         String description = descriptionField.getText().toString();
+        BidFormAdditionalInfo additionalInfo = new BidFormAdditionalInfo(competency, preferredDate, rateType, preferredRate,description);
 
-
-        /* Default bid Type: Open */
-        dateOpened = ZonedDateTime.now();
+        ZonedDateTime dateOpened = ZonedDateTime.now();
         dateOpenedStr = dateOpened.format(DateTimeFormatter.ISO_INSTANT);
-        dateClosedStr = dateOpened.plus(30, ChronoUnit.MINUTES).format(DateTimeFormatter.ISO_INSTANT);
-        String bidType = "open";
+        dateClosedStr = dateOpened.plus(30, ChronoUnit.MINUTES).format(DateTimeFormatter.ISO_INSTANT); /*Default*/
 
+
+        if (bidGroup.getCheckedRadioButtonId() == R.id.OpenBidBtn){
+            dateClosedStr = dateOpened.plus(30, ChronoUnit.MINUTES).format(DateTimeFormatter.ISO_INSTANT);
+            bidType = "open";
+        }
         if (bidGroup.getCheckedRadioButtonId() == R.id.ClosedBidBtn){
             dateClosedStr = dateOpened.plus(1, ChronoUnit.WEEKS).format(DateTimeFormatter.ISO_INSTANT);
             bidType = "closed";
         }
 
-        Subject subject = competencies.get(0).getSubject();
-        BidFormAdditionalInfo additionalInfo = new BidFormAdditionalInfo(competency,preferredDay, preferredRate, description);
-
+        Subject subject = competencies.get(selectionPos).getSubject();
         Bid createdBid = new Bid(bidType, userID ,dateOpenedStr, dateClosedStr, subject, additionalInfo);
         return createdBid;
     }
-
-    private void checkIfFieldEmpty(EditText editText){
-
-    }
-
 }
-
-
-
-// If student look for all bids that they've created using initiator
-// If tutor look for offers using 

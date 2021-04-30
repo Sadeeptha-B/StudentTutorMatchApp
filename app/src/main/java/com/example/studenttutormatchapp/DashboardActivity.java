@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -92,7 +93,6 @@ public class DashboardActivity extends AppCompatActivity {
         super.onRestart();
         //Temporary fix
         ongoingBidDataList.clear();
-        Log.d("CHECK","I run");
         try {
             getBids();
         } catch (JSONException e) {
@@ -131,6 +131,7 @@ public class DashboardActivity extends AppCompatActivity {
                     String bidId = bids.get(i).getId();
                     getSubject(subjectId, bidTime, bidId);
                 }
+                Log.d("CHECK", bids.toString());
             }
 
             @Override
@@ -151,7 +152,6 @@ public class DashboardActivity extends AppCompatActivity {
                 if(response.isSuccessful()){
                     String subjectName = response.body().getName();
                     ongoingBidDataList.add(new OngoingBidData(subjectName, formattedBidTime, bidId));
-                    
                 }
                 bidAdapter.notifyDataSetChanged();
             }
