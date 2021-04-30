@@ -3,10 +3,12 @@ package com.example.studenttutormatchapp;
 public class OngoingBidData {
     private String subjectName;
     private String dateCreated;
+    private String bidId;
 
-    public OngoingBidData(String subjectName, String dateCreated){
+    public OngoingBidData(String subjectName, String dateCreated, String  bidId){
         this.subjectName = subjectName;
         this.dateCreated = dateCreated;
+        this.bidId = bidId;
     }
 
 
@@ -26,5 +28,11 @@ public class OngoingBidData {
         this.dateCreated = dateCreated;
     }
 
+    public String getBidId() {
+        return bidId;
+    }
 
+    public void setBidId(String bidId) {
+        this.bidId = bidId;
+    }
 }

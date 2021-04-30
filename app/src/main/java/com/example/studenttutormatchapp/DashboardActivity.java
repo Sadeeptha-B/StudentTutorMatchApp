@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -106,7 +105,6 @@ public class DashboardActivity extends AppCompatActivity {
         byte[] decodedBytes = Base64.decode(jwt[1], Base64.URL_SAFE);
         String body = new String(decodedBytes, "UTF-8");
         jwtObject = new JSONObject(body);
-        Log.i("CHECK", jwtObject.toString());
     }
 
     public void storeUserData() throws JSONException {
@@ -130,7 +128,8 @@ public class DashboardActivity extends AppCompatActivity {
                 for (int i=0; i< bids.size(); i++){
                     String subjectId = bids.get(i).getSubject().getId();
                     String bidTime = bids.get(i).getDateCreated();
-                    getSubject(subjectId, bidTime);
+                    String bidId = bids.get(i).getId();
+                    getSubject(subjectId, bidTime, bidId);
                 }
             }
 
@@ -141,7 +140,7 @@ public class DashboardActivity extends AppCompatActivity {
         });
     }
 
-    private void getSubject(String subjectId, String bidTime){
+    private void getSubject(String subjectId, String bidTime, String  bidId){
         ZonedDateTime zdtime = ZonedDateTime.parse(bidTime);
         final String formattedBidTime = DateTimeFormatter.ofPattern("dd/MM/yyyy - hh:mm").format(zdtime);
 
@@ -151,7 +150,7 @@ public class DashboardActivity extends AppCompatActivity {
             public void onResponse(Call<Subject> call, Response<Subject> response) {
                 if(response.isSuccessful()){
                     String subjectName = response.body().getName();
-                    ongoingBidDataList.add(new OngoingBidData(subjectName, formattedBidTime));
+                    ongoingBidDataList.add(new OngoingBidData(subjectName, formattedBidTime, bidId));
                     
                 }
                 bidAdapter.notifyDataSetChanged();
@@ -185,6 +184,8 @@ public class DashboardActivity extends AppCompatActivity {
         } else if (jwtObject.getBoolean("isTutor")){
             menuNav.setGroupVisible(R.id.tutorMenuItems, true);
             menuNav.setGroupVisible(R.id.studentMenuItems, false);
+            findViewById(R.id.textViewOngoingBids).setVisibility(View.GONE);
+            findViewById(R.id.ongoingBidsRecycler).setVisibility(View.GONE);
         }
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -196,7 +197,11 @@ public class DashboardActivity extends AppCompatActivity {
                         bidFormPage();
                         break;
                     case R.id.findBidRequests:
-                        findBidRequests();
+                        try {
+                            findBidRequests();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                         break;
                     case R.id.signout:
                         jwtFileEditor.clear().apply();
@@ -224,8 +229,9 @@ public class DashboardActivity extends AppCompatActivity {
         startActivity(activity);
     }
 
-    private void findBidRequests(){
+    private void findBidRequests() throws JSONException {
         Intent activity = new Intent(this, FindBidsActivity.class);
+        activity.putExtra("user_id", jwtObject.getString("sub"));
         startActivity(activity);
     }
 

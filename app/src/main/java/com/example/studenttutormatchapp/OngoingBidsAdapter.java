@@ -1,6 +1,7 @@
 package com.example.studenttutormatchapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +40,16 @@ public class OngoingBidsAdapter extends RecyclerView.Adapter<OngoingBidsAdapter.
 
         holder.subjectName.setText(this.data.get(position).getSubjectName());
         holder.createdDate.setText(this.data.get(position).getDateCreated());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent activity = new Intent(v.getContext(), ListOffersActivity.class);
+                activity.putExtra("bidId", data.get(position).getBidId());
+                activity.putExtra("subject", data.get(position).getSubjectName());
+                v.getContext().startActivity(activity);
+            }
+        });
     }
 
     @Override
