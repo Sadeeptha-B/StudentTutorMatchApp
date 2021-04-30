@@ -2,6 +2,7 @@
 package com.example.studenttutormatchapp.model;
 
 
+import com.example.studenttutormatchapp.BidFormAdditionalInfo;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -44,13 +45,18 @@ public class Bid {
     @Expose
     private String subjectId;
 
-    public Bid(String type,String initiatorId , String dateCreated, String dateClosedDown, Subject subject){
+    @SerializedName("additionalInfo")
+    @Expose
+    private BidFormAdditionalInfo additionalInfo;
+
+    public Bid(String type,String initiatorId , String dateCreated, String dateClosedDown, Subject subject, BidFormAdditionalInfo additionalInfo){
         this.type = type;
         this.initiatorId = initiatorId;
         this.dateCreated = dateCreated;
         this.dateClosedDown = dateClosedDown;
         this.subject = subject;
         this.subjectId = this.subject.getId();
+        this.additionalInfo = additionalInfo;
     }
 
     public Bid(String type,User initiator , String dateCreated, String dateClosedDown, Subject subject, List<Message> messages){
@@ -62,6 +68,13 @@ public class Bid {
         this.messages = messages;
     }
 
+    public BidFormAdditionalInfo getAdditionalInfo() {
+        return additionalInfo;
+    }
+
+    public void setAdditionalInfo(BidFormAdditionalInfo additionalInfo) {
+        this.additionalInfo = additionalInfo;
+    }
 
     public String getId() {
         return id;

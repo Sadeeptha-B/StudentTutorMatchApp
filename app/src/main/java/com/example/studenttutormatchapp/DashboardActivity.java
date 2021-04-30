@@ -83,10 +83,20 @@ public class DashboardActivity extends AppCompatActivity {
             getBids();
         } catch (JSONException | UnsupportedEncodingException e) {
             e.printStackTrace();
-//              Toast.makeText(context, "Please log in again", Toast.LENGTH_SHORT).show();
-//              finish();
         }
-//
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        //Temporary fix
+        ongoingBidDataList.clear();
+        Log.d("CHECK","I run");
+        try {
+            getBids();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public void decodeJWT() throws UnsupportedEncodingException, JSONException {

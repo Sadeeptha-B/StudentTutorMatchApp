@@ -22,10 +22,10 @@
         android:layout_width="0dp"
         android:layout_height="41dp"
         android:background="@drawable/edittext_bg"
-        android:padding="5dp"
         android:ems="10"
         android:hint="Rate"
         android:inputType="textPersonName"
+        android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="@+id/textView7"
         app:layout_constraintEnd_toStartOf="@+id/guideline10"
         app:layout_constraintStart_toStartOf="@+id/guideline15"
@@ -71,7 +71,7 @@
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Desired Qualification"
+        android:text="Desired Competency"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline11"
         app:layout_constraintStart_toStartOf="@+id/guideline2" />
@@ -111,7 +111,7 @@
         android:layout_height="45dp"
         android:background="@drawable/edittext_bg"
         android:ems="10"
-        android:hint="Qualifications"
+        android:hint="Competency"
         android:inputType="textPersonName"
         android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="@+id/textView5"
@@ -120,18 +120,22 @@
         app:layout_constraintTop_toTopOf="@+id/textView5" />
 
     <EditText
-        android:id="@+id/TimeField"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:ems="10"
-        android:hint="Time/Day"
+        android:id="@+id/DateField"
+        android:layout_width="92dp"
+        android:layout_height="37dp"
         android:background="@drawable/edittext_bg"
+        android:ems="10"
+        android:hint="Day"
+        android:inputType="date"
         android:padding="5dp"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="@+id/textView6"
-        app:layout_constraintEnd_toStartOf="@+id/guideline10"
+        app:layout_constraintBottom_toBottomOf="@+id/TimeField"
+        app:layout_constraintEnd_toStartOf="@+id/TimeField"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toEndOf="@+id/textView6"
         app:layout_constraintStart_toStartOf="@+id/guideline15"
-        app:layout_constraintTop_toTopOf="@+id/textView6" />
+        app:layout_constraintTop_toTopOf="@+id/TimeField"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textView9"
@@ -147,7 +151,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#00BCD4"
-        android:onClick="createBid"
+        android:onClick="validateData"
         android:text="Create Bid"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -179,13 +183,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:background="@drawable/edittext_bg"
         android:backgroundTint="#C6C4C4"
         android:ems="10"
         android:hint="Description"
         android:inputType="textMultiLine"
         android:lines="3"
         android:maxLines="5"
-        android:background="@drawable/edittext_bg"
         android:padding="5dp"
         android:tooltipText="Description"
         app:layout_constraintEnd_toStartOf="@+id/guideline10"
@@ -307,5 +311,22 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline18"
         app:layout_constraintStart_toStartOf="@+id/guideline2" />
+
+    <TextView
+        android:id="@+id/TimeField"
+        android:layout_width="92dp"
+        android:layout_height="37dp"
+        android:background="@drawable/edittext_bg"
+        android:ems="10"
+        android:hint="Time"
+        android:inputType="time"
+        android:padding="5dp"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline10"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/DateField"
+        app:layout_constraintTop_toTopOf="@+id/textView6" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

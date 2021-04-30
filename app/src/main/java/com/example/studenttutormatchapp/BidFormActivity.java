@@ -1,15 +1,19 @@
 package com.example.studenttutormatchapp;
 
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -24,6 +28,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import retrofit2.Call;
@@ -39,19 +44,33 @@ public class BidFormActivity extends AppCompatActivity {
     UserService apiUserInterface;
     Context context;
 
+    private EditText competencyField;
+    private EditText preferredDateField;
+    private TextView preferredTimeField;
+    private EditText preferredRateField;
+    private EditText descriptionField;
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bid_form_layout);
         context = this;
 
+        competencyField = findViewById(R.id.QualificationsField);
+        preferredDateField = findViewById(R.id.DateField);
+        preferredTimeField = findViewById(R.id.TimeField);
+        preferredRateField = findViewById(R.id.RateField);
+        descriptionField = findViewById(R.id.DescriptionField);
+
         SharedPreferences sharedPreferences = getSharedPreferences("id", 0);
         userID = sharedPreferences.getString("USER_ID", "");
-        apiUserInterface = APIUtils.getUserService();
 
+        apiUserInterface = APIUtils.getUserService();
         getUserSubjects();
-        createSubjectDropdown();
+        setListeners();
     }
+
 
     public void getUserSubjects(){
         Call<User> call = apiUserInterface.getStudentSubject(userID);
@@ -70,13 +89,13 @@ public class BidFormActivity extends AppCompatActivity {
                 Log.d("CHECK","Response:" + t.getMessage());
             }
         });
-
     }
 
-    public void createSubjectDropdown(){
+    public void setListeners(){
         Spinner subjectSpinner = findViewById(R.id.subjectDropdown);
         ArrayAdapter<String> subjectAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, subjectStrings);
         subjectAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        subjectSpinner.setAdapter(subjectAdapter);
 
         subjectSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -89,13 +108,36 @@ public class BidFormActivity extends AppCompatActivity {
 
             }
         });
-        subjectSpinner.setAdapter(subjectAdapter);
+
+        preferredTimeField.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(BidFormActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        preferredTimeField.setText(selectedHour + ":" + selectedMinute);
+                    }
+                }, hour, minute, false);
+                mTimePicker.show();
+            }
+        });
     }
 
-    public void createBid(View v){
+    public void validateData(View v){
+        //All fields except description should be filled.
+
+        Bid bid =createBidClass();
+        createBid(bid);
+    }
+
+    private void createBid(Bid bid){
         BidService apiBidService = APIUtils.getBidService();
 
-        Call<Bid> bidCall = apiBidService.createBid(createBidClass());
+        Call<Bid> bidCall = apiBidService.createBid(bid);
         bidCall.enqueue(new Callback<Bid>() {
             @Override
             public void onResponse(Call<Bid> call, Response<Bid> response) {
@@ -118,10 +160,12 @@ public class BidFormActivity extends AppCompatActivity {
         String dateClosedStr;
         Spinner subjects = findViewById(R.id.subjectDropdown);
 
-        EditText qualification = findViewById(R.id.QualificationsField);
-        EditText preferredTime = findViewById(R.id.TimeField);
-        EditText preferredRate = findViewById(R.id.RateField);
-        EditText description = findViewById(R.id.DescriptionField);
+        String competency = competencyField.getText().toString();
+        String preferredDate = preferredDateField.getText().toString();
+
+        Log.d("CHECK", preferredDate);
+        String preferredRate = preferredRateField.getText().toString();
+        String description = descriptionField.getText().toString();
 
         /* Default bid Type: Open */
         dateOpened = ZonedDateTime.now();
@@ -137,12 +181,18 @@ public class BidFormActivity extends AppCompatActivity {
         }
 
         Subject subject = competencies.get(0).getSubject();
-        Bid createdBid = new Bid(bidType, userID ,dateOpenedStr, dateClosedStr, subject);
+        BidFormAdditionalInfo additionalInfo = new BidFormAdditionalInfo(competency,preferredDate, preferredRate, description);
+
+        Bid createdBid = new Bid(bidType, userID ,dateOpenedStr, dateClosedStr, subject, additionalInfo);
         return createdBid;
+    }
+
+    private void checkIfFieldEmpty(EditText editText){
+
     }
 }
 
 
-// Messages might only be a one time thing 
+
 // If student look for all bids that they've created using initiator
 // If tutor look for offers using 
