@@ -1,8 +1,10 @@
 package com.example.studenttutormatchapp;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -29,8 +31,29 @@ public class FindBidsAdapter extends RecyclerView.Adapter<FindBidsAdapter.ViewHo
         Bid bid = bids.get(position);
 
         String subjectString = bid.getSubject().getDescription() + " | " + bid.getSubject().getName();
+
         holder.bidSubject.setText(subjectString);
+        holder.bidStudent.setText(bid.getInitiator().getUserName());
         holder.bidType.setText(bid.getType());
+        holder.bidCompetency.setText(bid.getAdditionalInfo().getCompetency());
+        holder.bidPreferredDay.setText(bid.getAdditionalInfo().getPreferredDateTime());
+        holder.bidPreferredRate.setText(bid.getAdditionalInfo().getPreferredRate());
+        holder.bidRateType.setText(bid.getAdditionalInfo().getRateType());
+
+
+        holder.btnMakeOffer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        holder.btnBuyout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     @Override
@@ -42,11 +65,28 @@ public class FindBidsAdapter extends RecyclerView.Adapter<FindBidsAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView bidSubject;
+        TextView bidStudent;
         TextView bidType;
+        TextView bidCompetency;
+        TextView bidPreferredDay;
+        TextView bidPreferredRate;
+        TextView bidRateType;
+
+        Button btnMakeOffer;
+        Button btnBuyout;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             bidSubject = itemView.findViewById(R.id.BidSubject);
+            bidStudent = itemView.findViewById(R.id.textViewStudentName);
             bidType = itemView.findViewById(R.id.BidType);
+            bidCompetency = itemView.findViewById(R.id.textViewBidCardCompetency);
+            bidPreferredDay = itemView.findViewById(R.id.textViewBidCardPrefDay);
+            bidPreferredRate = itemView.findViewById(R.id.textViewBidCardPrefRate);
+            bidRateType = itemView.findViewById(R.id.textViewBidCardRateType);
+
+            btnMakeOffer = itemView.findViewById(R.id.btnMakeOffer);
+            btnBuyout = itemView.findViewById(R.id.btnBuyout);
         }
     }
 

@@ -124,4 +124,12 @@ public class Bid {
     public void setMessages(List<Message> messages) {
         this.messages = messages;
     }
+
+    public User getInitiator() {
+        return initiator;
+    }
+
+    public void setInitiator(User initiator) {
+        this.initiator = initiator;
+    }
 }
