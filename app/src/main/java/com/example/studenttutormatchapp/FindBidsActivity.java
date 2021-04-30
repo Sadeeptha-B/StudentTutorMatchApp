@@ -7,11 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.studenttutormatchapp.model.Bid;
 import com.example.studenttutormatchapp.model.Competency;
-import com.example.studenttutormatchapp.model.Subject;
 import com.example.studenttutormatchapp.model.User;
 import com.example.studenttutormatchapp.remote.APIUtils;
 import com.example.studenttutormatchapp.remote.BidService;
@@ -29,7 +27,7 @@ public class FindBidsActivity extends AppCompatActivity {
     private String userId;
     private List<Bid> bids = new ArrayList<>();
     private List<Competency> competencies;
-    private List<Subject> subjects = new ArrayList<>();
+    private List<String> subjectIds = new ArrayList<>();
 
     BidService APIBidInterface;
     UserService APIUserInterface;
@@ -48,15 +46,14 @@ public class FindBidsActivity extends AppCompatActivity {
         APIBidInterface = APIUtils.getBidService();
         APIUserInterface = APIUtils.getUserService();
 
-        getBids();
-        getUserCompetencies();
-
         RecyclerView recyclerView = findViewById(R.id.FindBidRecycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new FindBidsAdapter(filteredBids());
+        adapter = new FindBidsAdapter();
         recyclerView.setAdapter(adapter);
+        getBids();
+
     }
 
     public void getBids(){
@@ -66,13 +63,12 @@ public class FindBidsActivity extends AppCompatActivity {
             public void onResponse(Call<List<Bid>> call, Response<List<Bid>> response) {
                 if (response.isSuccessful()){
                     bids = response.body();
+                    getUserCompetencies();
                 }
                 switch (response.code()){
                     case 401:
                         Log.d("CHECK", "Invalid API key");
                         break;
-                    case 200:
-                        Log.d("CHECK", "Wooohooo");
                 }
             }
 
@@ -92,8 +88,9 @@ public class FindBidsActivity extends AppCompatActivity {
                 if (response.isSuccessful()){
                     competencies = response.body().getCompetencies();
                     for (Competency competency: competencies){
-                        subjects.add(competency.getSubject());
+                        subjectIds.add(competency.getSubject().getId());
                     }
+                    filterBids();
                 }
             }
 
@@ -104,15 +101,17 @@ public class FindBidsActivity extends AppCompatActivity {
         });
     }
 
-    public List<Bid> filteredBids(){
+    public void filterBids(){
         List<Bid> filteredBids = new ArrayList();
         for (int i = 0; i < bids.size(); i++){
-            Subject subject = bids.get(i).getSubject();
-            if (subjects.contains(subject)){
+            String subjectId = bids.get(i).getSubject().getId();
+
+            if (subjectIds.contains(subjectId)){
                 filteredBids.add(bids.get(i));
             }
         }
-        return filteredBids;
+        adapter.setBids(filteredBids);
+        adapter.notifyDataSetChanged();
     }
 
 }

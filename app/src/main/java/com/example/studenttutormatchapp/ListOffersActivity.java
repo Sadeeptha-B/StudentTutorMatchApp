@@ -25,6 +25,5 @@ public class ListOffersActivity extends AppCompatActivity {
         toolbar.setTitle("Offers on "+ subjectDescription);
 
         adapter = new ListOffersAdapter();
-
     }
 }

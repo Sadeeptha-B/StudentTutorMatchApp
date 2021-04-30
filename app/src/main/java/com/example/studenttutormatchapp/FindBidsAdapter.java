@@ -16,14 +16,11 @@ public class FindBidsAdapter extends RecyclerView.Adapter<FindBidsAdapter.ViewHo
 
     List<Bid> bids;
 
-    public FindBidsAdapter(List<Bid> bids){
-        this.bids = bids;
-    }
 
     @NonNull
     @Override
     public FindBidsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view =  LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_find_bids, parent, false);
+        View view =  LayoutInflater.from(parent.getContext()).inflate(R.layout.find_bid_card, parent, false);
         return new ViewHolder(view);
     }
 
@@ -31,7 +28,7 @@ public class FindBidsAdapter extends RecyclerView.Adapter<FindBidsAdapter.ViewHo
     public void onBindViewHolder(@NonNull FindBidsAdapter.ViewHolder holder, int position) {
         Bid bid = bids.get(position);
 
-        String subjectString = bid.getSubject().getDescription() + " - " + bid.getSubject().getName();
+        String subjectString = bid.getSubject().getDescription() + " | " + bid.getSubject().getName();
         holder.bidSubject.setText(subjectString);
         holder.bidType.setText(bid.getType());
     }
@@ -51,5 +48,13 @@ public class FindBidsAdapter extends RecyclerView.Adapter<FindBidsAdapter.ViewHo
             bidSubject = itemView.findViewById(R.id.BidSubject);
             bidType = itemView.findViewById(R.id.BidType);
         }
+    }
+
+    public void setBids(List<Bid> bids) {
+        this.bids = bids;
+    }
+
+    public List<Bid> getBids() {
+        return bids;
     }
 }
