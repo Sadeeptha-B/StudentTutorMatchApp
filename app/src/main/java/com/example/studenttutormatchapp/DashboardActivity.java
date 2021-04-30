@@ -185,6 +185,8 @@ public class DashboardActivity extends AppCompatActivity {
         if (jwtObject.getBoolean("isTutor")){
             menuNav.setGroupVisible(R.id.tutorMenuItems, true);
             menuNav.setGroupVisible(R.id.studentMenuItems, false);
+            findViewById(R.id.textViewOngoingBids).setVisibility(View.GONE);
+            findViewById(R.id.ongoingBidsRecycler).setVisibility(View.GONE);
         }
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -196,7 +198,11 @@ public class DashboardActivity extends AppCompatActivity {
                         bidFormPage();
                         break;
                     case R.id.findBidRequests:
-                        findBidRequests();
+                        try {
+                            findBidRequests();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                         break;
                     case R.id.signout:
                         jwtFileEditor.clear().apply();
@@ -224,8 +230,9 @@ public class DashboardActivity extends AppCompatActivity {
         startActivity(activity);
     }
 
-    private void findBidRequests(){
+    private void findBidRequests() throws JSONException {
         Intent activity = new Intent(this, FindBidsActivity.class);
+        activity.putExtra("user_id", jwtObject.getString("sub"));
         startActivity(activity);
     }
 

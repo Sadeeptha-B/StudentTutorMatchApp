@@ -73,7 +73,7 @@ public class BidFormActivity extends AppCompatActivity {
 
 
     public void getUserSubjects(){
-        Call<User> call = apiUserInterface.getStudentSubject(userID);
+        Call<User> call = apiUserInterface.getUserSubject(userID);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
