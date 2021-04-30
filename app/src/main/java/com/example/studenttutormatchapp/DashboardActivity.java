@@ -82,7 +82,9 @@ public class DashboardActivity extends AppCompatActivity {
             setUIElements();
             getBids();
         } catch (JSONException | UnsupportedEncodingException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            Toast.makeText(context, "You are not logged in. Please try again", Toast.LENGTH_LONG).show();
+            finish();
         }
     }
 
@@ -180,9 +182,7 @@ public class DashboardActivity extends AppCompatActivity {
         if (jwtObject.getBoolean("isStudent")){
             menuNav.setGroupVisible(R.id.studentMenuItems, true);
             menuNav.setGroupVisible(R.id.tutorMenuItems, false);
-        }
-
-        if (jwtObject.getBoolean("isTutor")){
+        } else if (jwtObject.getBoolean("isTutor")){
             menuNav.setGroupVisible(R.id.tutorMenuItems, true);
             menuNav.setGroupVisible(R.id.studentMenuItems, false);
         }

@@ -34,6 +34,7 @@ public class Bid {
     @Expose
     private String dateClosedDown;
 
+    /*TODO:  Deprecate this- Move to storing ID only */
     @SerializedName("subject")
     @Expose
     private Subject subject;

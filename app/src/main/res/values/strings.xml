@@ -7,4 +7,17 @@
     <string name="close_string">Close</string>
     <string name="JWT_KEY">JWT</string>
     <string name="messages_string">Messages</string>
+    <string-array name="rate_types">
+        <item>Hourly</item>
+        <item>Sessional</item>
+    </string-array>
+    <string-array name="days_of_week">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </string-array>
 </resources>

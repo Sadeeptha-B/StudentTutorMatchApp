@@ -45,12 +45,13 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.437" />
 
-    <Spinner
+    <com.example.studenttutormatchapp.SubjectSpinner
         android:id="@+id/subjectDropdown"
         android:layout_width="0dp"
-        android:layout_height="38dp"
+        android:layout_height="40dp"
         android:autofillHints="Select Subject"
         android:background="@drawable/edittext_bg"
+        android:minWidth="200dp"
         android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="@+id/textView10"
         app:layout_constraintEnd_toStartOf="@+id/guideline10"
@@ -119,15 +120,13 @@
         app:layout_constraintStart_toStartOf="@+id/guideline15"
         app:layout_constraintTop_toTopOf="@+id/textView5" />
 
-    <EditText
-        android:id="@+id/DateField"
+    <Spinner
+        android:id="@+id/DayDropdown"
         android:layout_width="92dp"
         android:layout_height="37dp"
         android:background="@drawable/edittext_bg"
         android:ems="10"
         android:hint="Day"
-        android:inputType="date"
-        android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="@+id/TimeField"
         app:layout_constraintEnd_toStartOf="@+id/TimeField"
         app:layout_constraintHorizontal_bias="0.5"
@@ -283,7 +282,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.80"
+        app:layout_constraintGuide_begin="585dp"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -326,7 +325,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline10"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/DateField"
+        app:layout_constraintStart_toEndOf="@+id/DayDropdown"
         app:layout_constraintTop_toTopOf="@+id/textView6" />
+
+    <TextView
+        android:id="@+id/textViewSubjectBidForm"
+        android:layout_width="0dp"
+        android:layout_height="38dp"
+        android:ems="10"
+        android:padding="5dp"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView10"
+        app:layout_constraintEnd_toStartOf="@+id/guideline10"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline15"
+        app:layout_constraintTop_toTopOf="@+id/textView10" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
