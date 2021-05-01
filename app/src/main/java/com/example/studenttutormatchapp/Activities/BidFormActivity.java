@@ -1,6 +1,5 @@
-package com.example.studenttutormatchapp;
+package com.example.studenttutormatchapp.Activities;
 
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,12 +11,15 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.studenttutormatchapp.BidFormAdditionalInfo;
+import com.example.studenttutormatchapp.BidInfoForm;
+import com.example.studenttutormatchapp.R;
+import com.example.studenttutormatchapp.SubjectSpinner;
 import com.example.studenttutormatchapp.model.*;
 import com.example.studenttutormatchapp.remote.APIUtils;
 import com.example.studenttutormatchapp.remote.BidService;
@@ -27,7 +29,6 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import retrofit2.Call;
@@ -44,14 +45,10 @@ public class BidFormActivity extends AppCompatActivity {
     UserService apiUserInterface;
     Context context;
 
+    private BidInfoForm newBidForm;
+
     /* Fields : Used to extract data*/
     private TextView subjectField;
-    private Spinner competencyField;
-    private Spinner daySpinner;
-    private TextView preferredTimeField;
-    private Spinner rateTypeSpinner;
-    private EditText preferredRateField;
-    private EditText descriptionField;
 
     private SubjectSpinner subjectSpinner;
     private RadioGroup bidGroup;
@@ -101,17 +98,15 @@ public class BidFormActivity extends AppCompatActivity {
 
     public void setUIElements(){
         /*Fields*/
+        newBidForm = new BidInfoForm(this,R.id.CompetencyField,R.id.RateTypeDropdown,R.id.DayDropdown, R.id.makeOfferTime);
+        newBidForm.setPrefRateField(R.id.RateField);
         subjectField = findViewById(R.id.textViewSubjectBidForm);
-        preferredTimeField = findViewById(R.id.TimeField);
-        preferredRateField = findViewById(R.id.RateField);
-        descriptionField = findViewById(R.id.DescriptionField);
 
         //RadioGroup
         bidGroup = findViewById(R.id.BidGroup);
         bidGroup.check(R.id.OpenBidBtn);
 
-        /*Spinners*/
-        //Subject
+        //Subject spinner
         subjectSpinner = findViewById(R.id.subjectDropdown);
         ArrayAdapter<String> subjectAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item,
                 subjectStrings);
@@ -124,70 +119,23 @@ public class BidFormActivity extends AppCompatActivity {
                 TextView textView = findViewById(R.id.textViewSubjectBidForm);
                 textView.setText(subjectSpinner.getSelectedItem().toString());
                 selectionPos = position;
-                competencyField.setSelection(competencies.get(0).getLevel() + COMPETENCY_DIFF);
+                newBidForm.getCompetencySpinner().setSelection(competencies.get(0).getLevel() + COMPETENCY_DIFF);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-
-        //RateType
-        rateTypeSpinner = findViewById(R.id.RateTypeDropdown);
-        ArrayAdapter<CharSequence> rateAdapter = ArrayAdapter.createFromResource(this, R.array.rate_types, android.R.layout.simple_spinner_item);
-        rateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        rateTypeSpinner.setAdapter(rateAdapter);
-
-        //Day of the week
-        daySpinner = findViewById(R.id.DayDropdown);
-        ArrayAdapter<CharSequence> dayAdapter = ArrayAdapter.createFromResource(this, R.array.days_of_week, android.R.layout.simple_spinner_item);
-        dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        daySpinner.setAdapter(dayAdapter);
-
-        //Competency
-        competencyField = findViewById(R.id.CompetencyField);
-        List<String> list = new ArrayList<String>();
-        for (int i=0; i<=10; i++){
-            list.add(String.valueOf(i));
-        }
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, list);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        competencyField.setAdapter(dataAdapter);
-
-        // Listener for TimePicker
-        preferredTimeField.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar mcurrentTime = Calendar.getInstance();
-                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-                int minute = mcurrentTime.get(Calendar.MINUTE);
-                TimePickerDialog mTimePicker;
-                mTimePicker = new TimePickerDialog(BidFormActivity.this, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        preferredTimeField.setText(selectedHour + ":" + selectedMinute);
-                    }
-                }, hour, minute, false);
-                mTimePicker.show();
-            }
-        });
     }
 
 
     public void validateData(View v){
-        boolean returnFlag = false;
+        TextView[] nonEmptyFields = new TextView[]{subjectField, newBidForm.getDayPicker(), newBidForm.getPrefRateField()};
 
-        TextView[] nonEmptyFields = new TextView[]{subjectField, preferredTimeField, preferredRateField};
-
-        for (int i=0; i<nonEmptyFields.length; i++){
-            if (nonEmptyFields[i].getText().toString().isEmpty()){
-                nonEmptyFields[i].setError("Please fill this field");
-                return;
-            }
+        if (newBidForm.nonEmptyValidation(nonEmptyFields)){
+            Bid bid = createBidClass();
+            createBid(bid);
         }
-        Bid bid = createBidClass();
-        createBid(bid);
     }
 
     private void createBid(Bid bid){
@@ -214,12 +162,11 @@ public class BidFormActivity extends AppCompatActivity {
         String dateClosedStr;
         String bidType = "open"; /*Default*/
 
-        String competency = competencyField.getSelectedItem().toString();
-        String preferredDate = daySpinner.getSelectedItem().toString() + " " + preferredTimeField.getText().toString();
-        String rateType = rateTypeSpinner.getSelectedItem().toString();
-        String preferredRate = preferredRateField.getText().toString();
-        String description = descriptionField.getText().toString();
-        BidFormAdditionalInfo additionalInfo = new BidFormAdditionalInfo(competency, preferredDate, rateType, preferredRate,description);
+        String competency = newBidForm.getCompetencySpinner().getSelectedItem().toString();
+        String preferredDate = newBidForm.getDaySelectionSpinner().getSelectedItem().toString() + " " + newBidForm.getDayPicker().getText().toString();
+        String rateType = newBidForm.getRateTypeSpinner().getSelectedItem().toString();
+        String preferredRate = newBidForm.getPrefRateField().getText().toString();
+        BidFormAdditionalInfo additionalInfo = new BidFormAdditionalInfo(competency, preferredDate, rateType, preferredRate);
 
         ZonedDateTime dateOpened = ZonedDateTime.now();
         dateOpenedStr = dateOpened.format(DateTimeFormatter.ISO_INSTANT);

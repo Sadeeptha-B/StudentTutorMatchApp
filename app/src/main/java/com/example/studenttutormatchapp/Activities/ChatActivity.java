@@ -1,4 +1,4 @@
-package com.example.studenttutormatchapp;
+package com.example.studenttutormatchapp.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.studenttutormatchapp.ChatAdapter;
+import com.example.studenttutormatchapp.MessageAdditionalInfo;
+import com.example.studenttutormatchapp.MessageComparator;
+import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.model.Bid;
 import com.example.studenttutormatchapp.model.Message;
 import com.example.studenttutormatchapp.remote.APIUtils;

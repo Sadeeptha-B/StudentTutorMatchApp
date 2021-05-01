@@ -127,13 +127,13 @@
         android:background="@drawable/edittext_bg"
         android:ems="10"
         android:hint="Day"
-        app:layout_constraintBottom_toBottomOf="@+id/TimeField"
-        app:layout_constraintEnd_toStartOf="@+id/TimeField"
+        app:layout_constraintBottom_toBottomOf="@+id/makeOfferTime"
+        app:layout_constraintEnd_toStartOf="@+id/makeOfferTime"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toEndOf="@+id/textView6"
         app:layout_constraintStart_toStartOf="@+id/guideline15"
-        app:layout_constraintTop_toTopOf="@+id/TimeField"
+        app:layout_constraintTop_toTopOf="@+id/makeOfferTime"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
@@ -152,9 +152,12 @@
         android:backgroundTint="#00BCD4"
         android:onClick="validateData"
         android:text="Create Bid"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline17" />
+        app:layout_constraintTop_toTopOf="@+id/guideline17"
+        app:layout_constraintVertical_bias="0.029" />
 
     <RadioGroup
         android:id="@+id/BidGroup"
@@ -176,24 +179,6 @@
             android:layout_height="wrap_content"
             android:text="Closed Bid" />
     </RadioGroup>
-
-    <EditText
-        android:id="@+id/DescriptionField"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/edittext_bg"
-        android:backgroundTint="#C6C4C4"
-        android:ems="10"
-        android:hint="Description"
-        android:inputType="textMultiLine"
-        android:lines="3"
-        android:maxLines="5"
-        android:padding="5dp"
-        android:tooltipText="Description"
-        app:layout_constraintEnd_toStartOf="@+id/guideline10"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toTopOf="@+id/guideline16" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -262,7 +247,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline16"
+        android:id="@+id/guideline19"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -270,19 +255,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline19"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.73"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="585dp"
+        app:layout_constraintGuide_percent="0.65"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -290,17 +267,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.90"
+        app:layout_constraintGuide_percent="0.75"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Enter a description for your bid:"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline16"
-        app:layout_constraintStart_toStartOf="@+id/guideline2" />
 
     <TextView
         android:id="@+id/textView8"
@@ -312,7 +280,7 @@
         app:layout_constraintStart_toStartOf="@+id/guideline2" />
 
     <TextView
-        android:id="@+id/TimeField"
+        android:id="@+id/makeOfferTime"
         android:layout_width="92dp"
         android:layout_height="37dp"
         android:background="@drawable/edittext_bg"

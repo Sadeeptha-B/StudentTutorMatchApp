@@ -1,10 +1,13 @@
-package com.example.studenttutormatchapp;
+package com.example.studenttutormatchapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.example.studenttutormatchapp.ListOffersAdapter;
+import com.example.studenttutormatchapp.R;
 
 public class ListOffersActivity extends AppCompatActivity {
 

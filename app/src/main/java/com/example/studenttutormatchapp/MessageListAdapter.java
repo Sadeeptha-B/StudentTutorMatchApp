@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.studenttutormatchapp.Activities.ChatActivity;
 import com.example.studenttutormatchapp.model.Message;
 
 import java.util.ArrayList;

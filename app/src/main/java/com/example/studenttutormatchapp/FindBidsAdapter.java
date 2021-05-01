@@ -1,5 +1,7 @@
 package com.example.studenttutormatchapp;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,13 +12,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.studenttutormatchapp.Activities.MakeOfferFormActivity;
+import com.example.studenttutormatchapp.Activities.MessageListActivity;
 import com.example.studenttutormatchapp.model.Bid;
+import com.google.gson.Gson;
 
 import java.util.List;
 
 public class FindBidsAdapter extends RecyclerView.Adapter<FindBidsAdapter.ViewHolder>{
 
     List<Bid> bids;
+    Context context;
+
+    public FindBidsAdapter(Context context){
+        this.context = context;
+    }
 
 
     @NonNull
@@ -44,7 +54,12 @@ public class FindBidsAdapter extends RecyclerView.Adapter<FindBidsAdapter.ViewHo
         holder.btnMakeOffer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Gson gson = new Gson();
+                String bidJson = gson.toJson(bid);
 
+                Intent intent = new Intent(context, MakeOfferFormActivity.class);
+                intent.putExtra("bidJson", bidJson);
+                context.startActivity(intent);
             }
         });
 

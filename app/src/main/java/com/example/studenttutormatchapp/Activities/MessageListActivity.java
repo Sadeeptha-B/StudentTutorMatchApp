@@ -1,4 +1,4 @@
-package com.example.studenttutormatchapp;
+package com.example.studenttutormatchapp.Activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.studenttutormatchapp.MessageListAdapter;
+import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.model.Message;
 import com.example.studenttutormatchapp.remote.APIUtils;
 import com.example.studenttutormatchapp.remote.MessageService;

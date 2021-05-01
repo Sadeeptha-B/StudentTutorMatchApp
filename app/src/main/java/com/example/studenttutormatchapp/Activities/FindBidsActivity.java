@@ -1,4 +1,4 @@
-package com.example.studenttutormatchapp;
+package com.example.studenttutormatchapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.studenttutormatchapp.FindBidsAdapter;
+import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.model.Bid;
 import com.example.studenttutormatchapp.model.Competency;
 import com.example.studenttutormatchapp.model.User;
@@ -50,7 +52,7 @@ public class FindBidsActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new FindBidsAdapter();
+        adapter = new FindBidsAdapter(this);
         recyclerView.setAdapter(adapter);
         getBids();
 
