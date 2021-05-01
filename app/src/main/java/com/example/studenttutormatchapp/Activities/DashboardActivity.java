@@ -221,7 +221,7 @@ public class DashboardActivity extends AppCompatActivity {
         bidRecycler.setLayoutManager(bidLayoutManager);
         bidRecycler.setHasFixedSize(true);
 
-        bidAdapter = new OngoingBidsAdapter(context);
+        bidAdapter = new OngoingBidsAdapter(context, jwtObject.getString("sub"));
         bidAdapter.setData(ongoingBidDataList);
         bidRecycler.setAdapter(bidAdapter);
     }

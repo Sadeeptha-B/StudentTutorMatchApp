@@ -23,9 +23,8 @@ public class BidInfoForm {
 
     private EditText prefRateField;
 
-    public BidInfoForm(Activity _activity, int compId, int rateId, int daySelectId, int dayPickId){
+    public BidInfoForm(Activity _activity,int rateId, int daySelectId, int dayPickId){
         this.activity = _activity;
-        setCompetencySpinner(compId);
         setRateTypeSpinner(rateId);
         setDaySelectionSpinner(daySelectId);
         setTimePickerForTextView(dayPickId);

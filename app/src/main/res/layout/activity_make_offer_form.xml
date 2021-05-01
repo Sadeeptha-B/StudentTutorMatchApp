@@ -97,13 +97,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:hint="Description"
             android:background="@drawable/edittext_bg"
             android:ems="10"
-            android:padding="5dp"
+            android:hint="Description"
             android:inputType="textMultiLine"
             android:lines="3"
             android:maxLines="5"
+            android:padding="5dp"
             app:layout_constraintEnd_toStartOf="@+id/guideline10"
             app:layout_constraintHorizontal_bias="0.271"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
@@ -245,8 +245,10 @@
             android:padding="5dp"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/textView15"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline10"
-            app:layout_constraintStart_toEndOf="@+id/spinnerMakeOfferComp"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/textViewMakeOfferComp"
             app:layout_constraintTop_toTopOf="@+id/textView15" />
 
         <TextView
@@ -274,23 +276,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline17"
             app:layout_constraintVertical_bias="0.0" />
-
-        <Spinner
-            android:id="@+id/spinnerMakeOfferComp"
-            android:layout_width="109dp"
-            android:layout_height="41dp"
-            android:background="@drawable/edittext_bg"
-            android:ems="10"
-            android:hint="Competency"
-            android:inputType="textPersonName"
-            android:padding="5dp"
-            app:layout_constraintBottom_toBottomOf="@+id/textView15"
-            app:layout_constraintEnd_toStartOf="@+id/textViewMakeOfferStuPrefComp"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintStart_toEndOf="@+id/textView15"
-            app:layout_constraintStart_toStartOf="@+id/guideline15"
-            app:layout_constraintTop_toTopOf="@+id/textView15" />
 
         <Spinner
             android:id="@+id/spinnerMakeOfferRate"
@@ -368,7 +353,7 @@
             android:layout_height="44dp"
             android:background="@drawable/edittext_bg"
             android:ems="10"
-            android:inputType="number"
+            android:inputType="textPersonName"
             android:padding="5dp"
             app:layout_constraintBottom_toBottomOf="@+id/textView18"
             app:layout_constraintEnd_toStartOf="@+id/textViewMakeOfferStuPrefRate"
@@ -376,6 +361,22 @@
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toEndOf="@+id/guideline15"
             app:layout_constraintTop_toTopOf="@+id/textView18" />
+
+        <TextView
+            android:id="@+id/textViewMakeOfferComp"
+            android:layout_width="109dp"
+            android:layout_height="41dp"
+            android:background="@drawable/shaded_field_bg"
+            android:ems="10"
+            android:padding="5dp"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView15"
+            app:layout_constraintEnd_toStartOf="@+id/textViewMakeOfferStuPrefComp"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toEndOf="@+id/textView15"
+            app:layout_constraintStart_toStartOf="@+id/guideline15"
+            app:layout_constraintTop_toTopOf="@+id/textView15" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

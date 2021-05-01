@@ -18,6 +18,8 @@ import java.util.List;
 
 public class OngoingBidsAdapter extends RecyclerView.Adapter<OngoingBidsAdapter.ViewHolder> {
 
+    String userId;
+
     private Context context;
     private List<OngoingBidData> data = new ArrayList<OngoingBidData>();
 
@@ -29,8 +31,9 @@ public class OngoingBidsAdapter extends RecyclerView.Adapter<OngoingBidsAdapter.
         return viewHolder;
     }
 
-    public OngoingBidsAdapter(Context context){
+    public OngoingBidsAdapter(Context context, String userId){
         this.context = context;
+        this.userId = userId;
     }
 
     public void setData(List<OngoingBidData> _data){
@@ -48,6 +51,7 @@ public class OngoingBidsAdapter extends RecyclerView.Adapter<OngoingBidsAdapter.
             public void onClick(View v) {
                 Intent activity = new Intent(v.getContext(), ListOffersActivity.class);
                 activity.putExtra("bidId", data.get(position).getBidId());
+                activity.putExtra("userId", userId);
                 activity.putExtra("subject", data.get(position).getSubjectName());
                 v.getContext().startActivity(activity);
             }
@@ -68,8 +72,8 @@ public class OngoingBidsAdapter extends RecyclerView.Adapter<OngoingBidsAdapter.
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             this.itemView = itemView;
-            this.subjectName = itemView.findViewById(R.id.textViewBidSubject);
-            this.createdDate = itemView.findViewById(R.id.textViewCreatedTime);
+            this.subjectName = itemView.findViewById(R.id.tutorName);
+            this.createdDate = itemView.findViewById(R.id.offeredDate);
         }
     }
 }

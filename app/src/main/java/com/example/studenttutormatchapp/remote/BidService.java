@@ -1,6 +1,6 @@
 package com.example.studenttutormatchapp.remote;
 
-import com.example.studenttutormatchapp.BidFormAdditionalInfo;
+import com.example.studenttutormatchapp.BidAdditionalInfo;
 import com.example.studenttutormatchapp.model.Bid;
 
 import java.util.Date;
@@ -29,11 +29,11 @@ public interface BidService {
     Call<Bid> getBidWithMessages(@Path("bidId") String id);
 
     @PATCH("bid/{bidId}")
-    Call<BidFormAdditionalInfo> updateBid(@Path("bidId") String id, BidFormAdditionalInfo additionalInfo);
+    Call<BidAdditionalInfo> updateBid(@Path("bidId") String id, BidAdditionalInfo additionalInfo);
 
     @DELETE("bid/{bidID}")
-    void deleteBid(@Path("bidId") String id);
+    Call deleteBid(@Path("bidId") String id);
 
     @POST("bid/{bidId}/close-down")
-    void closeDownBid(@Path("bidId") String id, @Body Date dateClosedDown);
+    Call closeDownBid(@Path("bidId") String id, @Body Date dateClosedDown);
 }

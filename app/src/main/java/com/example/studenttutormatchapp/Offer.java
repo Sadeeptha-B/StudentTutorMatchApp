@@ -2,50 +2,28 @@ package com.example.studenttutormatchapp;
 
 public class Offer {
 
-    private String competencyLevel;
-    private String prefRateType;
-    private String prefDayTime;
-    private String prefRate;
+    private String competency;
     private String description;
+    private String tutorName;
+    private String offeredDate;
+    private String offeredRate;
+    private String rateType;
 
-    public Offer(String competencyLevel, String prefRateType, String prefDayTime, String prefRate, String description) {
-        this.competencyLevel = competencyLevel;
-        this.prefRateType = prefRateType;
-        this.prefDayTime = prefDayTime;
-        this.prefRate = prefRate;
+    public Offer(String competency, String description, String tutorName, String offeredDate, String offeredRate, String rateType) {
+        this.competency = competency;
         this.description = description;
+        this.tutorName = tutorName;
+        this.offeredDate = offeredDate;
+        this.offeredRate = offeredRate;
+        this.rateType = rateType;
     }
 
-    public String getCompetencyLevel() {
-        return competencyLevel;
+    public String  getCompetency() {
+        return competency;
     }
 
-    public void setCompetencyLevel(String competencyLevel) {
-        this.competencyLevel = competencyLevel;
-    }
-
-    public String getPrefRateType() {
-        return prefRateType;
-    }
-
-    public void setPrefRateType(String prefRateType) {
-        this.prefRateType = prefRateType;
-    }
-
-    public String getPrefDayTime() {
-        return prefDayTime;
-    }
-
-    public void setPrefDayTime(String prefDayTime) {
-        this.prefDayTime = prefDayTime;
-    }
-
-    public String getPrefRate() {
-        return prefRate;
-    }
-
-    public void setPrefRate(String prefRate) {
-        this.prefRate = prefRate;
+    public void setCompetency(String  competency) {
+        this.competency = competency;
     }
 
     public String getDescription() {
@@ -56,14 +34,36 @@ public class Offer {
         this.description = description;
     }
 
-    @Override
-    public String toString() {
-        return "Offer{" +
-                "competencyLevel='" + competencyLevel + '\'' +
-                ", prefRateType='" + prefRateType + '\'' +
-                ", prefDayTime='" + prefDayTime + '\'' +
-                ", prefRate='" + prefRate + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+    public String getTutorName() {
+        return tutorName;
+    }
+
+    public void setTutorName(String tutorName) {
+        this.tutorName = tutorName;
+    }
+
+    public String getOfferedDate() {
+        return offeredDate;
+    }
+
+    public void setOfferedDate(String offeredDate) {
+        this.offeredDate = offeredDate;
+    }
+
+    public String getOfferedRate() {
+        return offeredRate;
+    }
+
+    public void setOfferedRate(String offeredRate) {
+        this.offeredRate = offeredRate;
+    }
+
+    public String getRateType() {
+        return rateType;
+    }
+
+    public void setRateType(String rateType) {
+        this.rateType = rateType;
+
     }
 }

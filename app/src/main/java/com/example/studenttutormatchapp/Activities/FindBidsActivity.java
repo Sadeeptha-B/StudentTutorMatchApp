@@ -53,6 +53,7 @@ public class FindBidsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         adapter = new FindBidsAdapter(this);
+        adapter.setUserId(userId);
         recyclerView.setAdapter(adapter);
         getBids();
 
@@ -115,5 +116,6 @@ public class FindBidsActivity extends AppCompatActivity {
         adapter.setBids(filteredBids);
         adapter.notifyDataSetChanged();
     }
+
 
 }

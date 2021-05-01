@@ -2,20 +2,26 @@ package com.example.studenttutormatchapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.studenttutormatchapp.BidFormAdditionalInfo;
+import com.example.studenttutormatchapp.BidAdditionalInfo;
 import com.example.studenttutormatchapp.BidInfoForm;
 import com.example.studenttutormatchapp.Offer;
 import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.model.Bid;
+import com.example.studenttutormatchapp.model.Competency;
+import com.example.studenttutormatchapp.model.User;
 import com.example.studenttutormatchapp.remote.APIUtils;
 import com.example.studenttutormatchapp.remote.BidService;
+import com.example.studenttutormatchapp.remote.UserService;
 import com.google.gson.Gson;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,15 +31,24 @@ public class MakeOfferFormActivity extends AppCompatActivity {
 
     Bid bid;
     BidInfoForm offerForm;
+    private String userName;
+    private String competencyLevel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_make_offer_form);
 
+        /* Get data*/
         Gson gson = new Gson();
-        bid = gson.fromJson(getIntent().getStringExtra("bidJson"), Bid.class);
+        Intent intent = getIntent();
+        bid = gson.fromJson(intent.getStringExtra("bidJson"), Bid.class);
+        String userId = intent.getStringExtra("userId");
 
-        offerForm = new BidInfoForm(this, R.id.spinnerMakeOfferComp,R.id.spinnerMakeOfferRate,R.id.spinnerMakeOfferDay,R.id.makeOfferTime);
+        getUser(userId);
+
+        /*UI elements*/
+        offerForm = new BidInfoForm(this,R.id.spinnerMakeOfferRate,R.id.spinnerMakeOfferDay,R.id.makeOfferTime);
         offerForm.setPrefRateField(R.id.editTextMakeOfferRate);
         fillForm();
     }
@@ -54,6 +69,32 @@ public class MakeOfferFormActivity extends AppCompatActivity {
         tVRate.setText(bid.getAdditionalInfo().getPreferredRate());
     }
 
+
+    private void getUser(String userId){
+        UserService apiUserService = APIUtils.getUserService();
+        Call<User> userCall = apiUserService.getUserSubject(userId);
+        userCall.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                userName = response.body().getUserName();
+                List<Competency> competencies = response.body().getCompetencies();
+                Log.d("OFFER", "I run");
+                for (int i=0; i<competencies.size(); i++){
+                    if (competencies.get(i).getSubject().getId().equals(bid.getSubject().getId())){
+                        competencyLevel = competencies.get(i).getLevel().toString();
+                        Log.d("OFFER", competencyLevel);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+            }
+        });
+
+    }
+
     public void makeOffer(View v){
         boolean valid = offerForm.nonEmptyValidation(new TextView[]{offerForm.getDayPicker(), offerForm.getPrefRateField()});
         if (valid){
@@ -62,7 +103,7 @@ public class MakeOfferFormActivity extends AppCompatActivity {
     }
 
     private void postOffer(){
-        String competency = offerForm.getCompetencySpinner().getSelectedItem().toString();
+        String competency = competencyLevel;
         String rateType = offerForm.getRateTypeSpinner().getSelectedItem().toString();
         String prefTime = offerForm.getDaySelectionSpinner().getSelectedItem().toString() + " " + offerForm.getDayPicker().getText().toString();
         String prefRate = offerForm.getPrefRateField().getText().toString();
@@ -70,20 +111,20 @@ public class MakeOfferFormActivity extends AppCompatActivity {
         EditText descField = findViewById(R.id.editTextMakeOfferDesc);
         String desc = descField.getText().toString();
 
-        Offer offer = new Offer(competency, rateType, prefTime, prefRate, desc);
+        Offer offer = new Offer(competency, userName, rateType, prefTime, prefRate, desc);
         bid.getAdditionalInfo().addOffer(offer);
 
         BidService apiBidService = APIUtils.getBidService();
-        Call<BidFormAdditionalInfo> makeOfferCall = apiBidService.updateBid(bid.getId(), bid.getAdditionalInfo());
-        makeOfferCall.enqueue(new Callback<BidFormAdditionalInfo>() {
+        Call<BidAdditionalInfo> makeOfferCall = apiBidService.updateBid(bid.getId(), bid.getAdditionalInfo());
+        makeOfferCall.enqueue(new Callback<BidAdditionalInfo>() {
             @Override
-            public void onResponse(Call<BidFormAdditionalInfo> call, Response<BidFormAdditionalInfo> response) {
+            public void onResponse(Call<BidAdditionalInfo> call, Response<BidAdditionalInfo> response) {
                 Log.d("OFFER", String.valueOf(response.code()));
                 Log.d("OFFER", response.body().getOffers().toString());
             }
 
             @Override
-            public void onFailure(Call<BidFormAdditionalInfo> call, Throwable t) {
+            public void onFailure(Call<BidAdditionalInfo> call, Throwable t) {
 
             }
         });

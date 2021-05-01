@@ -23,6 +23,7 @@ public class FindBidsAdapter extends RecyclerView.Adapter<FindBidsAdapter.ViewHo
 
     List<Bid> bids;
     Context context;
+    private String userId;
 
     public FindBidsAdapter(Context context){
         this.context = context;
@@ -59,6 +60,7 @@ public class FindBidsAdapter extends RecyclerView.Adapter<FindBidsAdapter.ViewHo
 
                 Intent intent = new Intent(context, MakeOfferFormActivity.class);
                 intent.putExtra("bidJson", bidJson);
+                intent.putExtra("userID", userId);
                 context.startActivity(intent);
             }
         });
@@ -111,5 +113,9 @@ public class FindBidsAdapter extends RecyclerView.Adapter<FindBidsAdapter.ViewHo
 
     public List<Bid> getBids() {
         return bids;
+    }
+
+    public void setUserId(String userId){
+        this.userId = userId;
     }
 }

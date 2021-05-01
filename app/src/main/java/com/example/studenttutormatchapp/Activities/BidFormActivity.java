@@ -16,7 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.studenttutormatchapp.BidFormAdditionalInfo;
+import com.example.studenttutormatchapp.BidAdditionalInfo;
 import com.example.studenttutormatchapp.BidInfoForm;
 import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.SubjectSpinner;
@@ -98,7 +98,8 @@ public class BidFormActivity extends AppCompatActivity {
 
     public void setUIElements(){
         /*Fields*/
-        newBidForm = new BidInfoForm(this,R.id.CompetencyField,R.id.RateTypeDropdown,R.id.DayDropdown, R.id.makeOfferTime);
+        newBidForm = new BidInfoForm(this,R.id.RateTypeDropdown,R.id.DayDropdown, R.id.makeOfferTime);
+        newBidForm.setCompetencySpinner(R.id.CompetencyField);
         newBidForm.setPrefRateField(R.id.RateField);
         subjectField = findViewById(R.id.textViewSubjectBidForm);
 
@@ -160,13 +161,15 @@ public class BidFormActivity extends AppCompatActivity {
     public Bid createBidClass(){
         String dateOpenedStr;
         String dateClosedStr;
-        String bidType = "open"; /*Default*/
+        String bidType = "open";
+
 
         String competency = newBidForm.getCompetencySpinner().getSelectedItem().toString();
         String preferredDate = newBidForm.getDaySelectionSpinner().getSelectedItem().toString() + " " + newBidForm.getDayPicker().getText().toString();
         String rateType = newBidForm.getRateTypeSpinner().getSelectedItem().toString();
         String preferredRate = newBidForm.getPrefRateField().getText().toString();
-        BidFormAdditionalInfo additionalInfo = new BidFormAdditionalInfo(competency, preferredDate, rateType, preferredRate);
+        BidAdditionalInfo additionalInfo = new BidAdditionalInfo(competency, preferredDate, rateType, preferredRate);
+
 
         ZonedDateTime dateOpened = ZonedDateTime.now();
         dateOpenedStr = dateOpened.format(DateTimeFormatter.ISO_INSTANT);
