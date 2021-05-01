@@ -1,17 +1,21 @@
 package com.example.studenttutormatchapp;
 
-public class BidFormAdditionalInfo {
+import java.util.List;
+
+public class BidAdditionalInfo {
 
     private String competency;
     private String preferredDateTime;
     private String preferredRate;
     private String rateType;
+    private List<Offer> offers;
 
-    public BidFormAdditionalInfo(String competency, String preferredDateTime, String rateType, String preferredRate){
+    public BidAdditionalInfo(String competency, String preferredDateTime, String rateType, String preferredRate, String description, List<Offer> offers){
         this.competency = competency;
         this.preferredDateTime = preferredDateTime;
         this.rateType = rateType;
         this.preferredRate = preferredRate;
+        this.offers = offers;
     }
 
     public String getCompetency() {
@@ -46,4 +50,11 @@ public class BidFormAdditionalInfo {
         this.rateType = rateType;
     }
 
+    public List<Offer> getOffers() {
+        return offers;
+    }
+
+    public void setOffers(List<Offer> offers) {
+        this.offers = offers;
+    }
 }

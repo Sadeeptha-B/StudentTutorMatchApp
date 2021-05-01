@@ -31,8 +31,8 @@ public interface BidService {
     Call<Bid> updateBid(@Path("bidId") String id, Bid bid);
 
     @DELETE("bid/{bidID}")
-    void deleteBid(@Path("bidId") String id);
+    Call deleteBid(@Path("bidId") String id);
 
     @POST("bid/{bidId}/close-down")
-    void closeDownBid(@Path("bidId") String id, @Body Date dateClosedDown);
+    Call closeDownBid(@Path("bidId") String id, @Body Date dateClosedDown);
 }
