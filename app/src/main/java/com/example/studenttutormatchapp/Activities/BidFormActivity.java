@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.studenttutormatchapp.BidAdditionalInfo;
 import com.example.studenttutormatchapp.BidInfoForm;
+import com.example.studenttutormatchapp.Offer;
 import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.SubjectSpinner;
 import com.example.studenttutormatchapp.model.*;
@@ -168,7 +169,9 @@ public class BidFormActivity extends AppCompatActivity {
         String preferredDate = newBidForm.getDaySelectionSpinner().getSelectedItem().toString() + " " + newBidForm.getDayPicker().getText().toString();
         String rateType = newBidForm.getRateTypeSpinner().getSelectedItem().toString();
         String preferredRate = newBidForm.getPrefRateField().getText().toString();
-        BidAdditionalInfo additionalInfo = new BidAdditionalInfo(competency, preferredDate, rateType, preferredRate);
+        ArrayList<Offer> offerData = new ArrayList<Offer>();
+
+        BidAdditionalInfo additionalInfo = new BidAdditionalInfo(competency, preferredDate, rateType, preferredRate, offerData);
 
 
         ZonedDateTime dateOpened = ZonedDateTime.now();

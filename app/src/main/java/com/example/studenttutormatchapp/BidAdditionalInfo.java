@@ -1,21 +1,38 @@
 package com.example.studenttutormatchapp;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class BidAdditionalInfo {
+    @SerializedName("competency")
+    @Expose
     private String competency;
+
+    @SerializedName("preferredDateTime")
+    @Expose
     private String preferredDateTime;
+
+    @SerializedName("preferredRate")
+    @Expose
     private String preferredRate;
+
+    @SerializedName("rateType")
+    @Expose
     private String rateType;
 
-    private List<Offer> offers = new ArrayList<Offer>();
+    @SerializedName("offers")
+    @Expose
+    private List<Offer> offers;
 
-    public BidAdditionalInfo(String competency, String preferredDateTime, String rateType, String preferredRate){
+    public BidAdditionalInfo(String competency, String preferredDateTime, String rateType, String preferredRate, ArrayList<Offer> offers){
         this.competency = competency;
         this.preferredDateTime = preferredDateTime;
         this.rateType = rateType;
         this.preferredRate = preferredRate;
+        this.offers = offers;
     }
 
     public String getCompetency() {
@@ -55,11 +72,21 @@ public class BidAdditionalInfo {
     }
 
     public List<Offer> getOffers(){
-        return new ArrayList<>(offers);
+        return offers;
     }
 
     public void setOffers(List<Offer> offers) {
         this.offers = offers;
     }
 
+    @Override
+    public String toString() {
+        return "BidAdditionalInfo{" +
+                "competency='" + competency + '\'' +
+                ", preferredDateTime='" + preferredDateTime + '\'' +
+                ", preferredRate='" + preferredRate + '\'' +
+                ", rateType='" + rateType + '\'' +
+                ", offers=" + offers +
+                '}';
+    }
 }

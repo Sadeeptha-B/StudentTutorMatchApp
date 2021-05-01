@@ -9,7 +9,7 @@ public class Offer {
     private String offeredRate;
     private String rateType;
 
-    public Offer(String competency, String description, String tutorName, String offeredDate, String offeredRate, String rateType) {
+    public Offer(String competency, String tutorName,String rateType, String offeredDate, String offeredRate, String description) {
         this.competency = competency;
         this.description = description;
         this.tutorName = tutorName;
@@ -65,5 +65,17 @@ public class Offer {
     public void setRateType(String rateType) {
         this.rateType = rateType;
 
+    }
+
+    @Override
+    public String toString() {
+        return "Offer{" +
+                "competency='" + competency + '\'' +
+                ", description='" + description + '\'' +
+                ", tutorName='" + tutorName + '\'' +
+                ", offeredDate='" + offeredDate + '\'' +
+                ", offeredRate='" + offeredRate + '\'' +
+                ", rateType='" + rateType + '\'' +
+                '}';
     }
 }

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,6 +30,7 @@ import com.example.studenttutormatchapp.model.User;
 import com.example.studenttutormatchapp.remote.APIUtils;
 import com.example.studenttutormatchapp.remote.SubjectService;
 import com.example.studenttutormatchapp.remote.UserService;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONException;
@@ -153,8 +155,8 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Subject> call, Response<Subject> response) {
                 if(response.isSuccessful()){
-                    String subjectName = response.body().getName();
-                    ongoingBidDataList.add(new OngoingBidData(subjectName, formattedBidTime, bidId));
+                    String subjectStr = response.body().getName() + " | " + response.body().getDescription();
+                    ongoingBidDataList.add(new OngoingBidData(subjectStr, formattedBidTime, bidId));
                 }
                 bidAdapter.notifyDataSetChanged();
             }

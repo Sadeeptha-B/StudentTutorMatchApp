@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void login(View v){
-        Call<ResponseBody> call  = apiInterface.loginUser(new Credentials(user.getText().toString(), password.getText().toString()));
+        Call<ResponseBody> call  = apiInterface.loginUser(new Credentials("danto87", "danto87"/*user.getText().toString(), password.getText().toString()*/));
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

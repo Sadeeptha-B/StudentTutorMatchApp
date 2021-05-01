@@ -43,9 +43,11 @@ public class MakeOfferFormActivity extends AppCompatActivity {
         Gson gson = new Gson();
         Intent intent = getIntent();
         bid = gson.fromJson(intent.getStringExtra("bidJson"), Bid.class);
-        String userId = intent.getStringExtra("userId");
+        String userId = intent.getExtras().getString("userId");
 
+        Log.d("OFFER", bid.getId());
         getUser(userId);
+
 
         /*UI elements*/
         offerForm = new BidInfoForm(this,R.id.spinnerMakeOfferRate,R.id.spinnerMakeOfferDay,R.id.makeOfferTime);
@@ -78,11 +80,13 @@ public class MakeOfferFormActivity extends AppCompatActivity {
             public void onResponse(Call<User> call, Response<User> response) {
                 userName = response.body().getUserName();
                 List<Competency> competencies = response.body().getCompetencies();
-                Log.d("OFFER", "I run");
                 for (int i=0; i<competencies.size(); i++){
                     if (competencies.get(i).getSubject().getId().equals(bid.getSubject().getId())){
                         competencyLevel = competencies.get(i).getLevel().toString();
-                        Log.d("OFFER", competencyLevel);
+
+                        /*Fill competency*/
+                        TextView tVTutComp = findViewById(R.id.textViewMakeOfferComp);
+                        tVTutComp.setText(competencyLevel);
                     }
                 }
 
@@ -114,17 +118,25 @@ public class MakeOfferFormActivity extends AppCompatActivity {
         Offer offer = new Offer(competency, userName, rateType, prefTime, prefRate, desc);
         bid.getAdditionalInfo().addOffer(offer);
 
+
         BidService apiBidService = APIUtils.getBidService();
-        Call<BidAdditionalInfo> makeOfferCall = apiBidService.updateBid(bid.getId(), bid.getAdditionalInfo());
-        makeOfferCall.enqueue(new Callback<BidAdditionalInfo>() {
+        Call<Bid> makeOfferCall = apiBidService.updateBid(bid.getId(), bid.getAdditionalInfo());
+        makeOfferCall.enqueue(new Callback<Bid>() {
             @Override
-            public void onResponse(Call<BidAdditionalInfo> call, Response<BidAdditionalInfo> response) {
-                Log.d("OFFER", String.valueOf(response.code()));
-                Log.d("OFFER", response.body().getOffers().toString());
+            public void onResponse(Call<Bid> call, Response<Bid> response) {
+                Log.d("OFFER", bid.getAdditionalInfo().toString());
+//                Log.d("OFFER", response.body().getAdditionalInfo().getOffers().toString());
+                Gson gson = new Gson();
+                String msg = gson.toJson(response.body());
+                Log.d("OFFER", msg);
+                for (int i=0; i<response.body().getAdditionalInfo().getOffers().size(); i++){
+
+                }
+
             }
 
             @Override
-            public void onFailure(Call<BidAdditionalInfo> call, Throwable t) {
+            public void onFailure(Call<Bid> call, Throwable t) {
 
             }
         });

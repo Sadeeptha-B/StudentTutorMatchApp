@@ -60,7 +60,7 @@ public class FindBidsAdapter extends RecyclerView.Adapter<FindBidsAdapter.ViewHo
 
                 Intent intent = new Intent(context, MakeOfferFormActivity.class);
                 intent.putExtra("bidJson", bidJson);
-                intent.putExtra("userID", userId);
+                intent.putExtra("userId", userId);
                 context.startActivity(intent);
             }
         });

@@ -28,8 +28,8 @@ public interface BidService {
     @GET("bid/{bidId}?fields=messages")
     Call<Bid> getBidWithMessages(@Path("bidId") String id);
 
-    @PATCH("bid/{bidId}")
-    Call<BidAdditionalInfo> updateBid(@Path("bidId") String id, BidAdditionalInfo additionalInfo);
+    @PATCH("bid/{bidId}/")
+    Call<Bid> updateBid(@Path("bidId") String id,@Body BidAdditionalInfo additionalInfo);
 
     @DELETE("bid/{bidID}")
     Call deleteBid(@Path("bidId") String id);
