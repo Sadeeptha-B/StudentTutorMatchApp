@@ -28,8 +28,7 @@ public class ListOffersAdapter extends RecyclerView.Adapter<ListOffersAdapter.Vi
     String bidId;
     String userId;
 
-    public ListOffersAdapter(String bidType, String bidId, String userId){
-        this.bidType = bidType;
+    public ListOffersAdapter(String bidId, String userId){
         this.bidId = bidId;
         this.userId = userId;
     }
@@ -47,7 +46,7 @@ public class ListOffersAdapter extends RecyclerView.Adapter<ListOffersAdapter.Vi
         Offer offer = offers.get(position);
 
         holder.tutorName.setText(offer.getTutorName());
-        holder.competency.setText(offer.getCompetency());
+        holder.competency.setText("Competency:" + offer.getCompetency());
         holder.offeredDate.setText(offer.getOfferedDate());
         holder.rateType.setText(offer.getRateType());
         holder.rate.setText(offer.getOfferedRate());
@@ -57,10 +56,10 @@ public class ListOffersAdapter extends RecyclerView.Adapter<ListOffersAdapter.Vi
             holder.chatButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    Intent chatActivity = new Intent(v.getContext(), ChatActivity.class);
-//                    chatActivity.putExtra("bid_id", bidId);
-//                    chatActivity.putExtra("user_id", userId);
-//                    v.getContext().startActivity(chatActivity);
+                    Intent chatActivity = new Intent(v.getContext(), ChatActivity.class);
+                    chatActivity.putExtra("bid_id", bidId);
+                    chatActivity.putExtra("user_id", userId);
+                    v.getContext().startActivity(chatActivity);
                 }
             });
         }
@@ -117,6 +116,10 @@ public class ListOffersAdapter extends RecyclerView.Adapter<ListOffersAdapter.Vi
 
     public void setOffers(List<Offer> offers) {
         this.offers = offers;
+    }
+
+    public void setBidType(String bidType) {
+        this.bidType = bidType;
     }
 
     public void closeBid(){

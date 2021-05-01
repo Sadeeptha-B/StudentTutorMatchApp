@@ -1,0 +1,36 @@
+package com.example.studenttutormatchapp.remote;
+
+import com.example.studenttutormatchapp.Activities.ListOffersActivity;
+import com.example.studenttutormatchapp.model.Contract;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
+import retrofit2.http.GET;
+import retrofit2.http.PATCH;
+import retrofit2.http.POST;
+import retrofit2.http.Path;
+
+public interface ContractService {
+
+    @GET("contract/")
+    Call<List<Contract>> getContracts();
+
+    @POST("contract/")
+    Call<Contract> createContract(@Body Contract contract);
+
+    @GET("contract/{contractId}")
+    Call<Contract> getContract(@Path("contractId") String id);
+
+    @PATCH("contract/{contractId}")
+    Call<Contract> updateContract(@Path("contractId") String id, @Body Contract contract);
+
+    @DELETE("contract/{contractId}")
+    Call deleteContract(@Path("contractId") String id);
+
+    @POST()
+    Call signContract(@Path("contractId") String id, @Body String dateSigned);
+
+}

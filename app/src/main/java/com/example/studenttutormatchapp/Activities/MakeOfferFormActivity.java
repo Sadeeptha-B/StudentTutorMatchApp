@@ -13,16 +13,20 @@ import android.widget.Toast;
 import com.example.studenttutormatchapp.BidAdditionalInfo;
 import com.example.studenttutormatchapp.BidAdditionalInfoWrapper;
 import com.example.studenttutormatchapp.BidInfoForm;
+import com.example.studenttutormatchapp.MessageAdditionalInfo;
 import com.example.studenttutormatchapp.Offer;
 import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.model.Bid;
 import com.example.studenttutormatchapp.model.Competency;
+import com.example.studenttutormatchapp.model.Message;
 import com.example.studenttutormatchapp.model.User;
 import com.example.studenttutormatchapp.remote.APIUtils;
 import com.example.studenttutormatchapp.remote.BidService;
 import com.example.studenttutormatchapp.remote.UserService;
 import com.google.gson.Gson;
 
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import retrofit2.Call;
@@ -35,6 +39,7 @@ public class MakeOfferFormActivity extends AppCompatActivity {
     BidInfoForm offerForm;
     private String userName;
     private String competencyLevel;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +50,7 @@ public class MakeOfferFormActivity extends AppCompatActivity {
         Gson gson = new Gson();
         Intent intent = getIntent();
         bid = gson.fromJson(intent.getStringExtra("bidJson"), Bid.class);
-        String userId = intent.getExtras().getString("userId");
+        userId = intent.getExtras().getString("userId");
 
         getUser(userId);
 
@@ -125,12 +130,24 @@ public class MakeOfferFormActivity extends AppCompatActivity {
         makeOfferCall.enqueue(new Callback<Bid>() {
             @Override
             public void onResponse(Call<Bid> call, Response<Bid> response) {
-               offerSuccess();
+
+                if (response.isSuccessful() && bid.getType().equals("closed")){
+                    ZonedDateTime datePosted = ZonedDateTime.now();
+                    String datePostedStr = datePosted.format(DateTimeFormatter.ISO_INSTANT);
+                    String msgContent = "Hi I am" + offer.getTutorName() + ", a level " + offer.getCompetency()
+                            + "competent in "+ offer.getDescription() + "I can conduct lessons on"
+                            + offer.getOfferedDate() + " at a rate of " + offer.getOfferedRate() + offer.getRateType();
+
+                    MessageAdditionalInfo additionalInfo = new MessageAdditionalInfo(bid.getInitiator().getId(), bid.getInitiator().getUserName());
+
+                    Message message = new Message(bid.getId(), userId, datePostedStr, msgContent, additionalInfo);
+                    sendMessage(message);
+                }
+                offerSuccess();
             }
 
             @Override
             public void onFailure(Call<Bid> call, Throwable t) {
-
             }
         });
     }
@@ -138,5 +155,19 @@ public class MakeOfferFormActivity extends AppCompatActivity {
     private void offerSuccess(){
         Toast.makeText(this, "Your bid offer has been submitted", Toast.LENGTH_LONG).show();
         finish();
+    }
+
+    public void sendMessage(Message message){
+        Call<Message> call = APIUtils.getMessageService().createMessage(message);
+
+        call.enqueue(new Callback<Message>() {
+            @Override
+            public void onResponse(Call<Message> call, Response<Message> response) {
+            }
+
+            @Override
+            public void onFailure(Call<Message> call, Throwable t) {
+            }
+        });
     }
 }

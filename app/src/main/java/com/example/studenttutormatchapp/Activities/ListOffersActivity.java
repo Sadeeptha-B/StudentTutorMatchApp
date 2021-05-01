@@ -2,6 +2,8 @@ package com.example.studenttutormatchapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +25,8 @@ public class ListOffersActivity extends AppCompatActivity {
 
     String bidId;
     String userId;
+
+    RecyclerView recyclerView;
 
     ListOffersAdapter adapter;
     Bid bid;
@@ -46,6 +50,17 @@ public class ListOffersActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.OffersToolbar);
         toolbar.setTitle("Offers on "+ subjectDescription);
 
+        getBid();
+
+        recyclerView = findViewById(R.id.listOffersRecycler);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(RecyclerView.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
+
+        adapter = new ListOffersAdapter(bidId, userId);
+        recyclerView.setAdapter(adapter);
+
     }
 
     public void getBid(){
@@ -56,8 +71,8 @@ public class ListOffersActivity extends AppCompatActivity {
             public void onResponse(Call<Bid> call, Response<Bid> response) {
                 if (response.isSuccessful()){
                     bid = response.body();
-                    adapter = new ListOffersAdapter(bid.getType(), bidId, userId);
                     offers = bid.getAdditionalInfo().getOffers();
+                    adapter.setBidType(bid.getType());
                     adapter.setOffers(offers);
                     adapter.notifyDataSetChanged();
                 }
