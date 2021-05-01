@@ -1,11 +1,15 @@
 package com.example.studenttutormatchapp;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BidFormAdditionalInfo {
 
     private String competency;
     private String preferredDateTime;
     private String preferredRate;
     private String rateType;
+    private List<Offer> offers = new ArrayList<Offer>();
 
     public BidFormAdditionalInfo(String competency, String preferredDateTime, String rateType, String preferredRate){
         this.competency = competency;
@@ -44,6 +48,14 @@ public class BidFormAdditionalInfo {
 
     public void setRateType(String rateType) {
         this.rateType = rateType;
+    }
+
+    public void addOffer(Offer offer){
+        offers.add(offer);
+    }
+
+    public List<Offer> getOffers(){
+        return new ArrayList<>(offers);
     }
 
 }

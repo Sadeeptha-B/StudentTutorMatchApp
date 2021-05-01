@@ -1,5 +1,6 @@
 package com.example.studenttutormatchapp.remote;
 
+import com.example.studenttutormatchapp.BidFormAdditionalInfo;
 import com.example.studenttutormatchapp.model.Bid;
 
 import java.util.Date;
@@ -28,7 +29,7 @@ public interface BidService {
     Call<Bid> getBidWithMessages(@Path("bidId") String id);
 
     @PATCH("bid/{bidId}")
-    Call<Bid> updateBid(@Path("bidId") String id, Bid bid);
+    Call<BidFormAdditionalInfo> updateBid(@Path("bidId") String id, BidFormAdditionalInfo additionalInfo);
 
     @DELETE("bid/{bidID}")
     void deleteBid(@Path("bidId") String id);
