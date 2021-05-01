@@ -8,8 +8,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.studenttutormatchapp.BidAdditionalInfo;
+import com.example.studenttutormatchapp.BidAdditionalInfoWrapper;
 import com.example.studenttutormatchapp.BidInfoForm;
 import com.example.studenttutormatchapp.Offer;
 import com.example.studenttutormatchapp.R;
@@ -45,9 +47,7 @@ public class MakeOfferFormActivity extends AppCompatActivity {
         bid = gson.fromJson(intent.getStringExtra("bidJson"), Bid.class);
         String userId = intent.getExtras().getString("userId");
 
-        Log.d("OFFER", bid.getId());
         getUser(userId);
-
 
         /*UI elements*/
         offerForm = new BidInfoForm(this,R.id.spinnerMakeOfferRate,R.id.spinnerMakeOfferDay,R.id.makeOfferTime);
@@ -118,21 +118,14 @@ public class MakeOfferFormActivity extends AppCompatActivity {
         Offer offer = new Offer(competency, userName, rateType, prefTime, prefRate, desc);
         bid.getAdditionalInfo().addOffer(offer);
 
+        BidAdditionalInfoWrapper wrapper = new BidAdditionalInfoWrapper(bid.getAdditionalInfo());
 
         BidService apiBidService = APIUtils.getBidService();
-        Call<Bid> makeOfferCall = apiBidService.updateBid(bid.getId(), bid.getAdditionalInfo());
+        Call<Bid> makeOfferCall = apiBidService.updateBid(bid.getId(), wrapper);
         makeOfferCall.enqueue(new Callback<Bid>() {
             @Override
             public void onResponse(Call<Bid> call, Response<Bid> response) {
-                Log.d("OFFER", bid.getAdditionalInfo().toString());
-//                Log.d("OFFER", response.body().getAdditionalInfo().getOffers().toString());
-                Gson gson = new Gson();
-                String msg = gson.toJson(response.body());
-                Log.d("OFFER", msg);
-                for (int i=0; i<response.body().getAdditionalInfo().getOffers().size(); i++){
-
-                }
-
+               offerSuccess();
             }
 
             @Override
@@ -140,5 +133,10 @@ public class MakeOfferFormActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void offerSuccess(){
+        Toast.makeText(this, "Your bid offer has been submitted", Toast.LENGTH_LONG).show();
+        finish();
     }
 }

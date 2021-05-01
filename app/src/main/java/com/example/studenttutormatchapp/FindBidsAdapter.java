@@ -19,6 +19,8 @@ import com.google.gson.Gson;
 
 import java.util.List;
 
+import static android.view.View.GONE;
+
 public class FindBidsAdapter extends RecyclerView.Adapter<FindBidsAdapter.ViewHolder>{
 
     List<Bid> bids;
@@ -51,6 +53,10 @@ public class FindBidsAdapter extends RecyclerView.Adapter<FindBidsAdapter.ViewHo
         holder.bidPreferredRate.setText(bid.getAdditionalInfo().getPreferredRate());
         holder.bidRateType.setText(bid.getAdditionalInfo().getRateType());
 
+
+        if (bid.getAdditionalInfo().getRateType() =="open"){
+            holder.btnBuyout.setVisibility(View.GONE);
+        }
 
         holder.btnMakeOffer.setOnClickListener(new View.OnClickListener() {
             @Override
