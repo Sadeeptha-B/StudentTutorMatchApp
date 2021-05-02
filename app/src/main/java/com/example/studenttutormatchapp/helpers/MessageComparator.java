@@ -1,4 +1,4 @@
-package com.example.studenttutormatchapp;
+package com.example.studenttutormatchapp.helpers;
 
 import com.example.studenttutormatchapp.model.Message;
 

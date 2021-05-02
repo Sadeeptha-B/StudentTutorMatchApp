@@ -1,4 +1,4 @@
-package com.example.studenttutormatchapp;
+package com.example.studenttutormatchapp.helpers;
 
 public class MessageAdditionalInfo {
     private String receiver;

@@ -1,4 +1,4 @@
-package com.example.studenttutormatchapp;
+package com.example.studenttutormatchapp.helpers;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

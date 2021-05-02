@@ -1,4 +1,4 @@
-package com.example.studenttutormatchapp;
+package com.example.studenttutormatchapp.helpers;
 
 import android.content.Context;
 import android.util.AttributeSet;

@@ -1,4 +1,4 @@
-package com.example.studenttutormatchapp;
+package com.example.studenttutormatchapp.helpers;
 
 import android.app.Activity;
 import android.app.TimePickerDialog;
@@ -8,6 +8,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+import com.example.studenttutormatchapp.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
