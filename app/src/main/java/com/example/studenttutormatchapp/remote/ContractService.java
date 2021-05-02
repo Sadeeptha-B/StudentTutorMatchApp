@@ -1,6 +1,6 @@
 package com.example.studenttutormatchapp.remote;
 
-import com.example.studenttutormatchapp.Activities.ListOffersActivity;
+import com.example.studenttutormatchapp.helpers.DateSignedWrapper;
 import com.example.studenttutormatchapp.model.Contract;
 
 import java.util.List;
@@ -30,7 +30,7 @@ public interface ContractService {
     @DELETE("contract/{contractId}")
     Call deleteContract(@Path("contractId") String id);
 
-    @POST()
-    Call signContract(@Path("contractId") String id, @Body String dateSigned);
+    @POST("contract/{contractId}/sign")
+    Call<Void> signContract(@Path("contractId") String id, @Body DateSignedWrapper dateSigned);
 
 }

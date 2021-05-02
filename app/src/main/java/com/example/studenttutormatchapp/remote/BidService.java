@@ -1,10 +1,9 @@
 package com.example.studenttutormatchapp.remote;
 
-import com.example.studenttutormatchapp.BidAdditionalInfo;
-import com.example.studenttutormatchapp.BidAdditionalInfoWrapper;
+import com.example.studenttutormatchapp.helpers.BidAdditionalInfoWrapper;
+import com.example.studenttutormatchapp.helpers.DateClosedDownWrapper;
 import com.example.studenttutormatchapp.model.Bid;
 
-import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -36,5 +35,5 @@ public interface BidService {
     Call deleteBid(@Path("bidId") String id);
 
     @POST("bid/{bidId}/close-down")
-    Call closeDownBid(@Path("bidId") String id, @Body String dateClosedDown);
+    Call<Void> closeDownBid(@Path("bidId") String id, @Body DateClosedDownWrapper dateClosedDown);
 }

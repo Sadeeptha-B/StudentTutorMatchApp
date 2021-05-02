@@ -1,4 +1,4 @@
-package com.example.studenttutormatchapp.Activities;
+package com.example.studenttutormatchapp;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,10 +20,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.studenttutormatchapp.ContractListAdapter;
-import com.example.studenttutormatchapp.OngoingBidData;
-import com.example.studenttutormatchapp.OngoingBidsAdapter;
-import com.example.studenttutormatchapp.R;
+import com.example.studenttutormatchapp.Adapters.ContractListAdapter;
+import com.example.studenttutormatchapp.helpers.OngoingBidData;
+import com.example.studenttutormatchapp.Adapters.OngoingBidsAdapter;
 import com.example.studenttutormatchapp.model.Bid;
 import com.example.studenttutormatchapp.model.Contract;
 import com.example.studenttutormatchapp.model.Subject;
@@ -32,7 +30,6 @@ import com.example.studenttutormatchapp.model.User;
 import com.example.studenttutormatchapp.remote.APIUtils;
 import com.example.studenttutormatchapp.remote.SubjectService;
 import com.example.studenttutormatchapp.remote.UserService;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONException;
@@ -257,7 +254,7 @@ public class DashboardActivity extends AppCompatActivity {
         RecyclerView.LayoutManager contractLayoutManager = new LinearLayoutManager(context);
         contractRecycler.setLayoutManager(contractLayoutManager);
 
-        contractAdapter = new ContractListAdapter(context);
+        contractAdapter = new ContractListAdapter(context, jwtObject.getBoolean("isStudent"));
         contractAdapter.setUserId(jwtObject.getString("sub"));
         contractRecycler.setAdapter(contractAdapter);
 

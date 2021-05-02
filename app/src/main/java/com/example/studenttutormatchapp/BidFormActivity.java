@@ -1,4 +1,4 @@
-package com.example.studenttutormatchapp.Activities;
+package com.example.studenttutormatchapp;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -7,20 +7,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.studenttutormatchapp.BidAdditionalInfo;
-import com.example.studenttutormatchapp.BidInfoForm;
-import com.example.studenttutormatchapp.Offer;
+import com.example.studenttutormatchapp.helpers.BidAdditionalInfo;
+import com.example.studenttutormatchapp.helpers.BidInfoForm;
+import com.example.studenttutormatchapp.helpers.Offer;
 import com.example.studenttutormatchapp.R;
-import com.example.studenttutormatchapp.SubjectSpinner;
+import com.example.studenttutormatchapp.helpers.SubjectSpinner;
 import com.example.studenttutormatchapp.model.*;
 import com.example.studenttutormatchapp.remote.APIUtils;
 import com.example.studenttutormatchapp.remote.BidService;

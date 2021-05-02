@@ -1,4 +1,4 @@
-package com.example.studenttutormatchapp.Activities;
+package com.example.studenttutormatchapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,9 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.studenttutormatchapp.Activities.DashboardActivity;
-import com.example.studenttutormatchapp.Credentials;
-import com.example.studenttutormatchapp.R;
+import com.example.studenttutormatchapp.helpers.Credentials;
 import com.example.studenttutormatchapp.remote.APIUtils;
 import com.example.studenttutormatchapp.remote.UserService;
 

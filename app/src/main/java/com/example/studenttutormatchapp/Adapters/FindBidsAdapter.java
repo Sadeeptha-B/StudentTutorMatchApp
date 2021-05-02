@@ -1,8 +1,7 @@
-package com.example.studenttutormatchapp;
+package com.example.studenttutormatchapp.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,14 +11,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.studenttutormatchapp.Activities.MakeOfferFormActivity;
-import com.example.studenttutormatchapp.Activities.MessageListActivity;
+import com.example.studenttutormatchapp.MakeOfferFormActivity;
+import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.model.Bid;
 import com.google.gson.Gson;
 
 import java.util.List;
-
-import static android.view.View.GONE;
 
 public class FindBidsAdapter extends RecyclerView.Adapter<FindBidsAdapter.ViewHolder>{
 

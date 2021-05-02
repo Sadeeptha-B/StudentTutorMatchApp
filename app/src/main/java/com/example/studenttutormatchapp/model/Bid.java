@@ -2,7 +2,7 @@
 package com.example.studenttutormatchapp.model;
 
 
-import com.example.studenttutormatchapp.BidAdditionalInfo;
+import com.example.studenttutormatchapp.helpers.BidAdditionalInfo;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

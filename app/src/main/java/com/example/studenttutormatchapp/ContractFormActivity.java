@@ -1,4 +1,4 @@
-package com.example.studenttutormatchapp.Activities;
+package com.example.studenttutormatchapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,11 +11,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.studenttutormatchapp.BidInfoForm;
-import com.example.studenttutormatchapp.ContractAdditionalInfo;
-import com.example.studenttutormatchapp.ContractLessonInfo;
-import com.example.studenttutormatchapp.ContractPaymentInfo;
-import com.example.studenttutormatchapp.Offer;
+import com.example.studenttutormatchapp.helpers.BidInfoForm;
+import com.example.studenttutormatchapp.helpers.ContractAdditionalInfo;
+import com.example.studenttutormatchapp.helpers.ContractLessonInfo;
+import com.example.studenttutormatchapp.helpers.ContractPaymentInfo;
+import com.example.studenttutormatchapp.helpers.Offer;
 import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.model.Contract;
 import com.example.studenttutormatchapp.model.Qualification;
@@ -115,7 +115,7 @@ public class ContractFormActivity extends AppCompatActivity {
 
         ContractPaymentInfo contractPaymentInfo = new ContractPaymentInfo(rate, rateType);
         ContractLessonInfo contractLessonInfo = new ContractLessonInfo(daySelection, timeStr);
-        ContractAdditionalInfo additionalInfo = new ContractAdditionalInfo(true, false);
+        ContractAdditionalInfo additionalInfo = new ContractAdditionalInfo(false, true);
 
         String studentId = userSp.getString("USER_ID", "0");
         Contract contract = new Contract(offer.getTutorId(), studentId, offer.getSubjectId(), dateCreatedStr, dateExpiredStr, contractPaymentInfo, contractLessonInfo, additionalInfo);
@@ -139,7 +139,7 @@ public class ContractFormActivity extends AppCompatActivity {
     }
 
     private void onSuccess(){
-        Toast.makeText(this, "Contract signed", Toast.LENGTH_LONG);
+        Toast.makeText(this, "Contract signed", Toast.LENGTH_LONG).show();
         finish();
     }
 }

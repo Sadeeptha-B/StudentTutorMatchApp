@@ -45,7 +45,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.437" />
 
-    <com.example.studenttutormatchapp.SubjectSpinner
+    <com.example.studenttutormatchapp.helpers.SubjectSpinner
         android:id="@+id/subjectDropdown"
         android:layout_width="0dp"
         android:layout_height="40dp"

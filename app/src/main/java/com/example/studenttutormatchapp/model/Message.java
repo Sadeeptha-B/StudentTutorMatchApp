@@ -1,10 +1,8 @@
 package com.example.studenttutormatchapp.model;
 
-import com.example.studenttutormatchapp.MessageAdditionalInfo;
+import com.example.studenttutormatchapp.helpers.MessageAdditionalInfo;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import org.json.JSONObject;
 
 public class Message {
 

@@ -1,22 +1,18 @@
-package com.example.studenttutormatchapp.Activities;
+package com.example.studenttutormatchapp;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.studenttutormatchapp.MessageListAdapter;
+import com.example.studenttutormatchapp.Adapters.MessageListAdapter;
 import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.model.Message;
 import com.example.studenttutormatchapp.remote.APIUtils;
 import com.example.studenttutormatchapp.remote.MessageService;
-
-import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;

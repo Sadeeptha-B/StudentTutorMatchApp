@@ -1,6 +1,5 @@
-package com.example.studenttutormatchapp;
+package com.example.studenttutormatchapp.Adapters;
 
-import android.content.ContentProvider;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
@@ -13,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.studenttutormatchapp.R;
+import com.example.studenttutormatchapp.helpers.DateSignedWrapper;
 import com.example.studenttutormatchapp.model.Contract;
 import com.example.studenttutormatchapp.model.User;
 import com.example.studenttutormatchapp.remote.APIUtils;
@@ -30,13 +31,14 @@ public class ContractListAdapter extends RecyclerView.Adapter<ContractListAdapte
 
     private List<Contract> contracts;
     private String userId;
-    private boolean firstParty = false;
+    private boolean isStudent;
     Context context;
 
     ContractService APIContractInterface = APIUtils.getContractService();
 
-    public ContractListAdapter(Context context){
+    public ContractListAdapter(Context context, boolean isStudent){
         this.context = context;
+        this.isStudent = isStudent;
     }
 
     @NonNull
@@ -49,30 +51,30 @@ public class ContractListAdapter extends RecyclerView.Adapter<ContractListAdapte
     @Override
     public void onBindViewHolder(@NonNull ContractListAdapter.ViewHolder holder, int position) {
         Contract contract = contracts.get(position);
-        User otherParty = contract.getFirstParty();
-        if (contract.getFirstParty().getId().equals(userId)){
-            firstParty = true;
-            otherParty = contract.getSecondParty();
+        User otherParty = contract.getSecondParty();
+        if (isStudent){
+            otherParty = contract.getFirstParty();
         }
-
         holder.otherParty.setText(otherParty.getGivenName());
         holder.subject.setText(contract.getSubject().getDescription());
+
         if (contract.getDateSigned() == null){
-            if (firstParty && (contract.getAdditionalInfo().isFirstPartySigned()) ){
+            if (isStudent && contract.getAdditionalInfo().isSecondPartySigned()){
                 holder.signButton.setVisibility(View.GONE);
                 holder.signed.setText("Unsigned");
                 holder.signed.setVisibility(View.VISIBLE);
             }
-            else if (!firstParty && contract.getAdditionalInfo().isSecondPartySigned()){
+            else if (!isStudent && contract.getAdditionalInfo().isFirstPartySigned()){
                 holder.signButton.setVisibility(View.GONE);
                 holder.signed.setText("Unsigned");
                 holder.signed.setVisibility(View.VISIBLE);
             }
-            else {
+            else{
                 holder.signButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        signContract(contract, firstParty);
+                        signContract(contract, !isStudent);
+                        holder.signButton.setVisibility(View.GONE);
                     }
                 });
             }
@@ -156,7 +158,9 @@ public class ContractListAdapter extends RecyclerView.Adapter<ContractListAdapte
         call.enqueue(new Callback<Contract>() {
             @Override
             public void onResponse(Call<Contract> call, Response<Contract> response) {
+                if (response.isSuccessful()){
 
+                }
             }
 
             @Override
@@ -170,7 +174,8 @@ public class ContractListAdapter extends RecyclerView.Adapter<ContractListAdapte
         ZonedDateTime dateSigned = ZonedDateTime.now();
         String dateSignedStr = dateSigned.format(DateTimeFormatter.ISO_INSTANT);
 
-        Call call = APIContractInterface.signContract(contract.getId(), dateSignedStr);
+
+        Call<Void> call = APIContractInterface.signContract(contract.getId(), new DateSignedWrapper(dateSignedStr));
 
         call.enqueue(new Callback() {
             @Override

@@ -1,20 +1,18 @@
-package com.example.studenttutormatchapp.Activities;
+package com.example.studenttutormatchapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.studenttutormatchapp.BidAdditionalInfo;
-import com.example.studenttutormatchapp.BidAdditionalInfoWrapper;
-import com.example.studenttutormatchapp.BidInfoForm;
-import com.example.studenttutormatchapp.MessageAdditionalInfo;
-import com.example.studenttutormatchapp.Offer;
+import com.example.studenttutormatchapp.helpers.BidAdditionalInfoWrapper;
+import com.example.studenttutormatchapp.helpers.BidInfoForm;
+import com.example.studenttutormatchapp.helpers.MessageAdditionalInfo;
+import com.example.studenttutormatchapp.helpers.Offer;
 import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.model.Bid;
 import com.example.studenttutormatchapp.model.Competency;

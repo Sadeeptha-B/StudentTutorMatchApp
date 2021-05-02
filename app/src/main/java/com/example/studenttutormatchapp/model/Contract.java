@@ -1,8 +1,8 @@
 package com.example.studenttutormatchapp.model;
 
-import com.example.studenttutormatchapp.ContractAdditionalInfo;
-import com.example.studenttutormatchapp.ContractLessonInfo;
-import com.example.studenttutormatchapp.ContractPaymentInfo;
+import com.example.studenttutormatchapp.helpers.ContractAdditionalInfo;
+import com.example.studenttutormatchapp.helpers.ContractLessonInfo;
+import com.example.studenttutormatchapp.helpers.ContractPaymentInfo;
 
 public class Contract {
 

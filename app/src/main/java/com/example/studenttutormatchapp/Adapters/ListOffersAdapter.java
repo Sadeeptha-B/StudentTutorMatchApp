@@ -1,9 +1,8 @@
-package com.example.studenttutormatchapp;
+package com.example.studenttutormatchapp.Adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +15,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.studenttutormatchapp.Activities.ChatActivity;
-import com.example.studenttutormatchapp.Activities.ContractFormActivity;
+import com.example.studenttutormatchapp.ChatActivity;
+import com.example.studenttutormatchapp.ContractFormActivity;
+import com.example.studenttutormatchapp.R;
+import com.example.studenttutormatchapp.helpers.ContractAdditionalInfo;
+import com.example.studenttutormatchapp.helpers.ContractLessonInfo;
+import com.example.studenttutormatchapp.helpers.ContractPaymentInfo;
+import com.example.studenttutormatchapp.helpers.DateClosedDownWrapper;
+import com.example.studenttutormatchapp.helpers.Offer;
 import com.example.studenttutormatchapp.model.Contract;
 
 import com.example.studenttutormatchapp.remote.APIUtils;
@@ -26,13 +31,11 @@ import com.google.gson.Gson;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.HEAD;
 
 public class ListOffersAdapter extends RecyclerView.Adapter<ListOffersAdapter.ViewHolder> {
 
@@ -87,14 +90,15 @@ public class ListOffersAdapter extends RecyclerView.Adapter<ListOffersAdapter.Vi
         holder.selectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO close down bid and make the tutor the winner... after a prompt
-
                 if (bidType.equals("closed")){
                     Gson gson = new Gson();
                     String offerJson = gson.toJson(offer);
                     Intent contractFormActivity = new Intent(v.getContext(), ContractFormActivity.class);
                     contractFormActivity.putExtra("offerJson", offerJson);
                     v.getContext().startActivity(contractFormActivity);
+                }
+                else {
+                    closeBid(offer);
                 }
             }
         });
@@ -172,24 +176,29 @@ public class ListOffersAdapter extends RecyclerView.Adapter<ListOffersAdapter.Vi
         ZonedDateTime dateClosed = ZonedDateTime.now();
         String dateClosedStr = dateClosed.format(DateTimeFormatter.ISO_INSTANT);
         String dateExpired = dateClosed.plus(1, ChronoUnit.YEARS).format(DateTimeFormatter.ISO_INSTANT);
-        Call call = APIUtils.getBidService().closeDownBid(bidId, dateClosedStr);
 
-        call.enqueue(new Callback() {
+
+        Call<Void> call = APIUtils.getBidService().closeDownBid(bidId, new DateClosedDownWrapper(dateClosedStr));
+
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call call, Response response) {
-                if (response.isSuccessful()){
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Log.d("OFFER", String.valueOf(response.code()));
+                if (response.code() == 201){
                     ContractPaymentInfo paymentInfo = new ContractPaymentInfo(offer.getOfferedRate(), offer.getRateType());
                     String[] day = offer.getOfferedDate().split(" ");
                     ContractLessonInfo lessonInfo = new ContractLessonInfo(day[0], day[1]);
                     ContractAdditionalInfo additionalInfo = new ContractAdditionalInfo(false, false);
 
-                    Contract contract = new Contract(userId, offer.getTutorId(), offer.getSubjectId(), dateClosedStr, dateExpired, paymentInfo, lessonInfo, additionalInfo);
+                    Contract contract = new Contract(offer.getTutorId(), userId, offer.getSubjectId(), dateClosedStr, dateExpired, paymentInfo, lessonInfo, additionalInfo);
                     createContract(contract);
                 }
+
+
             }
 
             @Override
-            public void onFailure(Call call, Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
 
             }
         });
