@@ -1,5 +1,6 @@
 package com.example.studenttutormatchapp.model;
 
+import com.example.studenttutormatchapp.ContractAdditionalInfo;
 import com.example.studenttutormatchapp.ContractLessonInfo;
 import com.example.studenttutormatchapp.ContractPaymentInfo;
 
@@ -17,15 +18,17 @@ public class Contract {
     String dateExpired;
     ContractPaymentInfo paymentInfo;
     ContractLessonInfo lessonInfo;
+    ContractAdditionalInfo additionalInfo;
 
-    public Contract(String firstPartyId, String secondPartyId, String subjectId, String dateCreated, String dateExpired, ContractPaymentInfo paymentInfo, ContractLessonInfo lessonInfo){
+    public Contract(String firstPartyId, String secondPartyId, String subjectId, String dateCreated, String dateExpired, ContractPaymentInfo paymentInfo, ContractLessonInfo lessonInfo, ContractAdditionalInfo additionalInfo){
         this.firstPartyId = firstPartyId;
-        this.secondPartyId =secondPartyId;
+        this.secondPartyId = secondPartyId;
         this.subjectId = subjectId;;
         this.dateCreated = dateCreated;
         this.dateExpired = dateExpired;
         this.paymentInfo = paymentInfo;
         this.lessonInfo = lessonInfo;
+        this.additionalInfo = additionalInfo;
     }
 
     public Contract (String id, User firstParty, User secondParty, Subject subject, String dateCreated, String dateSigned, String dateExpired, ContractPaymentInfo paymentInfo, ContractLessonInfo lessonInfo) {
@@ -50,5 +53,17 @@ public class Contract {
 
     public Subject getSubject() {
         return subject;
+    }
+
+    public String getDateSigned() {
+        return dateSigned;
+    }
+
+    public ContractAdditionalInfo getAdditionalInfo() {
+        return additionalInfo;
+    }
+
+    public String getId() {
+        return id;
     }
 }

@@ -36,5 +36,5 @@ public interface BidService {
     Call deleteBid(@Path("bidId") String id);
 
     @POST("bid/{bidId}/close-down")
-    Call closeDownBid(@Path("bidId") String id, @Body Date dateClosedDown);
+    Call closeDownBid(@Path("bidId") String id, @Body String dateClosedDown);
 }

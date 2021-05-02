@@ -21,10 +21,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.studenttutormatchapp.ContractListAdapter;
 import com.example.studenttutormatchapp.OngoingBidData;
 import com.example.studenttutormatchapp.OngoingBidsAdapter;
 import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.model.Bid;
+import com.example.studenttutormatchapp.model.Contract;
 import com.example.studenttutormatchapp.model.Subject;
 import com.example.studenttutormatchapp.model.User;
 import com.example.studenttutormatchapp.remote.APIUtils;
@@ -68,6 +70,8 @@ public class DashboardActivity extends AppCompatActivity {
     RecyclerView.LayoutManager bidLayoutManager;
     OngoingBidsAdapter bidAdapter;
 
+    ContractListAdapter contractAdapter;
+
     List<OngoingBidData> ongoingBidDataList = new ArrayList<OngoingBidData>();
 
     @Override
@@ -86,6 +90,7 @@ public class DashboardActivity extends AppCompatActivity {
             storeUserData();
             setUIElements();
             getBids();
+            getContracts();
         } catch (JSONException | UnsupportedEncodingException e) {
 //            e.printStackTrace();
             Toast.makeText(context, "You are not logged in. Please try again", Toast.LENGTH_LONG).show();
@@ -168,6 +173,24 @@ public class DashboardActivity extends AppCompatActivity {
         });
     }
 
+    public void getContracts(){
+        Call<List<Contract>> call = APIUtils.getContractService().getContracts();
+
+        call.enqueue(new Callback<List<Contract>>() {
+            @Override
+            public void onResponse(Call<List<Contract>> call, Response<List<Contract>> response) {
+                if(response.isSuccessful()) {
+                    contractAdapter.setContracts(response.body());
+                    contractAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Contract>> call, Throwable t) {
+
+            }
+        });
+    }
 
     public void setUIElements() throws JSONException {
         toolbar = findViewById(R.id.toolbar);
@@ -226,6 +249,15 @@ public class DashboardActivity extends AppCompatActivity {
         bidAdapter = new OngoingBidsAdapter(context, jwtObject.getString("sub"));
         bidAdapter.setData(ongoingBidDataList);
         bidRecycler.setAdapter(bidAdapter);
+
+        RecyclerView contractRecycler = findViewById(R.id.contractRecycler);
+        RecyclerView.LayoutManager contractLayoutManager = new LinearLayoutManager(context);
+        contractRecycler.setLayoutManager(contractLayoutManager);
+
+        contractAdapter = new ContractListAdapter(context);
+        contractAdapter.setUserId(jwtObject.getString("sub"));
+        contractRecycler.setAdapter(contractAdapter);
+
     }
 
     /*Navigation Menu callback */

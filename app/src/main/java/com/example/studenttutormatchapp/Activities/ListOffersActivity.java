@@ -58,7 +58,7 @@ public class ListOffersActivity extends AppCompatActivity {
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new ListOffersAdapter(bidId, userId);
+        adapter = new ListOffersAdapter(bidId, userId, this);
         recyclerView.setAdapter(adapter);
 
     }

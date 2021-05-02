@@ -54,6 +54,7 @@
         app:layout_constraintGuide_percent="0.96" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/contractRecycler"
         android:layout_width="379dp"
         android:layout_height="282dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
