@@ -184,7 +184,7 @@ public class ListOffersAdapter extends RecyclerView.Adapter<ListOffersAdapter.Vi
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 Log.d("OFFER", String.valueOf(response.code()));
-                if (response.code() == 201){
+                if (response.code() == 200){
                     ContractPaymentInfo paymentInfo = new ContractPaymentInfo(offer.getOfferedRate(), offer.getRateType());
                     String[] day = offer.getOfferedDate().split(" ");
                     ContractLessonInfo lessonInfo = new ContractLessonInfo(day[0], day[1]);

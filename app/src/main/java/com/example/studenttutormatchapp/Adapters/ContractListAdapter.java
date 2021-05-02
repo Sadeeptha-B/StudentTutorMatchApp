@@ -111,14 +111,6 @@ public class ContractListAdapter extends RecyclerView.Adapter<ContractListAdapte
         }
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public void setContracts(List<Contract> contracts) {
-        this.contracts = contracts;
-    }
-
     public void signContract(Contract contract, boolean firstParty){
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
@@ -188,5 +180,17 @@ public class ContractListAdapter extends RecyclerView.Adapter<ContractListAdapte
 
             }
         });
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public void setContracts(List<Contract> contracts) {
+        this.contracts = contracts;
+    }
+
+    public void clearContracts(){
+        this.contracts.clear();
     }
 }

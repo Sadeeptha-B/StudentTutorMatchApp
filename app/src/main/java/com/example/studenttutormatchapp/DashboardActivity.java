@@ -101,8 +101,11 @@ public class DashboardActivity extends AppCompatActivity {
         super.onRestart();
         //Temporary fix
         ongoingBidDataList.clear();
+        contractAdapter.clearContracts();
+
         try {
             getBids();
+            getContracts();
         } catch (JSONException e) {
             e.printStackTrace();
         }
