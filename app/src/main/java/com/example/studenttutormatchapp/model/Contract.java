@@ -15,30 +15,30 @@ public class Contract {
     Subject subject;
     String dateCreated;
     String dateSigned;
-    String dateExpired;
+    String expiryDate;
     ContractPaymentInfo paymentInfo;
     ContractLessonInfo lessonInfo;
     ContractAdditionalInfo additionalInfo;
 
-    public Contract(String firstPartyId, String secondPartyId, String subjectId, String dateCreated, String dateExpired, ContractPaymentInfo paymentInfo, ContractLessonInfo lessonInfo, ContractAdditionalInfo additionalInfo){
+    public Contract(String firstPartyId, String secondPartyId, String subjectId, String dateCreated, String expiryDate, ContractPaymentInfo paymentInfo, ContractLessonInfo lessonInfo, ContractAdditionalInfo additionalInfo){
         this.firstPartyId = firstPartyId;
         this.secondPartyId = secondPartyId;
         this.subjectId = subjectId;;
         this.dateCreated = dateCreated;
-        this.dateExpired = dateExpired;
+        this.expiryDate = expiryDate;
         this.paymentInfo = paymentInfo;
         this.lessonInfo = lessonInfo;
         this.additionalInfo = additionalInfo;
     }
 
-    public Contract (String id, User firstParty, User secondParty, Subject subject, String dateCreated, String dateSigned, String dateExpired, ContractPaymentInfo paymentInfo, ContractLessonInfo lessonInfo) {
+    public Contract (String id, User firstParty, User secondParty, Subject subject, String dateCreated, String dateSigned, String expiryDate, ContractPaymentInfo paymentInfo, ContractLessonInfo lessonInfo) {
         this.id = id;
         this.firstParty = firstParty;
         this.secondParty = secondParty;
         this.subject = subject;
         this.dateCreated = dateCreated;
         this.dateSigned = dateSigned;
-        this.dateExpired = dateExpired;
+        this.expiryDate = expiryDate;
         this.paymentInfo = paymentInfo;
         this.lessonInfo = lessonInfo;
     }

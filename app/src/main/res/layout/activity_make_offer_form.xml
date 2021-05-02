@@ -353,7 +353,7 @@
             android:layout_height="44dp"
             android:background="@drawable/edittext_bg"
             android:ems="10"
-            android:inputType="textPersonName"
+            android:inputType="number"
             android:padding="5dp"
             app:layout_constraintBottom_toBottomOf="@+id/textView18"
             app:layout_constraintEnd_toStartOf="@+id/textViewMakeOfferStuPrefRate"

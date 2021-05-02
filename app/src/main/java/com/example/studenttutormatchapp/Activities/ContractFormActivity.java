@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.studenttutormatchapp.BidInfoForm;
 import com.example.studenttutormatchapp.ContractAdditionalInfo;
@@ -20,6 +21,7 @@ import com.example.studenttutormatchapp.model.Contract;
 import com.example.studenttutormatchapp.model.Qualification;
 import com.example.studenttutormatchapp.model.User;
 import com.example.studenttutormatchapp.remote.APIUtils;
+import com.example.studenttutormatchapp.remote.ContractService;
 import com.example.studenttutormatchapp.remote.UserService;
 import com.google.gson.Gson;
 
@@ -109,16 +111,35 @@ public class ContractFormActivity extends AppCompatActivity {
     private void postContract(String rate, String rateType, String daySelection, String timeStr){
         ZonedDateTime dateOpened = ZonedDateTime.now();
         String dateCreatedStr = dateOpened.format(DateTimeFormatter.ISO_INSTANT);
-        String dateExpiredStr = dateOpened.plus(1, ChronoUnit.HOURS).format(DateTimeFormatter.ISO_INSTANT);
+        String dateExpiredStr = dateOpened.plus(1, ChronoUnit.YEARS).format(DateTimeFormatter.ISO_INSTANT);
 
         ContractPaymentInfo contractPaymentInfo = new ContractPaymentInfo(rate, rateType);
         ContractLessonInfo contractLessonInfo = new ContractLessonInfo(daySelection, timeStr);
         ContractAdditionalInfo additionalInfo = new ContractAdditionalInfo(true, false);
 
         String studentId = userSp.getString("USER_ID", "0");
-        Contract contract = new Contract(studentId, offer.getTutorId(),offer.getSubjectId(), dateCreatedStr, dateExpiredStr, contractPaymentInfo, contractLessonInfo, additionalInfo);
+        Contract contract = new Contract(offer.getTutorId(), studentId, offer.getSubjectId(), dateCreatedStr, dateExpiredStr, contractPaymentInfo, contractLessonInfo, additionalInfo);
 
+        Gson gson = new Gson();
+        Log.d("CHECK",gson.toJson(contract));
 
+        ContractService contractService = APIUtils.getContractService();
+        Call<Contract> call = contractService.createContract(contract);
+        call.enqueue(new Callback<Contract>() {
+            @Override
+            public void onResponse(Call<Contract> call, Response<Contract> response) {
+               onSuccess();
+            }
 
+            @Override
+            public void onFailure(Call<Contract> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void onSuccess(){
+        Toast.makeText(this, "Contract signed", Toast.LENGTH_LONG);
+        finish();
     }
 }

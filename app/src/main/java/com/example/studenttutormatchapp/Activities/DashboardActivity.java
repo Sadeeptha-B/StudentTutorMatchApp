@@ -83,6 +83,7 @@ public class DashboardActivity extends AppCompatActivity {
         apiSubjectInterface = APIUtils.getSubjectService();
 
         jwtFile = getSharedPreferences("jwt", 0);
+        jwtFileEditor = jwtFile.edit();
         context = this;
 
         try {
