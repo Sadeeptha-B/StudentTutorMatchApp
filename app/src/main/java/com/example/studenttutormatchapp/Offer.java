@@ -24,11 +24,11 @@ public class Offer {
         this.rateType = rateType;
     }
 
-    public String  getCompetency() {
+    public String getCompetency() {
         return competency;
     }
 
-    public void setCompetency(String  competency) {
+    public void setCompetency(String competency) {
         this.competency = competency;
     }
 

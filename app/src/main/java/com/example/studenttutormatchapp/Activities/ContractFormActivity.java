@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.studenttutormatchapp.BidInfoForm;
+import com.example.studenttutormatchapp.ContractAdditionalInfo;
 import com.example.studenttutormatchapp.ContractLessonInfo;
 import com.example.studenttutormatchapp.ContractPaymentInfo;
 import com.example.studenttutormatchapp.Offer;
@@ -103,19 +104,20 @@ public class ContractFormActivity extends AppCompatActivity {
         if (contractForm.nonEmptyValidation(nonEmptyFields)){
             postContract(rate, rateType, daySelection, timeStr);
         }
-
-
     }
 
     private void postContract(String rate, String rateType, String daySelection, String timeStr){
         ZonedDateTime dateOpened = ZonedDateTime.now();
         String dateCreatedStr = dateOpened.format(DateTimeFormatter.ISO_INSTANT);
         String dateExpiredStr = dateOpened.plus(1, ChronoUnit.HOURS).format(DateTimeFormatter.ISO_INSTANT);
+
         ContractPaymentInfo contractPaymentInfo = new ContractPaymentInfo(rate, rateType);
         ContractLessonInfo contractLessonInfo = new ContractLessonInfo(daySelection, timeStr);
+        ContractAdditionalInfo additionalInfo = new ContractAdditionalInfo(true, false);
 
         String studentId = userSp.getString("USER_ID", "0");
-        Contract contract = new Contract(studentId, offer.getTutorId(),offer.getSubjectId(), dateCreatedStr, dateExpiredStr, contractPaymentInfo, contractLessonInfo);
+        Contract contract = new Contract(studentId, offer.getTutorId(),offer.getSubjectId(), dateCreatedStr, dateExpiredStr, contractPaymentInfo, contractLessonInfo, additionalInfo);
+
 
 
     }

@@ -1,5 +1,7 @@
 package com.example.studenttutormatchapp;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,21 +10,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studenttutormatchapp.Activities.ChatActivity;
 import com.example.studenttutormatchapp.Activities.ContractFormActivity;
+import com.example.studenttutormatchapp.model.Contract;
+
 import com.example.studenttutormatchapp.remote.APIUtils;
 import com.google.gson.Gson;
 
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.HEAD;
 
 public class ListOffersAdapter extends RecyclerView.Adapter<ListOffersAdapter.ViewHolder> {
 
@@ -32,9 +42,12 @@ public class ListOffersAdapter extends RecyclerView.Adapter<ListOffersAdapter.Vi
     String bidId;
     String userId;
 
-    public ListOffersAdapter(String bidId, String userId){
+    Context context;
+
+    public ListOffersAdapter(String bidId, String userId, Context context){
         this.bidId = bidId;
         this.userId = userId;
+        this.context = context;
     }
 
     @NonNull
@@ -82,7 +95,6 @@ public class ListOffersAdapter extends RecyclerView.Adapter<ListOffersAdapter.Vi
 
                     Intent contractFormActivity = new Intent(v.getContext(), ContractFormActivity.class);
                     contractFormActivity.putExtra("offerJson", offerJson);
-                    v.getContext().startActivity(contractFormActivity);
                 }
             }
         });
@@ -135,19 +147,66 @@ public class ListOffersAdapter extends RecyclerView.Adapter<ListOffersAdapter.Vi
         this.bidType = bidType;
     }
 
-    public void closeBid(){
-        Call call = APIUtils.getBidService().closeDownBid(bidId, new Date());
+    public void closeBid(Offer offer){
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        closeBidWeb(offer);
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage("Select Tutor?").setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
+    }
+
+    public void closeBidWeb(Offer offer){
+        ZonedDateTime dateClosed = ZonedDateTime.now();
+        String dateClosedStr = dateClosed.format(DateTimeFormatter.ISO_INSTANT);
+        String dateExpired = dateClosed.plus(1, ChronoUnit.YEARS).format(DateTimeFormatter.ISO_INSTANT);
+        Call call = APIUtils.getBidService().closeDownBid(bidId, dateClosedStr);
 
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
                 if (response.isSuccessful()){
+                    ContractPaymentInfo paymentInfo = new ContractPaymentInfo(offer.getOfferedRate(), offer.getRateType());
+                    String[] day = offer.getOfferedDate().split(" ");
+                    ContractLessonInfo lessonInfo = new ContractLessonInfo(day[0], day[1]);
+                    ContractAdditionalInfo additionalInfo = new ContractAdditionalInfo(false, false);
 
+                    Contract contract = new Contract(userId, offer.getTutorId(), offer.getSubjectId(), dateClosedStr, dateExpired, paymentInfo, lessonInfo, additionalInfo);
+                    createContract(contract);
                 }
             }
 
             @Override
             public void onFailure(Call call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void createContract(Contract contract){
+        Call<Contract> call = APIUtils.getContractService().createContract(contract);
+
+        call.enqueue(new Callback<Contract>() {
+            @Override
+            public void onResponse(Call<Contract> call, Response<Contract> response) {
+                    if (response.isSuccessful()){
+                        Toast.makeText(context, "Contract Created! \nYou can sign it in the dashboard", Toast.LENGTH_SHORT).show();
+                    }
+            }
+            @Override
+            public void onFailure(Call<Contract> call, Throwable t) {
 
             }
         });

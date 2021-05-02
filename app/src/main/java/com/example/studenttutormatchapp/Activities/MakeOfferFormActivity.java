@@ -137,9 +137,9 @@ public class MakeOfferFormActivity extends AppCompatActivity {
                 if (response.isSuccessful() && bid.getType().equals("closed")){
                     ZonedDateTime datePosted = ZonedDateTime.now();
                     String datePostedStr = datePosted.format(DateTimeFormatter.ISO_INSTANT);
-                    String msgContent = "Hi I am" + offer.getTutorName() + ", a level " + offer.getCompetency()
-                            + "competent in "+ offer.getDescription() + "I can conduct lessons on"
-                            + offer.getOfferedDate() + " at a rate of " + offer.getOfferedRate() + offer.getRateType();
+                    String msgContent = "Hi I am " + offer.getTutorName() + ", a level " + offer.getCompetency()
+                            + " competent in "+ bid.getSubject().getDescription() + " I can conduct lessons on"
+                            + offer.getOfferedDate() + " for a rate of " + offer.getOfferedRate() + ", "+ offer.getRateType();
 
                     MessageAdditionalInfo additionalInfo = new MessageAdditionalInfo(bid.getInitiator().getId(), bid.getInitiator().getUserName());
 
