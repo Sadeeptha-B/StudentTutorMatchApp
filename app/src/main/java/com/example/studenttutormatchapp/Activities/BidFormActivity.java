@@ -164,7 +164,6 @@ public class BidFormActivity extends AppCompatActivity {
         String dateClosedStr;
         String bidType = "open";
 
-
         String competency = newBidForm.getCompetencySpinner().getSelectedItem().toString();
         String preferredDate = newBidForm.getDaySelectionSpinner().getSelectedItem().toString() + " " + newBidForm.getDayPicker().getText().toString();
         String rateType = newBidForm.getRateTypeSpinner().getSelectedItem().toString();

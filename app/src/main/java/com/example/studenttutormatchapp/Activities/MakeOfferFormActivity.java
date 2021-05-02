@@ -120,7 +120,10 @@ public class MakeOfferFormActivity extends AppCompatActivity {
         EditText descField = findViewById(R.id.editTextMakeOfferDesc);
         String desc = descField.getText().toString();
 
-        Offer offer = new Offer(competency, userName, rateType, prefTime, prefRate, desc);
+        TextView tVsubject = findViewById(R.id.textViewMakeOfferSubj);
+        String subject = tVsubject.getText().toString();
+
+        Offer offer = new Offer(competency, userId, userName, bid.getSubject().getId(), subject, rateType, prefTime, prefRate, desc);
         bid.getAdditionalInfo().addOffer(offer);
 
         BidAdditionalInfoWrapper wrapper = new BidAdditionalInfoWrapper(bid.getAdditionalInfo());

@@ -4,11 +4,15 @@ public class OngoingBidData {
     private String subjectName;
     private String dateCreated;
     private String bidId;
+    private String bidType;
 
-    public OngoingBidData(String subjectName, String dateCreated, String  bidId){
+
+    public OngoingBidData(String subjectName, String dateCreated, String bidId, String bidType){
         this.subjectName = subjectName;
         this.dateCreated = dateCreated;
         this.bidId = bidId;
+        this.bidType = bidType;
+
     }
 
 
@@ -34,5 +38,13 @@ public class OngoingBidData {
 
     public void setBidId(String bidId) {
         this.bidId = bidId;
+    }
+
+    public String getBidType() {
+        return bidType;
+    }
+
+    public void setBidType(String bidType) {
+        this.bidType = bidType;
     }
 }

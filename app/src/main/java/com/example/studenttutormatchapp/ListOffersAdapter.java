@@ -1,6 +1,8 @@
 package com.example.studenttutormatchapp;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studenttutormatchapp.Activities.ChatActivity;
+import com.example.studenttutormatchapp.Activities.ContractFormActivity;
 import com.example.studenttutormatchapp.remote.APIUtils;
+import com.google.gson.Gson;
 
 import java.util.Date;
 import java.util.List;
@@ -71,6 +75,15 @@ public class ListOffersAdapter extends RecyclerView.Adapter<ListOffersAdapter.Vi
             @Override
             public void onClick(View v) {
                 //TODO close down bid and make the tutor the winner... after a prompt
+
+                if (bidType.equals("closed")){
+                    Gson gson = new Gson();
+                    String offerJson = gson.toJson(offer);
+
+                    Intent contractFormActivity = new Intent(v.getContext(), ContractFormActivity.class);
+                    contractFormActivity.putExtra("offerJson", offerJson);
+                    v.getContext().startActivity(contractFormActivity);
+                }
             }
         });
 

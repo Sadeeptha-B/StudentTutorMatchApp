@@ -2,8 +2,6 @@ package com.example.studenttutormatchapp.remote;
 
 import androidx.annotation.NonNull;
 
-import com.example.studenttutormatchapp.BuildConfig;
-
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -16,6 +14,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public final class RetrofitClient {
 
     private static Retrofit retrofit = null;
+
+    private RetrofitClient(){}
 
     public static Retrofit getClient(String url, String apiKey){
         OkHttpClient client = new OkHttpClient().newBuilder().addInterceptor(new Interceptor() {

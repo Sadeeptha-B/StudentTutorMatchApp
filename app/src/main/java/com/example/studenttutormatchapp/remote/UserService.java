@@ -42,4 +42,7 @@ public interface UserService {
     @GET("user/{id}?fields=initiatedBids")
     Call<User> getStudentBids(@Path("id") String id);
 
+    @GET("user/{id}?fields=qualifications")
+    Call<User> getQualifications(@Path("id") String id);
+
 }

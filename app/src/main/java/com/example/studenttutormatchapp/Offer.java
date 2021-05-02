@@ -4,15 +4,21 @@ public class Offer {
 
     private String competency;
     private String description;
+    private String tutorId;
     private String tutorName;
+    private String subjectId;
+    private String subject;
     private String offeredDate;
     private String offeredRate;
     private String rateType;
 
-    public Offer(String competency, String tutorName,String rateType, String offeredDate, String offeredRate, String description) {
+    public Offer(String competency, String tutorId, String tutorName, String subjectId, String subject, String rateType, String offeredDate, String offeredRate, String description) {
         this.competency = competency;
         this.description = description;
+        this.tutorId = tutorId;
         this.tutorName = tutorName;
+        this.subjectId = subjectId;
+        this.subject = subject;
         this.offeredDate = offeredDate;
         this.offeredRate = offeredRate;
         this.rateType = rateType;
@@ -67,6 +73,22 @@ public class Offer {
 
     }
 
+    public String getTutorId() {
+        return tutorId;
+    }
+
+    public void setTutorId(String tutorId) {
+        this.tutorId = tutorId;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
     @Override
     public String toString() {
         return "Offer{" +
@@ -77,5 +99,13 @@ public class Offer {
                 ", offeredRate='" + offeredRate + '\'' +
                 ", rateType='" + rateType + '\'' +
                 '}';
+    }
+
+    public String getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(String subjectId) {
+        this.subjectId = subjectId;
     }
 }

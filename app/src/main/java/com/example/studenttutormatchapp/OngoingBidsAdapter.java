@@ -45,6 +45,8 @@ public class OngoingBidsAdapter extends RecyclerView.Adapter<OngoingBidsAdapter.
 
         holder.subjectName.setText(this.data.get(position).getSubjectName());
         holder.createdDate.setText(this.data.get(position).getDateCreated());
+        holder.bidType.setText(this.data.get(position).getBidType());
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +62,6 @@ public class OngoingBidsAdapter extends RecyclerView.Adapter<OngoingBidsAdapter.
 
     @Override
     public int getItemCount() {
-        Log.d("CHECK", String.valueOf(data.size()));
         return data.size();
     }
 
@@ -68,12 +69,14 @@ public class OngoingBidsAdapter extends RecyclerView.Adapter<OngoingBidsAdapter.
         public View itemView;
         public TextView subjectName;
         public TextView createdDate;
+        public TextView bidType;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             this.itemView = itemView;
             this.subjectName = itemView.findViewById(R.id.tutorName);
             this.createdDate = itemView.findViewById(R.id.offeredDate);
+            this.bidType = itemView.findViewById(R.id.bidType);
         }
     }
 }

@@ -53,8 +53,7 @@ public class FindBidsAdapter extends RecyclerView.Adapter<FindBidsAdapter.ViewHo
         holder.bidPreferredRate.setText(bid.getAdditionalInfo().getPreferredRate());
         holder.bidRateType.setText(bid.getAdditionalInfo().getRateType());
 
-
-        if (bid.getAdditionalInfo().getRateType().equals("open")){
+        if (bid.getType().equals("closed")){
             holder.btnBuyout.setVisibility(View.GONE);
         }
 

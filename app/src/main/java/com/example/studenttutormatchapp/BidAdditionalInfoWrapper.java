@@ -15,6 +15,4 @@ public class BidAdditionalInfoWrapper {
     public void setAdditionalInfo(BidAdditionalInfo additionalInfo) {
         this.additionalInfo = additionalInfo;
     }
-
-
 }

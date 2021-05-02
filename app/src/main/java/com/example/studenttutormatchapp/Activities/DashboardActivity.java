@@ -134,7 +134,9 @@ public class DashboardActivity extends AppCompatActivity {
                     String subjectId = bids.get(i).getSubject().getId();
                     String bidTime = bids.get(i).getDateCreated();
                     String bidId = bids.get(i).getId();
-                    getSubject(subjectId, bidTime, bidId);
+                    String bidType = bids.get(i).getType();
+
+                    getSubject(subjectId, bidTime, bidId, bidType);
                 }
                 Log.d("CHECK", bids.toString());
             }
@@ -146,7 +148,7 @@ public class DashboardActivity extends AppCompatActivity {
         });
     }
 
-    private void getSubject(String subjectId, String bidTime, String  bidId){
+    private void getSubject(String subjectId, String bidTime, String bidId, String bidType){
         ZonedDateTime zdtime = ZonedDateTime.parse(bidTime);
         final String formattedBidTime = DateTimeFormatter.ofPattern("dd/MM/yyyy - hh:mm").format(zdtime);
 
@@ -156,7 +158,7 @@ public class DashboardActivity extends AppCompatActivity {
             public void onResponse(Call<Subject> call, Response<Subject> response) {
                 if(response.isSuccessful()){
                     String subjectStr = response.body().getName() + " | " + response.body().getDescription();
-                    ongoingBidDataList.add(new OngoingBidData(subjectStr, formattedBidTime, bidId));
+                    ongoingBidDataList.add(new OngoingBidData(subjectStr, formattedBidTime, bidId, bidType));
                 }
                 bidAdapter.notifyDataSetChanged();
             }
