@@ -116,6 +116,4 @@ public class FindBidsActivity extends AppCompatActivity {
         adapter.setBids(filteredBids);
         adapter.notifyDataSetChanged();
     }
-
-
 }
