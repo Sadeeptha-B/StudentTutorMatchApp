@@ -120,9 +120,6 @@ public class ContractFormActivity extends AppCompatActivity {
         String studentId = userSp.getString("USER_ID", "0");
         Contract contract = new Contract(offer.getTutorId(), studentId, offer.getSubjectId(), dateCreatedStr, dateExpiredStr, contractPaymentInfo, contractLessonInfo, additionalInfo);
 
-        Gson gson = new Gson();
-        Log.d("CHECK",gson.toJson(contract));
-
         ContractService contractService = APIUtils.getContractService();
         Call<Contract> call = contractService.createContract(contract);
         call.enqueue(new Callback<Contract>() {
