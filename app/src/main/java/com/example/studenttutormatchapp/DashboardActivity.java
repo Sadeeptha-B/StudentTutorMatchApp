@@ -238,6 +238,10 @@ public class DashboardActivity extends AppCompatActivity {
                         jwtFileEditor.clear().apply();
                         finish();
                         break;
+                    case R.id.monitorDashboard:
+                        monitoringDashboard();
+                        break;
+
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
@@ -272,6 +276,11 @@ public class DashboardActivity extends AppCompatActivity {
     private void findBidRequests() throws JSONException {
         Intent activity = new Intent(this, FindBidsActivity.class);
         activity.putExtra("user_id", jwtObject.getString("sub"));
+        startActivity(activity);
+    }
+
+    private void monitoringDashboard(){
+        Intent activity = new Intent(this, MonitorDashboardActivity.class);
         startActivity(activity);
     }
 

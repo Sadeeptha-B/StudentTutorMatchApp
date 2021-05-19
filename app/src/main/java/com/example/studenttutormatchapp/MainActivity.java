@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
     public void storeJWT(Response<ResponseBody> response){
         try {
             loginResponse = new JSONObject(response.body().string());
+            Log.d("CHECK", loginResponse.getString("jwt"));
             jwtFileEditor.putString("JWT", loginResponse.getString("jwt"));
             jwtFileEditor.apply();
         } catch (IOException | JSONException e) {

@@ -12,6 +12,9 @@
         <item
             android:id="@+id/findBidRequests"
             android:title="Find Bid Requests" />
+        <item
+            android:id="@+id/monitorDashboard"
+            android:title="Monitoring Dashboard" />
     </group>
 
     <item

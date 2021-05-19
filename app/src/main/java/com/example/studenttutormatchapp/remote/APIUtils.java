@@ -6,7 +6,7 @@ import com.example.studenttutormatchapp.model.Contract;
 public class APIUtils {
 
     private static String API_KEY = BuildConfig.FIT3077_API_KEY;
-    private static final String API_URL = "https://fit3077.com/api/v1/";
+    private static final String API_URL = "https://fit3077.com/api/v2/";
 
     public static UserService getUserService(){
 

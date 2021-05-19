@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -69,6 +70,7 @@ public class FindBidsAdapter extends RecyclerView.Adapter<FindBidsAdapter.ViewHo
 
         if (bid.getType().equals("closed")){
             holder.btnBuyout.setVisibility(View.GONE);
+            holder.notifIcon.setVisibility(View.GONE);
         }
 
         holder.btnMakeOffer.setOnClickListener(new View.OnClickListener() {
@@ -85,11 +87,18 @@ public class FindBidsAdapter extends RecyclerView.Adapter<FindBidsAdapter.ViewHo
         });
 
 
-
         holder.btnBuyout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                closeBid(bid);
+            }
+        });
+
+        holder.notifIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("CHECK", bid.getAdditionalInfo().toString());
+                Toast.makeText(context, "Subscribed to Bid", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -112,6 +121,7 @@ public class FindBidsAdapter extends RecyclerView.Adapter<FindBidsAdapter.ViewHo
 
         Button btnMakeOffer;
         Button btnBuyout;
+        ImageView notifIcon;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -125,6 +135,7 @@ public class FindBidsAdapter extends RecyclerView.Adapter<FindBidsAdapter.ViewHo
 
             btnMakeOffer = itemView.findViewById(R.id.btnMakeOffer);
             btnBuyout = itemView.findViewById(R.id.btnBuyout);
+            notifIcon = itemView.findViewById(R.id.notifIcon);
         }
     }
 

@@ -188,6 +188,25 @@
         app:layout_constraintStart_toStartOf="@+id/guideline2" />
 
     <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Contract Expiry"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline17"
+        app:layout_constraintStart_toStartOf="@+id/guideline2" />
+
+    <Spinner
+        android:id="@+id/spinnerContractExpiry"
+        android:layout_width="109dp"
+        android:layout_height="41dp"
+        android:background="@drawable/edittext_bg"
+        android:padding="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView12"
+        app:layout_constraintStart_toStartOf="@+id/guideline15"
+        app:layout_constraintTop_toTopOf="@+id/textView12" />
+
+    <TextView
         android:id="@+id/textViewContractStudent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -319,9 +338,10 @@
         android:text="Sign Contract"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline17"
-        app:layout_constraintVertical_bias="0.196" />
+        app:layout_constraintVertical_bias="0.542" />
 
 
     <!-- subject, competency, qualification, rate, rate type, preferred day -->
