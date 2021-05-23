@@ -10,11 +10,9 @@ import android.widget.TextView;
 
 import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.controller.BidFormController;
-import com.example.studenttutormatchapp.controller.MonitorPageController;
-import com.example.studenttutormatchapp.helpers.BidInfoForm;
 import com.example.studenttutormatchapp.helpers.SubjectSpinner;
 
-public class BidFormPageView implements FormPageViewInterface{
+public class BidFormPageView implements GenericView {
 
     Context context;
     BidFormController controller;

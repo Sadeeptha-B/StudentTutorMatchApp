@@ -55,14 +55,12 @@ public class BidFormActivity extends AppCompatActivity {
 
     private static final int COMPETENCY_DIFF = 2;
 
-    BidFormPageView bidFormPageView;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        bidFormPageView = new BidFormPageView(this, null);
-        setContentView(bidFormPageView.getRootView());
+        setContentView(R.layout.bid_form_layout);
         context = this;
 
         SharedPreferences sharedPreferences = getSharedPreferences("id", 0);
