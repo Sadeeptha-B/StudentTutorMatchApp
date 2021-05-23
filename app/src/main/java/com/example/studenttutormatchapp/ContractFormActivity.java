@@ -7,7 +7,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,11 +36,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static java.lang.Math.pow;
+
 public class ContractFormActivity extends AppCompatActivity {
 
     private Offer offer;
     SharedPreferences userSp;
     BidInfoForm contractForm;
+
+    private Spinner contractExpiry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +60,12 @@ public class ContractFormActivity extends AppCompatActivity {
         getInfo(offer.getTutorId());
 
         contractForm = new BidInfoForm(this, R.id.spinnerContractRate, R.id.spinnerContractDay, R.id.contractTime);
+
+        contractExpiry = findViewById(R.id.spinnerContractExpiry);
+        ArrayAdapter<CharSequence> rateAdapter = ArrayAdapter.createFromResource(this, R.array.contract_duration, android.R.layout.simple_spinner_item);
+        rateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        contractExpiry.setAdapter(rateAdapter);
+        contractExpiry.setSelection(1);
     }
 
 
@@ -99,19 +111,21 @@ public class ContractFormActivity extends AppCompatActivity {
         String rateType = contractForm.getRateTypeSpinner().getSelectedItem().toString();
         String rate = rateField.getText().toString();
 
+        int expiry = 3 *(int) pow(2, contractExpiry.getSelectedItemPosition());
+
         String daySelection = contractForm.getDaySelectionSpinner().getSelectedItem().toString();
         String timeStr = time.getText().toString();
 
         TextView[] nonEmptyFields = new TextView[]{rateField, time};
         if (contractForm.nonEmptyValidation(nonEmptyFields)){
-            postContract(rate, rateType, daySelection, timeStr);
+            postContract(rate, rateType, daySelection, timeStr, expiry);
         }
     }
 
-    private void postContract(String rate, String rateType, String daySelection, String timeStr){
+    private void postContract(String rate, String rateType, String daySelection, String timeStr, int expiry){
         ZonedDateTime dateOpened = ZonedDateTime.now();
         String dateCreatedStr = dateOpened.format(DateTimeFormatter.ISO_INSTANT);
-        String dateExpiredStr = dateOpened.plus(1, ChronoUnit.YEARS).format(DateTimeFormatter.ISO_INSTANT);
+        String dateExpiredStr = dateOpened.plus(expiry, ChronoUnit.MONTHS).format(DateTimeFormatter.ISO_INSTANT);
 
         ContractPaymentInfo contractPaymentInfo = new ContractPaymentInfo(rate, rateType);
         ContractLessonInfo contractLessonInfo = new ContractLessonInfo(daySelection, timeStr);
