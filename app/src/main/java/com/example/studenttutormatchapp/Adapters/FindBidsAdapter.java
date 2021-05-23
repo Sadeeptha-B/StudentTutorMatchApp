@@ -23,7 +23,6 @@ import com.example.studenttutormatchapp.helpers.DateClosedDownWrapper;
 import com.example.studenttutormatchapp.model.Bid;
 import com.example.studenttutormatchapp.model.Contract;
 import com.example.studenttutormatchapp.remote.APIUtils;
-import com.example.studenttutormatchapp.remote.BidService;
 import com.google.gson.Gson;
 
 import java.time.ZonedDateTime;
@@ -50,7 +49,7 @@ public class FindBidsAdapter extends RecyclerView.Adapter<FindBidsAdapter.ViewHo
     @NonNull
     @Override
     public FindBidsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view =  LayoutInflater.from(parent.getContext()).inflate(R.layout.find_bid_card, parent, false);
+        View view =  LayoutInflater.from(parent.getContext()).inflate(R.layout.card_find_bid, parent, false);
         return new ViewHolder(view);
     }
 

@@ -17,4 +17,10 @@ public class MonitorDashboardActivity extends AppCompatActivity {
         monitorPageView = new MonitorPageView(this, null);
         setContentView(monitorPageView.getRootView());
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        monitorPageView.bindDataToView();
+    }
 }

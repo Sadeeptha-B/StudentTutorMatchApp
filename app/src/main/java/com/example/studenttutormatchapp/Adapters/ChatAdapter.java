@@ -39,10 +39,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
     public ChatAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType){
             case 0:
-                View viewSent = LayoutInflater.from(parent.getContext()).inflate(R.layout.message_sent_card, parent, false);
+                View viewSent = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_message_sent, parent, false);
                 return new ViewHolder(viewSent);
             case 1:
-                View viewReceived = LayoutInflater.from(parent.getContext()).inflate(R.layout.message_receive_card, parent, false);
+                View viewReceived = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_message_receive, parent, false);
                 return new ViewHolder(viewReceived);
         }
 

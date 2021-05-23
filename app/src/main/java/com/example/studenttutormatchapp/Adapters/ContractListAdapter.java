@@ -44,7 +44,7 @@ public class ContractListAdapter extends RecyclerView.Adapter<ContractListAdapte
     @NonNull
     @Override
     public ContractListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.contract_card, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_contract, parent, false);
         return new ViewHolder(view);
     }
 
