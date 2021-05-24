@@ -2,6 +2,7 @@ package com.example.studenttutormatchapp.helpers;
 
 import android.app.Activity;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -17,6 +18,7 @@ import java.util.List;
 
 public class BidInfoForm {
     public Activity activity;
+    public View rootView;
 
     private Spinner competencySpinner;
     private Spinner rateTypeSpinner;
@@ -27,6 +29,13 @@ public class BidInfoForm {
 
     public BidInfoForm(Activity _activity,int rateId, int daySelectId, int dayPickId){
         this.activity = _activity;
+        setRateTypeSpinner(rateId);
+        setDaySelectionSpinner(daySelectId);
+        setTimePickerForTextView(dayPickId);
+    }
+
+    public BidInfoForm(View rootView,int rateId, int daySelectId, int dayPickId){
+        this.rootView = rootView;
         setRateTypeSpinner(rateId);
         setDaySelectionSpinner(daySelectId);
         setTimePickerForTextView(dayPickId);

@@ -23,6 +23,7 @@ import com.example.studenttutormatchapp.model.*;
 import com.example.studenttutormatchapp.remote.APIUtils;
 import com.example.studenttutormatchapp.remote.BidService;
 import com.example.studenttutormatchapp.remote.UserService;
+import com.example.studenttutormatchapp.view.BidFormPageView;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -55,6 +56,7 @@ public class BidFormActivity extends AppCompatActivity {
     private static final int COMPETENCY_DIFF = 2;
 
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,9 +81,7 @@ public class BidFormActivity extends AppCompatActivity {
                 for (int i = 0; i < competencies.size(); i++){
                     Subject subject = competencies.get(i).getSubject();
                     subjectStrings.add(subject.getDescription() + " | " + subject.getName());
-
                 }
-
                 if (subjectStrings.isEmpty()){
                     Toast.makeText(context, "You cannot make a bid without a chosen subject.", Toast.LENGTH_LONG).show();
                     finish();
