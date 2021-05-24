@@ -30,7 +30,6 @@ import retrofit2.Response;
 public class ContractListAdapter extends RecyclerView.Adapter<ContractListAdapter.ViewHolder> {
 
     private List<Contract> contracts;
-    private String userId;
     private boolean isStudent;
     Context context;
 
@@ -180,10 +179,6 @@ public class ContractListAdapter extends RecyclerView.Adapter<ContractListAdapte
 
             }
         });
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public void setContracts(List<Contract> contracts) {

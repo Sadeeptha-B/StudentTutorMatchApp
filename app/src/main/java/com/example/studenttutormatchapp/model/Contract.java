@@ -4,6 +4,8 @@ import com.example.studenttutormatchapp.helpers.ContractAdditionalInfo;
 import com.example.studenttutormatchapp.helpers.ContractLessonInfo;
 import com.example.studenttutormatchapp.helpers.ContractPaymentInfo;
 
+import java.time.ZonedDateTime;
+
 public class Contract {
 
     String id;
@@ -67,4 +69,16 @@ public class Contract {
         return id;
     }
 
+    public String getExpiryDate() {
+        return expiryDate;
+    }
+
+    public ZonedDateTime getMonthBeforeExpiry(){
+        return ZonedDateTime.parse(expiryDate).minusMonths(1);
+    }
+
+    public String getExpiryDateString() {
+        ZonedDateTime date = ZonedDateTime.parse(expiryDate);
+        return date.getMonth().toString() + " " + date.getDayOfMonth();
+    }
 }

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,6 +33,7 @@ import com.example.studenttutormatchapp.remote.APIUtils;
 import com.example.studenttutormatchapp.remote.SubjectService;
 import com.example.studenttutormatchapp.remote.UserService;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -82,6 +85,7 @@ public class DashboardActivity extends AppCompatActivity {
         jwtFile = getSharedPreferences("jwt", 0);
         jwtFileEditor = jwtFile.edit();
         context = this;
+
 
         try {
             decodeJWT();
@@ -185,6 +189,11 @@ public class DashboardActivity extends AppCompatActivity {
                 if(response.isSuccessful()) {
                     contractAdapter.setContracts(response.body());
                     contractAdapter.notifyDataSetChanged();
+                    try {
+                        checkContract(response.body());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -193,6 +202,37 @@ public class DashboardActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void checkContract(List<Contract> contracts) throws JSONException {
+        ZonedDateTime todaysDate = ZonedDateTime.now();
+        View dashboard = findViewById(R.id.DashboardConstraintLayout);
+        for(int i = 0; i < contracts.size(); i++){
+            Contract contract = contracts.get(0);
+            ZonedDateTime monthBeforeExpiry = contract.getMonthBeforeExpiry();
+            String otherParty;
+            if (jwtObject.getBoolean("isStudent"))
+                otherParty = contract.getFirstParty().getUserName();
+            else
+                otherParty = contract.getSecondParty().getUserName();
+
+            String message = "Your contract with " + otherParty + " expires on " + contract.getExpiryDateString();
+
+            if (monthBeforeExpiry.isAfter(todaysDate) && todaysDate.isBefore(monthBeforeExpiry.minusDays(3))) {
+                Snackbar snackbar = Snackbar.make(dashboard, message, Snackbar.LENGTH_INDEFINITE);
+                View view = snackbar.getView();
+                CoordinatorLayout.LayoutParams params=(CoordinatorLayout.LayoutParams)view.getLayoutParams();
+                params.gravity = Gravity.TOP;
+                view.setLayoutParams(params);
+                snackbar.setAction("OK", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        snackbar.dismiss();
+                    }
+                }).show();
+
+            }
+        }
     }
 
     public void setUIElements() throws JSONException {
@@ -262,7 +302,6 @@ public class DashboardActivity extends AppCompatActivity {
         contractRecycler.setLayoutManager(contractLayoutManager);
 
         contractAdapter = new ContractListAdapter(context, jwtObject.getBoolean("isStudent"));
-        contractAdapter.setUserId(jwtObject.getString("sub"));
         contractRecycler.setAdapter(contractAdapter);
 
     }

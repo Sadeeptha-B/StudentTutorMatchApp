@@ -33,4 +33,8 @@ public interface ContractService {
     @POST("contract/{contractId}/sign")
     Call<Void> signContract(@Path("contractId") String id, @Body DateSignedWrapper dateSigned);
 
+    @POST("contract/{contractId}/terminate")
+    Call<Void> terminateContract(@Path("contractId") String id);
+
+
 }

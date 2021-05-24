@@ -24,7 +24,6 @@
     <string-array name="contract_duration">
         <item>3 months</item>
         <item>6 months</item>
-        <item>9 months</item>
         <item>12 months</item>
         <item>24 months</item>
     </string-array>
