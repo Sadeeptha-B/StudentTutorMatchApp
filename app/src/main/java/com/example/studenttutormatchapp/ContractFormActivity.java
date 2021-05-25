@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -18,7 +17,6 @@ import com.example.studenttutormatchapp.helpers.ContractAdditionalInfo;
 import com.example.studenttutormatchapp.helpers.ContractLessonInfo;
 import com.example.studenttutormatchapp.helpers.ContractPaymentInfo;
 import com.example.studenttutormatchapp.helpers.Offer;
-import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.model.Contract;
 import com.example.studenttutormatchapp.model.Qualification;
 import com.example.studenttutormatchapp.model.User;
@@ -41,6 +39,13 @@ import static java.lang.Math.pow;
 public class ContractFormActivity extends AppCompatActivity {
 
     private Offer offer;
+    private String tutorId;
+    private String offeredSubject;
+    private String offeredSubjectId;
+    private String tutorsCompetency;
+    private boolean isRenewal;
+    private Contract contract;
+    private String contractId;
     SharedPreferences userSp;
     BidInfoForm contractForm;
 
@@ -56,8 +61,16 @@ public class ContractFormActivity extends AppCompatActivity {
         Gson gson = new Gson();
         Intent intent = getIntent();
         offer = gson.fromJson(intent.getExtras().getString("offerJson"), Offer.class);
+        tutorId = intent.getExtras().getString("tutorId");
+        offeredSubject = intent.getExtras().getString("subjectName");
+        offeredSubjectId = intent.getExtras().getString("subjectId");
+        tutorsCompetency = intent.getExtras().getString("competency");
+        isRenewal = intent.getExtras().getBoolean("isRenewal");
 
-        getInfo(offer.getTutorId());
+        if (isRenewal)
+            contractId = intent.getExtras().getString("contractId");
+
+        getInfo(tutorId);
 
         contractForm = new BidInfoForm(this, R.id.spinnerContractRate, R.id.spinnerContractDay, R.id.contractTime);
 
@@ -100,8 +113,8 @@ public class ContractFormActivity extends AppCompatActivity {
 
         student.setText(userSp.getString("USERNAME", "unavailable"));
         tutor.setText(userName);
-        subject.setText(offer.getSubject());
-        competency.setText(offer.getCompetency());
+        subject.setText(offeredSubject);
+        competency.setText(tutorsCompetency);
         qualification.setText(qualificationsStr);
     }
 
@@ -117,12 +130,17 @@ public class ContractFormActivity extends AppCompatActivity {
         String timeStr = time.getText().toString();
 
         TextView[] nonEmptyFields = new TextView[]{rateField, time};
-        if (contractForm.nonEmptyValidation(nonEmptyFields)){
-            postContract(rate, rateType, daySelection, timeStr, expiry);
+        if (contractForm.nonEmptyValidation(nonEmptyFields))
+            contract = createContract(rate, rateType, daySelection, timeStr, expiry);
+            if (!isRenewal){
+                postContract(contract);
+            }
+            else {
+            patchContract(contract);
         }
     }
 
-    private void postContract(String rate, String rateType, String daySelection, String timeStr, int expiry){
+    private Contract createContract(String rate, String rateType, String daySelection, String timeStr, int expiry){
         ZonedDateTime dateOpened = ZonedDateTime.now();
         String dateCreatedStr = dateOpened.format(DateTimeFormatter.ISO_INSTANT);
         String dateExpiredStr = dateOpened.plus(expiry, ChronoUnit.MONTHS).format(DateTimeFormatter.ISO_INSTANT);
@@ -132,14 +150,19 @@ public class ContractFormActivity extends AppCompatActivity {
         ContractAdditionalInfo additionalInfo = new ContractAdditionalInfo(false, true);
 
         String studentId = userSp.getString("USER_ID", "0");
-        Contract contract = new Contract(offer.getTutorId(), studentId, offer.getSubjectId(), dateCreatedStr, dateExpiredStr, contractPaymentInfo, contractLessonInfo, additionalInfo);
+        Contract contract = new Contract(tutorId, studentId, offeredSubjectId, dateCreatedStr, dateExpiredStr, contractPaymentInfo, contractLessonInfo, additionalInfo);
 
+        return contract;
+    }
+
+    private void patchContract(Contract contract){
         ContractService contractService = APIUtils.getContractService();
-        Call<Contract> call = contractService.createContract(contract);
+
+        Call<Contract> call = contractService.updateContract(contractId, contract);
         call.enqueue(new Callback<Contract>() {
             @Override
             public void onResponse(Call<Contract> call, Response<Contract> response) {
-               onSuccess();
+                onSuccess("Contract renewed");
             }
 
             @Override
@@ -149,8 +172,24 @@ public class ContractFormActivity extends AppCompatActivity {
         });
     }
 
-    private void onSuccess(){
-        Toast.makeText(this, "Contract signed", Toast.LENGTH_LONG).show();
+    private void postContract(Contract contract){
+        ContractService contractService = APIUtils.getContractService();
+        Call<Contract> call = contractService.createContract(contract);
+        call.enqueue(new Callback<Contract>() {
+            @Override
+            public void onResponse(Call<Contract> call, Response<Contract> response) {
+               onSuccess("Contract signed");
+            }
+
+            @Override
+            public void onFailure(Call<Contract> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void onSuccess(String message){
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
         finish();
     }
 }

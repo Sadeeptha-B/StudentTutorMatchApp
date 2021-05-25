@@ -19,6 +19,9 @@ public class Competency {
     @Expose
     private Integer level;
 
+    @Expose
+    private User owner;
+
     public String getId() {
         return id;
     }
@@ -40,4 +43,11 @@ public class Competency {
 
     public void setSubject(Subject subject){this.subject = subject;}
 
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
 }

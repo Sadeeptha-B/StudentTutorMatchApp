@@ -91,10 +91,16 @@ public class ListOffersAdapter extends RecyclerView.Adapter<ListOffersAdapter.Vi
             @Override
             public void onClick(View v) {
                 if (bidType.equals("closed")){
-                    Gson gson = new Gson();
-                    String offerJson = gson.toJson(offer);
+//                    Gson gson = new Gson();
+//                    String offerJson = gson.toJson(offer);
                     Intent contractFormActivity = new Intent(v.getContext(), ContractFormActivity.class);
-                    contractFormActivity.putExtra("offerJson", offerJson);
+                    contractFormActivity.putExtra("tutorId", offer.getTutorId());
+                    contractFormActivity.putExtra("subjectName", offer.getSubject());
+                    contractFormActivity.putExtra("subjectId", offer.getSubjectId());
+                    contractFormActivity.putExtra("competency", offer.getCompetency());
+
+                    contractFormActivity.putExtra("isRenewal", false);
+//                    contractFormActivity.putExtra("offerJson", offerJson);
                     v.getContext().startActivity(contractFormActivity);
                 }
                 else {

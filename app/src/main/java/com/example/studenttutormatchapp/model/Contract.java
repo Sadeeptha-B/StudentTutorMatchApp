@@ -77,6 +77,8 @@ public class Contract {
         return ZonedDateTime.parse(expiryDate).minusMonths(1);
     }
 
+    public ZonedDateTime getDateOfExpiry(){ return ZonedDateTime.parse(expiryDate); }
+
     public String getExpiryDateString() {
         ZonedDateTime date = ZonedDateTime.parse(expiryDate);
         return date.getMonth().toString() + " " + date.getDayOfMonth();

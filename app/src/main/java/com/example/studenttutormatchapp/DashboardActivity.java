@@ -187,6 +187,12 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Contract>> call, Response<List<Contract>> response) {
                 if(response.isSuccessful()) {
+                    try {
+                        contractAdapter.setUserId(jwtObject.getString("sub"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    contractAdapter.setDate(ZonedDateTime.now());
                     contractAdapter.setContracts(response.body());
                     contractAdapter.notifyDataSetChanged();
                     try {
@@ -209,29 +215,33 @@ public class DashboardActivity extends AppCompatActivity {
         View dashboard = findViewById(R.id.DashboardConstraintLayout);
         for(int i = 0; i < contracts.size(); i++){
             Contract contract = contracts.get(0);
-            ZonedDateTime monthBeforeExpiry = contract.getMonthBeforeExpiry();
-            String otherParty;
-            if (jwtObject.getBoolean("isStudent"))
-                otherParty = contract.getFirstParty().getUserName();
-            else
-                otherParty = contract.getSecondParty().getUserName();
+            checkContractExpiry(contract, todaysDate, dashboard);
+        }
+    }
 
-            String message = "Your contract with " + otherParty + " expires on " + contract.getExpiryDateString();
+    public void checkContractExpiry(Contract contract, ZonedDateTime todaysDate, View layout) throws JSONException {
+        ZonedDateTime monthBeforeExpiry = contract.getMonthBeforeExpiry();
+        String otherParty;
+        if (jwtObject.getBoolean("isStudent"))
+            otherParty = contract.getFirstParty().getUserName();
+        else
+            otherParty = contract.getSecondParty().getUserName();
 
-            if (monthBeforeExpiry.isAfter(todaysDate) && todaysDate.isBefore(monthBeforeExpiry.minusDays(3))) {
-                Snackbar snackbar = Snackbar.make(dashboard, message, Snackbar.LENGTH_INDEFINITE);
-                View view = snackbar.getView();
-                CoordinatorLayout.LayoutParams params=(CoordinatorLayout.LayoutParams)view.getLayoutParams();
-                params.gravity = Gravity.TOP;
-                view.setLayoutParams(params);
-                snackbar.setAction("OK", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        snackbar.dismiss();
-                    }
-                }).show();
+        String message = "Your contract with " + otherParty + " expires on " + contract.getExpiryDateString();
 
-            }
+        if (monthBeforeExpiry.isAfter(todaysDate) && todaysDate.isBefore(monthBeforeExpiry.minusDays(3))) {
+            Snackbar snackbar = Snackbar.make(layout, message, Snackbar.LENGTH_INDEFINITE);
+            View view = snackbar.getView();
+            CoordinatorLayout.LayoutParams params=(CoordinatorLayout.LayoutParams)view.getLayoutParams();
+            params.gravity = Gravity.TOP;
+            view.setLayoutParams(params);
+            snackbar.setAction("OK", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    snackbar.dismiss();
+                }
+            }).show();
+
         }
     }
 

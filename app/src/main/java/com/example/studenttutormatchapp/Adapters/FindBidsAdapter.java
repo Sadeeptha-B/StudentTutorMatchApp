@@ -75,12 +75,13 @@ public class FindBidsAdapter extends RecyclerView.Adapter<FindBidsAdapter.ViewHo
         holder.btnMakeOffer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Gson gson = new Gson();
-                String bidJson = gson.toJson(bid);
-
                 Intent intent = new Intent(context, MakeOfferFormActivity.class);
-                intent.putExtra("bidJson", bidJson);
+                intent.putExtra("tutorId", userId);
+                intent.putExtra("subjectName", subjectString);
+                intent.putExtra("subjectId", bid.getSubject().getId());
+                intent.putExtra("competency", bid.getAdditionalInfo().getCompetency());
                 intent.putExtra("userId", userId);
+                intent.putExtra("isRenewal", false);
                 context.startActivity(intent);
             }
         });

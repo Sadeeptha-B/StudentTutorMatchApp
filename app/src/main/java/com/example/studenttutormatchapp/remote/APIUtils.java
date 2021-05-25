@@ -1,6 +1,7 @@
 package com.example.studenttutormatchapp.remote;
 
 import com.example.studenttutormatchapp.BuildConfig;
+import com.example.studenttutormatchapp.model.Competency;
 import com.example.studenttutormatchapp.model.Contract;
 
 public class APIUtils {
@@ -27,5 +28,9 @@ public class APIUtils {
 
     public static ContractService getContractService(){
         return RetrofitClient.getClient(API_URL, API_KEY).create(ContractService.class);
+    }
+
+    public static CompetencyService getCompetencyService(){
+        return RetrofitClient.getClient(API_URL, API_KEY).create(CompetencyService.class);
     }
 }
