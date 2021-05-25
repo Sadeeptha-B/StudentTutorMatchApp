@@ -20,8 +20,8 @@ import com.example.studenttutormatchapp.helpers.ContractAdditionalInfo;
 import com.example.studenttutormatchapp.helpers.ContractLessonInfo;
 import com.example.studenttutormatchapp.helpers.ContractPaymentInfo;
 import com.example.studenttutormatchapp.helpers.DateClosedDownWrapper;
-import com.example.studenttutormatchapp.model.Bid;
-import com.example.studenttutormatchapp.model.Contract;
+import com.example.studenttutormatchapp.model.pojo.Bid;
+import com.example.studenttutormatchapp.model.pojo.Contract;
 import com.example.studenttutormatchapp.remote.APIUtils;
 import com.google.gson.Gson;
 

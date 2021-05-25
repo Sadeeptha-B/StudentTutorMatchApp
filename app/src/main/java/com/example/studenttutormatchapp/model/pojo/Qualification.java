@@ -1,21 +1,24 @@
-
-package com.example.studenttutormatchapp.model;
-
+package com.example.studenttutormatchapp.model.pojo;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Subject {
+import java.security.acl.Owner;
+
+public class Qualification {
 
     @SerializedName("id")
     @Expose
     private String id;
-    @SerializedName("name")
+    @SerializedName("title")
     @Expose
-    private String name;
+    private String title;
     @SerializedName("description")
     @Expose
     private String description;
+    @SerializedName("verified")
+    @Expose
+    private Boolean verified;
 
     public String getId() {
         return id;
@@ -25,12 +28,12 @@ public class Subject {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
@@ -39,6 +42,14 @@ public class Subject {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Boolean getVerified() {
+        return verified;
+    }
+
+    public void setVerified(Boolean verified) {
+        this.verified = verified;
     }
 
 }

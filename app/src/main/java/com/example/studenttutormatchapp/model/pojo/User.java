@@ -1,5 +1,5 @@
 
-package com.example.studenttutormatchapp.model;
+package com.example.studenttutormatchapp.model.pojo;
 
 import java.util.List;
 

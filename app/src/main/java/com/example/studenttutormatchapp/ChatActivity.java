@@ -13,12 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.studenttutormatchapp.Adapters.ChatAdapter;
 import com.example.studenttutormatchapp.helpers.MessageAdditionalInfo;
 import com.example.studenttutormatchapp.helpers.MessageComparator;
-import com.example.studenttutormatchapp.R;
-import com.example.studenttutormatchapp.model.Bid;
-import com.example.studenttutormatchapp.model.Message;
+import com.example.studenttutormatchapp.model.pojo.Bid;
+import com.example.studenttutormatchapp.model.pojo.Message;
 import com.example.studenttutormatchapp.remote.APIUtils;
-import com.example.studenttutormatchapp.remote.BidService;
-import com.example.studenttutormatchapp.remote.MessageService;
+import com.example.studenttutormatchapp.remote.dao.BidService;
+import com.example.studenttutormatchapp.remote.dao.MessageService;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;

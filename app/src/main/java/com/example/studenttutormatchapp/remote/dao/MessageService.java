@@ -1,7 +1,6 @@
-package com.example.studenttutormatchapp.remote;
+package com.example.studenttutormatchapp.remote.dao;
 
-import com.example.studenttutormatchapp.model.Bid;
-import com.example.studenttutormatchapp.model.Message;
+import com.example.studenttutormatchapp.model.pojo.Message;
 
 import java.util.List;
 

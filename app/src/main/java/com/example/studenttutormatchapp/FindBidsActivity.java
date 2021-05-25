@@ -9,13 +9,12 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.studenttutormatchapp.Adapters.FindBidsAdapter;
-import com.example.studenttutormatchapp.R;
-import com.example.studenttutormatchapp.model.Bid;
-import com.example.studenttutormatchapp.model.Competency;
-import com.example.studenttutormatchapp.model.User;
+import com.example.studenttutormatchapp.model.pojo.Bid;
+import com.example.studenttutormatchapp.model.pojo.Competency;
+import com.example.studenttutormatchapp.model.pojo.User;
 import com.example.studenttutormatchapp.remote.APIUtils;
-import com.example.studenttutormatchapp.remote.BidService;
-import com.example.studenttutormatchapp.remote.UserService;
+import com.example.studenttutormatchapp.remote.dao.BidService;
+import com.example.studenttutormatchapp.remote.dao.UserService;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,7 @@
-package com.example.studenttutormatchapp.remote;
+package com.example.studenttutormatchapp.remote.dao;
 
 import com.example.studenttutormatchapp.helpers.Credentials;
-import com.example.studenttutormatchapp.model.User;
+import com.example.studenttutormatchapp.model.pojo.User;
 
 import java.util.List;
 

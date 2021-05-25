@@ -1,10 +1,8 @@
-package com.example.studenttutormatchapp.model;
+package com.example.studenttutormatchapp.model.pojo;
 
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import java.security.acl.Owner;
 
 public class Competency {
 

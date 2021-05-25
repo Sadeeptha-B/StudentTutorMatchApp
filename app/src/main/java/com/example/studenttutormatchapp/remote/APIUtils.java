@@ -1,7 +1,11 @@
 package com.example.studenttutormatchapp.remote;
 
 import com.example.studenttutormatchapp.BuildConfig;
-import com.example.studenttutormatchapp.model.Contract;
+import com.example.studenttutormatchapp.remote.dao.BidService;
+import com.example.studenttutormatchapp.remote.dao.ContractService;
+import com.example.studenttutormatchapp.remote.dao.MessageService;
+import com.example.studenttutormatchapp.remote.dao.SubjectService;
+import com.example.studenttutormatchapp.remote.dao.UserService;
 
 public class APIUtils {
 

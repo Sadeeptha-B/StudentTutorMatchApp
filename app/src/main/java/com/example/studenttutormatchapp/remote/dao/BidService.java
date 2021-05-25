@@ -1,8 +1,8 @@
-package com.example.studenttutormatchapp.remote;
+package com.example.studenttutormatchapp.remote.dao;
 
 import com.example.studenttutormatchapp.helpers.BidAdditionalInfoWrapper;
 import com.example.studenttutormatchapp.helpers.DateClosedDownWrapper;
-import com.example.studenttutormatchapp.model.Bid;
+import com.example.studenttutormatchapp.model.pojo.Bid;
 
 import java.util.List;
 

@@ -10,10 +10,9 @@ import android.os.Bundle;
 
 import com.example.studenttutormatchapp.Adapters.ListOffersAdapter;
 import com.example.studenttutormatchapp.helpers.Offer;
-import com.example.studenttutormatchapp.R;
-import com.example.studenttutormatchapp.model.Bid;
+import com.example.studenttutormatchapp.model.pojo.Bid;
 import com.example.studenttutormatchapp.remote.APIUtils;
-import com.example.studenttutormatchapp.remote.BidService;
+import com.example.studenttutormatchapp.remote.dao.BidService;
 
 import java.util.List;
 

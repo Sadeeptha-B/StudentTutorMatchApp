@@ -1,7 +1,7 @@
-package com.example.studenttutormatchapp.remote;
+package com.example.studenttutormatchapp.remote.dao;
 
 import com.example.studenttutormatchapp.helpers.DateSignedWrapper;
-import com.example.studenttutormatchapp.model.Contract;
+import com.example.studenttutormatchapp.model.pojo.Contract;
 
 import java.util.List;
 

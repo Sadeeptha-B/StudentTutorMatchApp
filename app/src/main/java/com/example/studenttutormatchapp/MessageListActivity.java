@@ -9,10 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studenttutormatchapp.Adapters.MessageListAdapter;
-import com.example.studenttutormatchapp.R;
-import com.example.studenttutormatchapp.model.Message;
+import com.example.studenttutormatchapp.model.pojo.Message;
 import com.example.studenttutormatchapp.remote.APIUtils;
-import com.example.studenttutormatchapp.remote.MessageService;
+import com.example.studenttutormatchapp.remote.dao.MessageService;
 
 import java.util.ArrayList;
 import java.util.List;

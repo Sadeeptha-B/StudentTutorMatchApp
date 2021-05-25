@@ -14,10 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.helpers.DateSignedWrapper;
-import com.example.studenttutormatchapp.model.Contract;
-import com.example.studenttutormatchapp.model.User;
+import com.example.studenttutormatchapp.model.pojo.Contract;
+import com.example.studenttutormatchapp.model.pojo.User;
 import com.example.studenttutormatchapp.remote.APIUtils;
-import com.example.studenttutormatchapp.remote.ContractService;
+import com.example.studenttutormatchapp.remote.dao.ContractService;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;

@@ -1,4 +1,4 @@
-package com.example.studenttutormatchapp.model;
+package com.example.studenttutormatchapp.model.pojo;
 
 import com.example.studenttutormatchapp.helpers.ContractAdditionalInfo;
 import com.example.studenttutormatchapp.helpers.ContractLessonInfo;

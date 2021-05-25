@@ -1,4 +1,4 @@
-package com.example.studenttutormatchapp.model;
+package com.example.studenttutormatchapp.model.pojo;
 
 import com.example.studenttutormatchapp.helpers.MessageAdditionalInfo;
 import com.google.gson.annotations.Expose;
