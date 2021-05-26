@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".view.LoginActivity">
 
     <TextView
         android:id="@+id/textView"
@@ -87,7 +87,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="120dp"
         android:backgroundTint="#00BCD4"
-        android:onClick="login"
+        android:onClick="onLoginClick"
         android:text="Login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.842"

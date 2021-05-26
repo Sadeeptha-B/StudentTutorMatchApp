@@ -1,4 +1,4 @@
-package com.example.studenttutormatchapp;
+package com.example.studenttutormatchapp.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studenttutormatchapp.Adapters.ChatAdapter;
+import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.helpers.MessageAdditionalInfo;
 import com.example.studenttutormatchapp.helpers.MessageComparator;
 import com.example.studenttutormatchapp.model.pojo.Bid;

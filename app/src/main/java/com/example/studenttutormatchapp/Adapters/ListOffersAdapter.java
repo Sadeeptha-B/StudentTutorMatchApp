@@ -15,8 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.studenttutormatchapp.ChatActivity;
-import com.example.studenttutormatchapp.ContractFormActivity;
+import com.example.studenttutormatchapp.view.ChatActivity;
+import com.example.studenttutormatchapp.view.ContractFormActivity;
 import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.helpers.ContractAdditionalInfo;
 import com.example.studenttutormatchapp.helpers.ContractLessonInfo;

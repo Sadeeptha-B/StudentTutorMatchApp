@@ -1,4 +1,4 @@
-package com.example.studenttutormatchapp;
+package com.example.studenttutormatchapp.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.studenttutormatchapp.Adapters.ListOffersAdapter;
+import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.helpers.Offer;
 import com.example.studenttutormatchapp.model.pojo.Bid;
 import com.example.studenttutormatchapp.remote.APIUtils;

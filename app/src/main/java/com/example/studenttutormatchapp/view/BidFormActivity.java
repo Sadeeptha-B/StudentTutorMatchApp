@@ -1,4 +1,4 @@
-package com.example.studenttutormatchapp;
+package com.example.studenttutormatchapp.view;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.helpers.BidAdditionalInfo;
 import com.example.studenttutormatchapp.helpers.BidInfoForm;
 import com.example.studenttutormatchapp.helpers.Offer;

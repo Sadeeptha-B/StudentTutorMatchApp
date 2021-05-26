@@ -1,4 +1,4 @@
-package com.example.studenttutormatchapp;
+package com.example.studenttutormatchapp.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.helpers.BidInfoForm;
 import com.example.studenttutormatchapp.helpers.ContractAdditionalInfo;
 import com.example.studenttutormatchapp.helpers.ContractLessonInfo;

@@ -1,8 +1,10 @@
-package com.example.studenttutormatchapp;
+package com.example.studenttutormatchapp.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.studenttutormatchapp.R;
 
 public class MonitorDashboardActivity extends AppCompatActivity {
 

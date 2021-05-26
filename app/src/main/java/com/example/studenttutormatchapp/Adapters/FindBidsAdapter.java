@@ -14,7 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.studenttutormatchapp.MakeOfferFormActivity;
+import com.example.studenttutormatchapp.view.MakeOfferFormActivity;
 import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.helpers.ContractAdditionalInfo;
 import com.example.studenttutormatchapp.helpers.ContractLessonInfo;

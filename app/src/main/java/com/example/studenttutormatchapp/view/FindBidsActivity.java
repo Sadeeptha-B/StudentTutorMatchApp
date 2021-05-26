@@ -1,4 +1,4 @@
-package com.example.studenttutormatchapp;
+package com.example.studenttutormatchapp.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.studenttutormatchapp.Adapters.FindBidsAdapter;
+import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.model.pojo.Bid;
 import com.example.studenttutormatchapp.model.pojo.Competency;
 import com.example.studenttutormatchapp.model.pojo.User;

@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.studenttutormatchapp.ChatActivity;
+import com.example.studenttutormatchapp.view.ChatActivity;
 import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.model.pojo.Message;
 

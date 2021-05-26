@@ -1,4 +1,4 @@
-package com.example.studenttutormatchapp;
+package com.example.studenttutormatchapp.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studenttutormatchapp.Adapters.ContractListAdapter;
+import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.helpers.OngoingBidData;
 import com.example.studenttutormatchapp.Adapters.OngoingBidsAdapter;
 import com.example.studenttutormatchapp.model.pojo.Bid;

@@ -1,4 +1,4 @@
-package com.example.studenttutormatchapp;
+package com.example.studenttutormatchapp.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -13,12 +13,11 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.helpers.Credentials;
 import com.example.studenttutormatchapp.remote.APIUtils;
 import com.example.studenttutormatchapp.remote.dao.UserService;
 import com.example.studenttutormatchapp.remote.response.ApiResource;
-import com.example.studenttutormatchapp.remote.response.ErrorResponse;
-import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,8 +25,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
@@ -55,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         password = findViewById(R.id.Password);
 
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+        getLifecycle().addObserver(loginViewModel);
 
         jwtFile = getSharedPreferences("jwt", 0);
         jwtFileEditor = jwtFile.edit();
@@ -62,22 +60,24 @@ public class LoginActivity extends AppCompatActivity {
         apiInterface = APIUtils.getUserService();
         context = this;
 
+        loginViewModel.loginHandle.observe(this, new Observer<ApiResource<ResponseBody>>() {
+            @Override
+            public void onChanged(ApiResource<ResponseBody> loginResponse) {
+                switch (loginResponse.getStatus()){
+                    case SUCCESS:
+                        Toast.makeText(context, "Successfully logged in", Toast.LENGTH_SHORT).show();
+                        break;
+                    case ERROR:
+                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+
     }
 
-    public void login(View v){
-        loginViewModel.loginUser(new Credentials(user.getText().toString(), password.getText().toString())).observe(this, new Observer<ApiResource<ResponseBody>>() {
-                @Override
-                public void onChanged(ApiResource<ResponseBody> loginResponse) {
-                    switch (loginResponse.getStatus()){
-                        case SUCCESS:
-//                            storeJWT(loginResponse.getData());
-                            Toast.makeText(context, "Successfully logged in", Toast.LENGTH_SHORT).show();
-                            break;
-                        case ERROR:
-                            break;
-                    }
-                }
-        });
+    public void onLoginClick(View v){
+        loginViewModel.login(new Credentials(user.getText().toString(), password.getText().toString()));
 
 //        Call<ResponseBody> call  = apiInterface.loginUser(new Credentials(user.getText().toString(), password.getText().toString()));
 //        call.enqueue(new Callback<ResponseBody>() {
@@ -122,6 +122,7 @@ public class LoginActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
 
     public void moveToDashboard(){
         Intent activity = new Intent(context, DashboardActivity.class);

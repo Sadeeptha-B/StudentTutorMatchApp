@@ -11,16 +11,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.StudentTutorMatchApp">
-        <activity android:name=".MonitorDashboardActivity"></activity>
-        <activity android:name=".ContractFormActivity" />
-        <activity android:name=".MakeOfferFormActivity" />
-        <activity android:name=".FindBidsActivity" />
-        <activity android:name=".ListOffersActivity" />
-        <activity android:name=".MessageListActivity" />
-        <activity android:name=".ChatActivity" />
-        <activity android:name=".DashboardActivity" />
-        <activity android:name=".BidFormActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".view.MonitorDashboardActivity"></activity>
+        <activity android:name=".view.ContractFormActivity" />
+        <activity android:name=".view.MakeOfferFormActivity" />
+        <activity android:name=".view.FindBidsActivity" />
+        <activity android:name=".view.ListOffersActivity" />
+        <activity android:name=".view.MessageListActivity" />
+        <activity android:name=".view.ChatActivity" />
+        <activity android:name=".view.DashboardActivity" />
+        <activity android:name=".view.BidFormActivity" />
+        <activity android:name=".view.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
