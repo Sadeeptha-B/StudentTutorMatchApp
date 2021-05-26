@@ -22,7 +22,9 @@ import com.example.studenttutormatchapp.helpers.ContractPaymentInfo;
 import com.example.studenttutormatchapp.helpers.DateClosedDownWrapper;
 import com.example.studenttutormatchapp.model.Bid;
 import com.example.studenttutormatchapp.model.Contract;
+import com.example.studenttutormatchapp.model.User;
 import com.example.studenttutormatchapp.remote.APIUtils;
+import com.example.studenttutormatchapp.remote.UserService;
 import com.google.gson.Gson;
 
 import java.time.ZonedDateTime;
@@ -97,6 +99,7 @@ public class FindBidsAdapter extends RecyclerView.Adapter<FindBidsAdapter.ViewHo
         holder.notifIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                subscribe(bid.getId());
                 Log.d("CHECK", bid.getAdditionalInfo().toString());
                 Toast.makeText(context, "Subscribed to Bid", Toast.LENGTH_SHORT).show();
             }
@@ -202,5 +205,41 @@ public class FindBidsAdapter extends RecyclerView.Adapter<FindBidsAdapter.ViewHo
         Toast.makeText(context, "Contract has been created. You can sign it from the dashboard", Toast.LENGTH_LONG).show();
     }
 
+    public void subscribe(String bidId){
+        UserService apiUserInterface = APIUtils.getUserService();
+        Call<User> getUserCall = apiUserInterface.getUser(userId);
+
+        getUserCall.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                updateUser(apiUserInterface, addSubscription(response.body(), bidId));
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public User addSubscription(User user, String bidId){
+        user.getAdditionalInfo().addSubscribedBids(bidId);
+        return user;
+    }
+
+    public void updateUser(UserService service, User user){
+        Call<User> updateUserCall = service.updateUser(userId, user);
+        updateUserCall.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+            }
+        });
+    }
 
 }

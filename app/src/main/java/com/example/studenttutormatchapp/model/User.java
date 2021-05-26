@@ -3,6 +3,7 @@ package com.example.studenttutormatchapp.model;
 
 import java.util.List;
 
+import com.example.studenttutormatchapp.helpers.UserAdditionalInfo;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -25,6 +26,9 @@ public class User {
     @Expose
     private String userName;
 
+    @Expose
+    private String password;
+
     @SerializedName("isStudent")
     @Expose
     private Boolean isStudent;
@@ -44,6 +48,9 @@ public class User {
     @SerializedName("initiatedBids")
     @Expose
     private List<Bid> bids = null;
+
+    @Expose
+    private UserAdditionalInfo additionalInfo;
 
     public String getId() {
         return id;
@@ -117,4 +124,15 @@ public class User {
         this.bids = bids;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public UserAdditionalInfo getAdditionalInfo() {
+        return additionalInfo;
+    }
+
+    public void setAdditionalInfo(UserAdditionalInfo additionalInfo) {
+        this.additionalInfo = additionalInfo;
+    }
 }
