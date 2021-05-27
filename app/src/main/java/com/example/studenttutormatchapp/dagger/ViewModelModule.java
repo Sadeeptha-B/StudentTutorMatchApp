@@ -4,8 +4,11 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.studenttutormatchapp.viewmodel.BidFormViewModel;
+import com.example.studenttutormatchapp.viewmodel.ChatViewModel;
 import com.example.studenttutormatchapp.viewmodel.ContractFormViewModel;
 import com.example.studenttutormatchapp.viewmodel.DashboardViewModel;
+import com.example.studenttutormatchapp.viewmodel.FindBidsViewModel;
+import com.example.studenttutormatchapp.viewmodel.MessageListViewModel;
 import com.example.studenttutormatchapp.viewmodel.ViewModelFactory;
 import com.example.studenttutormatchapp.viewmodel.LoginViewModel;
 
@@ -21,13 +24,13 @@ public abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(LoginViewModel.class)
-    abstract ViewModel loginViewModel(LoginViewModel loginViewModel);
+    @ViewModelKey(BidFormViewModel.class)
+    abstract ViewModel bidFormViewModel(BidFormViewModel bidFormViewModel);
 
     @Binds
     @IntoMap
-    @ViewModelKey(DashboardViewModel.class)
-    abstract ViewModel dashboardViewModel(DashboardViewModel dashboardViewModel);
+    @ViewModelKey(ChatViewModel.class)
+    abstract ViewModel chatViewModel(ChatViewModel chatViewModel);
 
     @Binds
     @IntoMap
@@ -36,6 +39,29 @@ public abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(BidFormViewModel.class)
-    abstract ViewModel bidFormViewModel(BidFormViewModel bidFormViewModel);
+    @ViewModelKey(DashboardViewModel.class)
+    abstract ViewModel dashboardViewModel(DashboardViewModel dashboardViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(FindBidsViewModel.class)
+    abstract  ViewModel findBidsViewModel(FindBidsViewModel findBidsViewModel);
+
+    //ListOffersViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(LoginViewModel.class)
+    abstract ViewModel loginViewModel(LoginViewModel loginViewModel);
+
+    //MakeOfferFormViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MessageListViewModel.class)
+    abstract ViewModel MessageListViewModel(MessageListViewModel messageListViewModel);
+
+    //MonitorDashboardViewModel
+
+    //MonitorOffersViewModel
 }

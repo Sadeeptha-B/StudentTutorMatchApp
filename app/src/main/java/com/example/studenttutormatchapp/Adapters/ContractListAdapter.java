@@ -3,36 +3,29 @@ package com.example.studenttutormatchapp.Adapters;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.studenttutormatchapp.ContractFormActivity;
 import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.helpers.DateSignedWrapper;
-<<<<<<< HEAD
-import com.example.studenttutormatchapp.helpers.Offer;
-import com.example.studenttutormatchapp.model.Competency;
-import com.example.studenttutormatchapp.model.Contract;
-import com.example.studenttutormatchapp.model.User;
+
+import com.example.studenttutormatchapp.model.pojo.Competency;
 import com.example.studenttutormatchapp.remote.APIUtils;
-import com.example.studenttutormatchapp.remote.CompetencyService;
-import com.example.studenttutormatchapp.remote.ContractService;
-=======
+import com.example.studenttutormatchapp.remote.dao.CompetencyService;
+
 import com.example.studenttutormatchapp.model.pojo.Contract;
 import com.example.studenttutormatchapp.model.pojo.User;
-import com.example.studenttutormatchapp.remote.APIUtils;
+
 import com.example.studenttutormatchapp.remote.dao.ContractService;
->>>>>>> mvvm_migrate
+import com.example.studenttutormatchapp.view.ContractFormActivity;
+
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;

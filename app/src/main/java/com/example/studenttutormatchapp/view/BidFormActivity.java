@@ -165,24 +165,6 @@ public class BidFormActivity extends AppCompatActivity {
         }
     }
 
-//    private void createBid(Bid bid){
-//        BidService apiBidService = APIUtils.getBidService();
-//
-//        Call<Bid> bidCall = apiBidService.createBid(bid);
-//        bidCall.enqueue(new Callback<Bid>() {
-//            @Override
-//            public void onResponse(Call<Bid> call, Response<Bid> response) {
-//                if (response.isSuccessful()){
-//                    Toast.makeText(context, "Bid created successfully", Toast.LENGTH_LONG).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Bid> call, Throwable t) {
-//                Log.d("Bidding_debug", t.getMessage());
-//            }
-//        });
-//    }
 
     public HashMap<String, String> obtainData(){
         String bidType = "open";

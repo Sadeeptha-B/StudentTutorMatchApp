@@ -1,21 +1,27 @@
 package com.example.studenttutormatchapp.view;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
+
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studenttutormatchapp.Adapters.MessageListAdapter;
+import com.example.studenttutormatchapp.MyApplication;
 import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.model.pojo.Message;
 import com.example.studenttutormatchapp.remote.APIUtils;
 import com.example.studenttutormatchapp.remote.dao.MessageService;
+import com.example.studenttutormatchapp.viewmodel.MessageListViewModel;
+import com.example.studenttutormatchapp.viewmodel.ViewModelFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,6 +32,10 @@ public class MessageListActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
     MessageListAdapter adapter;
+
+    @Inject
+    ViewModelFactory viewModelFactory;
+    MessageListViewModel messageListViewModel;
 
     MessageService APImsgInterface;
 
@@ -38,9 +48,11 @@ public class MessageListActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        SharedPreferences userIdFile = getSharedPreferences("id", 0);
+        ((MyApplication) getApplication()).getAppComponent().inject(this);
+        messageListViewModel = new ViewModelProvider(this, viewModelFactory).get(MessageListViewModel.class);
 
-        adapter = new MessageListAdapter(this, userIdFile.getString("USER_ID", ""));
+
+        adapter = new MessageListAdapter(this, messageListViewModel.getUserData().getUserId());
         recyclerView.setAdapter(adapter);
 
         APImsgInterface = APIUtils.getMessageService();
@@ -48,7 +60,6 @@ public class MessageListActivity extends AppCompatActivity {
         getMessages();
     }
     public void getMessages(){
-        SharedPreferences userIdFile = getSharedPreferences("id", 0);
 
         Call<List<Message>> messageCall = APImsgInterface.getMessages();
 
@@ -64,7 +75,7 @@ public class MessageListActivity extends AppCompatActivity {
                         String senderID = msg.getPoster().getId();
                         String receiverID = msg.getAdditionalInfo().getReceiver();
 
-                        String userID = userIdFile.getString("USER_ID", "");
+                        String userID = messageListViewModel.getUserData().getUserId();
 
                         boolean isSender = senderID.equals(userID);
                         boolean isReceiver = receiverID.equals(userID);

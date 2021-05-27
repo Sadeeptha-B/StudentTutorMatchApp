@@ -22,7 +22,7 @@
         <activity android:name=".ChatActivity" />
         <activity android:name=".DashboardActivity" />
         <activity android:name=".BidFormActivity" />
-        <activity android:name=".MonitorOffersActivity"/>
+        <activity android:name=".view.MonitorOffersActivity"/>
         <activity android:name=".MainActivity">
 =======
         <activity android:name=".view.MonitorDashboardActivity" />

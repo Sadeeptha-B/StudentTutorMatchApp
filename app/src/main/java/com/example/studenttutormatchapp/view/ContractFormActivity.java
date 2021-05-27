@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -56,7 +55,6 @@ public class ContractFormActivity extends AppCompatActivity {
     private boolean isRenewal;
     private Contract contract;
     private String contractId;
-    SharedPreferences userSp;
     BidInfoForm contractForm;
 
     private Spinner contractExpiry;
@@ -73,7 +71,6 @@ public class ContractFormActivity extends AppCompatActivity {
         ((MyApplication) getApplication()).getAppComponent().inject(this);
         contractFormViewModel = new ViewModelProvider(this, viewModelFactory).get(ContractFormViewModel.class);
 
-        userSp = getSharedPreferences("id", 0);
         Gson gson = new Gson();
         Intent intent = getIntent();
         offer = gson.fromJson(intent.getExtras().getString("offerJson"), Offer.class);

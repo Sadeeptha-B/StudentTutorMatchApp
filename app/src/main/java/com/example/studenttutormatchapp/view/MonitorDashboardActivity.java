@@ -8,8 +8,9 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.studenttutormatchapp.Adapters.MonitoringBidsAdapter;
-import com.example.studenttutormatchapp.model.Bid;
-import com.example.studenttutormatchapp.model.User;
+
+import com.example.studenttutormatchapp.model.pojo.Bid;
+import com.example.studenttutormatchapp.model.pojo.User;
 import com.example.studenttutormatchapp.remote.APIUtils;
 
 import java.util.List;

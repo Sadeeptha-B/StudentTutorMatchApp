@@ -1,4 +1,4 @@
-package com.example.studenttutormatchapp;
+package com.example.studenttutormatchapp.view;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -9,8 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studenttutormatchapp.Adapters.MonitorOffersAdapter;
+import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.helpers.Offer;
-import com.example.studenttutormatchapp.model.Bid;
+import com.example.studenttutormatchapp.model.pojo.Bid;
 import com.google.gson.Gson;
 
 import java.util.List;

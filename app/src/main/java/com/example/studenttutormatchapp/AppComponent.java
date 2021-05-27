@@ -14,6 +14,7 @@ import com.example.studenttutormatchapp.view.LoginActivity;
 import com.example.studenttutormatchapp.view.MakeOfferFormActivity;
 import com.example.studenttutormatchapp.view.MessageListActivity;
 import com.example.studenttutormatchapp.view.MonitorDashboardActivity;
+import com.example.studenttutormatchapp.view.MonitorOffersActivity;
 
 import javax.inject.Singleton;
 
@@ -26,11 +27,11 @@ public interface AppComponent {
     void inject(DashboardActivity dashboardActivity);
     void inject(ContractFormActivity contractFormActivity);
     void inject(BidFormActivity bidFormActivity);
-    void inject(ChatActivity chatActivity);
-    void inject(FindBidsActivity findBidsActivity);
-    void inject(ListOffersActivity listOffersActivity);
-    void inject(MakeOfferFormActivity makeOfferFormActivity);
+    void inject(ChatActivity chatActivity);   //Not yet
+    void inject(FindBidsActivity findBidsActivity); //Not yet
+    void inject(ListOffersActivity listOffersActivity); //Not yet
+    void inject(MakeOfferFormActivity makeOfferFormActivity); //Not yet
     void inject(MessageListActivity messageListActivity);
-    void inject(MonitorDashboardActivity monitorDashboardActivity);
-
+    void inject(MonitorDashboardActivity monitorDashboardActivity); //Not yet
+    void inject(MonitorOffersActivity monitorOffersActivity); //Not yet
 }
