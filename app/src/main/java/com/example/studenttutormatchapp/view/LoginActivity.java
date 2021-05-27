@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
                         onLoginSuccess(loginResponse.getData());
                         break;
                     case ERROR:
-                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }

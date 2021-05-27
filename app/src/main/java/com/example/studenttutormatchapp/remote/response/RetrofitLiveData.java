@@ -1,10 +1,13 @@
 package com.example.studenttutormatchapp.remote.response;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+//////////---------------DEPRECATED-----------------------
 public class RetrofitLiveData<T> extends LiveData<ApiResource<T>> {
 
     private Call<T> call;
@@ -29,6 +32,7 @@ public class RetrofitLiveData<T> extends LiveData<ApiResource<T>> {
     @Override
     protected void onActive() {
         super.onActive();
+        Log.d("CHECK", "I run");
         call.enqueue(callback);
     }
 

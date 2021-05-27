@@ -42,11 +42,9 @@ public class LoginViewModel extends CommonViewModel {
 
     }
 
-
     public void login(Credentials credentials){
         loginInput.setValue(credentials);
     }
-
 
     public void onLoginSuccess(ResponseBody response){
         try{
