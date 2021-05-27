@@ -4,11 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.studenttutormatchapp.helpers.BidAdditionalInfo;
 import com.example.studenttutormatchapp.helpers.BidAdditionalInfoWrapper;
 import com.example.studenttutormatchapp.helpers.BidInfoForm;
 import com.example.studenttutormatchapp.helpers.MessageAdditionalInfo;
@@ -121,13 +123,35 @@ public class MakeOfferFormActivity extends AppCompatActivity {
         TextView tVsubject = findViewById(R.id.textViewMakeOfferSubj);
         String subject = tVsubject.getText().toString();
 
+        List<Offer> Offers = bid.getAdditionalInfo().getOffers();
         Offer offer = new Offer(competency, userId, userName, bid.getSubject().getId(), subject, rateType, prefTime, prefRate, desc);
-        bid.getAdditionalInfo().addOffer(offer);
+
+        bid.getAdditionalInfo().getOffers().stream().filter(o -> o.getTutorId().equals(userId)).findFirst().orElse(null);
+        String toastText = "";
+        boolean isRenewOffer = false;
+        for (int i = 0; i < Offers.size(); i++){
+            if (Offers.get(i).getTutorId().equals(userId)) {
+                Offers.remove(i);
+                Offers.add(i, offer);
+                bid.getAdditionalInfo().setOffers(Offers);
+                isRenewOffer = true;
+                toastText = "Your Offer has been updated";
+                break;
+            }
+
+        }
+        if (!isRenewOffer) {
+            bid.getAdditionalInfo().addOffer(offer);
+            toastText = "Your bid offer has been submitted";
+        }
+
+
 
         BidAdditionalInfoWrapper wrapper = new BidAdditionalInfoWrapper(bid.getAdditionalInfo());
 
         BidService apiBidService = APIUtils.getBidService();
         Call<Bid> makeOfferCall = apiBidService.updateBid(bid.getId(), wrapper);
+        String finalToastText = toastText;
         makeOfferCall.enqueue(new Callback<Bid>() {
             @Override
             public void onResponse(Call<Bid> call, Response<Bid> response) {
@@ -146,7 +170,7 @@ public class MakeOfferFormActivity extends AppCompatActivity {
                     Message message = new Message(bid.getId(), userId, datePostedStr, msgContent, additionalInfo);
                     sendMessage(message);
                 }
-                offerSuccess();
+                offerSuccess(finalToastText);
             }
 
             @Override
@@ -155,8 +179,8 @@ public class MakeOfferFormActivity extends AppCompatActivity {
         });
     }
 
-    private void offerSuccess(){
-        Toast.makeText(this, "Your bid offer has been submitted", Toast.LENGTH_LONG).show();
+    private void offerSuccess(String message){
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
         finish();
     }
 
