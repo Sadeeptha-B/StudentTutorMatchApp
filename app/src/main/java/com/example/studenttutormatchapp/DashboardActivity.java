@@ -187,19 +187,19 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Contract>> call, Response<List<Contract>> response) {
                 if(response.isSuccessful()) {
+
+
                     try {
-                        contractAdapter.setUserId(jwtObject.getString("sub"));
+                        String userId = jwtObject.getString("sub");
+                        contractAdapter.setUserId(userId);
+                        List<Contract> contracts = getValidContracts(response.body(), userId);
+                        contractAdapter.setContracts(contracts);
+                        checkContract(contracts);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     contractAdapter.setDate(ZonedDateTime.now());
-                    contractAdapter.setContracts(response.body());
                     contractAdapter.notifyDataSetChanged();
-                    try {
-                        checkContract(response.body());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                 }
             }
 
@@ -208,6 +208,20 @@ public class DashboardActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public List<Contract> getValidContracts(List<Contract> contracts, String userId) throws JSONException {
+        List<Contract> list = new ArrayList<>();
+        Log.d("OFFER", String.valueOf(contracts.size()));
+        for (int i = 0; i < contracts.size(); i++){
+            Contract contract = contracts.get(i);
+            if ((contract.getFirstParty().getId().equals(userId)) || (contract.getSecondParty().getId().equals(userId)))
+                list.add(contract);
+        }
+        Log.d("OFFER", String.valueOf(list.size()));
+        Log.d("OFFER", "List");
+        return list;
+
     }
 
     public void checkContract(List<Contract> contracts) throws JSONException {
