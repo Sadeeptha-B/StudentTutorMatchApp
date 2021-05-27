@@ -1,16 +1,19 @@
 package com.example.studenttutormatchapp.Adapters;
 
-import android.util.Log;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.studenttutormatchapp.MonitorOffersActivity;
 import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.model.Bid;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +21,7 @@ import java.util.List;
 public class MonitoringBidsAdapter extends RecyclerView.Adapter<MonitoringBidsAdapter.ViewHolder>{
 
     List<Bid> monitoringBids = new ArrayList<>();
+    String userId;
 
     @NonNull
     @Override
@@ -34,6 +38,17 @@ public class MonitoringBidsAdapter extends RecyclerView.Adapter<MonitoringBidsAd
 
         holder.studentName.setText(bid.getInitiator().getUserName());
         holder.subject.setText(subject);
+
+        holder.viewOffers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent activity = new Intent(v.getContext(), MonitorOffersActivity.class);
+                Gson gson = new Gson();
+                activity.putExtra("bid", gson.toJson(bid));
+                activity.putExtra("userId", userId);
+                v.getContext().startActivity(activity);
+            }
+        });
     }
 
     @Override
@@ -47,15 +62,21 @@ public class MonitoringBidsAdapter extends RecyclerView.Adapter<MonitoringBidsAd
         monitoringBids.add(bid);
     }
 
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView studentName;
         private TextView subject;
+        private Button viewOffers;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             studentName = itemView.findViewById(R.id.studentName);
             subject = itemView.findViewById(R.id.monitoringSubject);
+            viewOffers = itemView.findViewById(R.id.viewAllmonitoredOffers);
         }
     }
 }

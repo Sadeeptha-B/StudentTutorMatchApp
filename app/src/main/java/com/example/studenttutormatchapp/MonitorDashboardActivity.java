@@ -29,13 +29,16 @@ public class MonitorDashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);;
         setContentView(R.layout.activity_monitor_dashboard);
 
+        userId = getIntent().getExtras().getString("userId");
+
         recyclerView = findViewById(R.id.MonitoringList);
+
         LinearLayoutManager bidLayoutManager =  new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(bidLayoutManager);
-        monitoringBidsAdapter = new MonitoringBidsAdapter();
-        recyclerView.setAdapter(monitoringBidsAdapter);
 
-        userId = getIntent().getExtras().getString("userId");
+        monitoringBidsAdapter = new MonitoringBidsAdapter();
+        monitoringBidsAdapter.setUserId(userId);
+        recyclerView.setAdapter(monitoringBidsAdapter);
 
         getUserAdditionalInfo();
     }
