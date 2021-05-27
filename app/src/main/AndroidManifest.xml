@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.StudentTutorMatchApp">
-        <activity android:name=".view.MonitorDashboardActivity"></activity>
+        <activity android:name=".view.MonitorDashboardActivity" />
         <activity android:name=".view.ContractFormActivity" />
         <activity android:name=".view.MakeOfferFormActivity" />
         <activity android:name=".view.FindBidsActivity" />

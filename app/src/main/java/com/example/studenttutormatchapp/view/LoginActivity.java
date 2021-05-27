@@ -34,17 +34,10 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
-    TextView user;
-    TextView password;
-    Context context;
+    private TextView user;
+    private TextView password;
+    private Context context;
 
-    /* API interface */
-    UserService apiInterface;
-    JSONObject loginResponse;
-
-    /* Shared Pref */
-    SharedPreferences jwtFile;
-    SharedPreferences.Editor jwtFileEditor;
 
     @Inject
     ViewModelFactory viewModelFactory;
@@ -57,19 +50,10 @@ public class LoginActivity extends AppCompatActivity {
 
         user = findViewById(R.id.userName);
         password = findViewById(R.id.Password);
-
-        ((MyApplication) getApplication()).getAppComponent().inject(this);
-
-        loginViewModel = new ViewModelProvider(this, viewModelFactory).get(LoginViewModel.class);
-
-        getLifecycle().addObserver(loginViewModel);
-
-        jwtFile = getSharedPreferences("jwt", 0);
-        jwtFileEditor = jwtFile.edit();
-
-        apiInterface = APIUtils.getUserService();
         context = this;
 
+        ((MyApplication) getApplication()).getAppComponent().inject(this);
+        loginViewModel = new ViewModelProvider(this, viewModelFactory).get(LoginViewModel.class);
 
         loginViewModel.loginHandle.observe(this, new Observer<ApiResource<ResponseBody>>() {
             @Override
@@ -77,13 +61,6 @@ public class LoginActivity extends AppCompatActivity {
                 switch (loginResponse.getStatus()){
                     case SUCCESS:
                         onLoginSuccess(loginResponse.getData());
-                        try {
-                            Log.d("CHECK", loginResponse.getData().string());
-                            JSONObject response = new JSONObject(loginResponse.getData().string());
-                            Log.d("CHECK", response.getString("jwt"));
-                        } catch (IOException | JSONException e) {
-                            e.printStackTrace();
-                        }
                         break;
                     case ERROR:
                         Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
@@ -103,18 +80,6 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(context, "Successfully logged in", Toast.LENGTH_SHORT).show();
         moveToDashboard();
     }
-
-    public void storeJWT(Response<ResponseBody> response){
-        try {
-            loginResponse = new JSONObject(response.body().string());
-            Log.d("CHECK", loginResponse.getString("jwt"));
-            jwtFileEditor.putString("JWT", loginResponse.getString("jwt"));
-            jwtFileEditor.apply();
-        } catch (IOException | JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     public void moveToDashboard(){
         Intent activity = new Intent(context, DashboardActivity.class);

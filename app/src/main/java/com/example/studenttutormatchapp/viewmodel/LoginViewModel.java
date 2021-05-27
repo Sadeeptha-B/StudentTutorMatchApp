@@ -27,19 +27,19 @@ import javax.inject.Inject;
 
 import okhttp3.ResponseBody;
 
-public class LoginViewModel extends ViewModel implements LifecycleObserver {
-    private UserRepository repository;
+public class LoginViewModel extends CommonViewModel {
 
     private final MutableLiveData<Credentials> loginInput = new MutableLiveData<>();
 
     public final LiveData<ApiResource<ResponseBody>> loginHandle =
             Transformations.switchMap(loginInput, (credentials) -> {
-                return repository.loginUser(credentials);
+                return getUserRepository().loginUser(credentials);
             });
 
     @Inject
     public LoginViewModel(UserRepository repository) {
-        this.repository = repository;
+        super(repository);
+
     }
 
 
@@ -63,7 +63,7 @@ public class LoginViewModel extends ViewModel implements LifecycleObserver {
             userData.put("IS_STUDENT", jwtObject.getString("isStudent"));
             userData.put("IS_TUTOR", jwtObject.getString("isTutor"));
 
-            repository.storeUserSharedPref(userData);
+            getUserRepository().storeUserSharedPref(userData);
         } catch(IOException | JSONException e){
             e.printStackTrace();
         }

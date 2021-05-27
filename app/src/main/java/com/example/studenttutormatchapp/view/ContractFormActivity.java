@@ -1,6 +1,8 @@
 package com.example.studenttutormatchapp.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.studenttutormatchapp.MyApplication;
 import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.helpers.BidInfoForm;
 import com.example.studenttutormatchapp.helpers.ContractAdditionalInfo;
@@ -24,12 +27,17 @@ import com.example.studenttutormatchapp.model.pojo.User;
 import com.example.studenttutormatchapp.remote.APIUtils;
 import com.example.studenttutormatchapp.remote.dao.ContractService;
 import com.example.studenttutormatchapp.remote.dao.UserService;
+import com.example.studenttutormatchapp.viewmodel.ContractFormViewModel;
+import com.example.studenttutormatchapp.viewmodel.LoginViewModel;
+import com.example.studenttutormatchapp.viewmodel.ViewModelFactory;
 import com.google.gson.Gson;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,13 +53,21 @@ public class ContractFormActivity extends AppCompatActivity {
 
     private Spinner contractExpiry;
 
+    @Inject
+    ViewModelFactory viewModelFactory;
+    ContractFormViewModel contractFormViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contract_form);
 
-        userSp = getSharedPreferences("id", 0);
 
+
+        ((MyApplication) getApplication()).getAppComponent().inject(this);
+        contractFormViewModel = new ViewModelProvider(this, viewModelFactory).get(ContractFormViewModel.class);
+
+        userSp = getSharedPreferences("id", 0);
         Gson gson = new Gson();
         Intent intent = getIntent();
         offer = gson.fromJson(intent.getExtras().getString("offerJson"), Offer.class);
@@ -97,7 +113,7 @@ public class ContractFormActivity extends AppCompatActivity {
         TextView competency = findViewById(R.id.textViewContractComp);
         TextView qualification = findViewById(R.id.textViewContractQualification);
 
-        student.setText(userSp.getString("USERNAME", "unavailable"));
+        student.setText(contractFormViewModel.getUserData().getUsername());
         tutor.setText(userName);
         subject.setText(offer.getSubject());
         competency.setText(offer.getCompetency());
@@ -130,7 +146,7 @@ public class ContractFormActivity extends AppCompatActivity {
         ContractLessonInfo contractLessonInfo = new ContractLessonInfo(daySelection, timeStr);
         ContractAdditionalInfo additionalInfo = new ContractAdditionalInfo(false, true);
 
-        String studentId = userSp.getString("USER_ID", "0");
+        String studentId = contractFormViewModel.getUserData().getUserId();
         Contract contract = new Contract(offer.getTutorId(), studentId, offer.getSubjectId(), dateCreatedStr, dateExpiredStr, contractPaymentInfo, contractLessonInfo, additionalInfo);
 
         ContractService contractService = APIUtils.getContractService();

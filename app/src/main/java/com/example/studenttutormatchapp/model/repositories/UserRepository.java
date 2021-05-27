@@ -24,26 +24,28 @@ import okhttp3.ResponseBody;
 @Singleton
 public class UserRepository implements Repository.UserInterface {
     private UserService userService = APIUtils.getUserService();
-    SharedPreferences userProfile;
+    Preference_UserProfile preference_userProfile;
 
     @Inject
     public UserRepository(Context context){
-        userProfile = context.getSharedPreferences("UserProfile", 0);
+        preference_userProfile = Preference_UserProfile.getInstance(context);
     }
 
     public LiveData<ApiResource<ResponseBody>> loginUser(Credentials credentials){
         return new RetrofitLiveData<>(userService.loginUser(credentials));
     }
 
-
     public void storeUserSharedPref(HashMap<String, String> userData){
         Log.d("CHECK", "storeUserSharedPref: I run");
-        SharedPreferences.Editor editor = userProfile.edit();
 
-        editor.putString("USER_ID",userData.get("id"));
-        editor.putString("USER_NAME", userData.get("username"));
-        editor.putString("IS_STUDENT", userData.get("isStudent"));
-        editor.putString("IS_TUTOR", userData.get("isTutor"));
+        preference_userProfile.putUserId(userData.get("id"));
+        preference_userProfile.putUsername(userData.get("username"));
+        preference_userProfile.putIsStudent(Boolean.parseBoolean(userData.get("isStudent")));
+        preference_userProfile.putIsTutor(Boolean.parseBoolean(userData.get("isTutor")));
+    }
+
+    public Preference_UserProfile getUserSharedPref(){
+        return preference_userProfile;
     }
 
 }

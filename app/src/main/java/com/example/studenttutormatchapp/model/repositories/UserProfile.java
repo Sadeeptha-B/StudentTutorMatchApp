@@ -1,4 +1,4 @@
-package com.example.studenttutormatchapp.model.sharedpref;
+package com.example.studenttutormatchapp.model.repositories;
 
 import com.skydoves.preferenceroom.KeyName;
 import com.skydoves.preferenceroom.PreferenceEntity;

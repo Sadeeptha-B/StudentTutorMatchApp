@@ -17,10 +17,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studenttutormatchapp.Adapters.ContractListAdapter;
+import com.example.studenttutormatchapp.MyApplication;
 import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.helpers.OngoingBidData;
 import com.example.studenttutormatchapp.Adapters.OngoingBidsAdapter;
@@ -31,6 +34,8 @@ import com.example.studenttutormatchapp.model.pojo.User;
 import com.example.studenttutormatchapp.remote.APIUtils;
 import com.example.studenttutormatchapp.remote.dao.SubjectService;
 import com.example.studenttutormatchapp.remote.dao.UserService;
+import com.example.studenttutormatchapp.viewmodel.DashboardViewModel;
+import com.example.studenttutormatchapp.viewmodel.ViewModelFactory;
 import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONException;
@@ -41,6 +46,8 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -69,6 +76,9 @@ public class DashboardActivity extends AppCompatActivity {
     OngoingBidsAdapter bidAdapter;
 
     ContractListAdapter contractAdapter;
+    @Inject
+    ViewModelFactory viewModelFactory;
+    DashboardViewModel dashboardViewModel;
 
     List<OngoingBidData> ongoingBidDataList = new ArrayList<OngoingBidData>();
 
@@ -83,6 +93,11 @@ public class DashboardActivity extends AppCompatActivity {
         jwtFile = getSharedPreferences("jwt", 0);
         jwtFileEditor = jwtFile.edit();
         context = this;
+
+        ((MyApplication) getApplication()).getAppComponent().inject(this);
+        dashboardViewModel = new ViewModelProvider(this, viewModelFactory).get(DashboardViewModel.class);
+
+        Log.d("CHECK",dashboardViewModel.getUserData().getUsername());
 
         try {
             decodeJWT();
@@ -132,7 +147,7 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     public void getBids() throws JSONException {
-        Call<User> call = apiUserInterface.getStudentBids(jwtObject.getString("sub"));
+        Call<User> call = apiUserInterface.getStudentBids(dashboardViewModel.getUserData().getUserId());
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -142,7 +157,6 @@ public class DashboardActivity extends AppCompatActivity {
                     String bidTime = bids.get(i).getDateCreated();
                     String bidId = bids.get(i).getId();
                     String bidType = bids.get(i).getType();
-
                     getSubject(subjectId, bidTime, bidId, bidType);
                 }
                 Log.d("CHECK", bids.toString());
@@ -205,7 +219,7 @@ public class DashboardActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(navToggle);
         navToggle.syncState();
 
-        toolbar.setTitle("Welcome, " + jwtObject.getString("username"));
+        toolbar.setTitle("Welcome, " + dashboardViewModel.getUserData().getUsername());
 
         navigationView = findViewById(R.id.nav_view);
         Menu menuNav = navigationView.getMenu();
@@ -254,7 +268,7 @@ public class DashboardActivity extends AppCompatActivity {
         bidRecycler.setLayoutManager(bidLayoutManager);
         bidRecycler.setHasFixedSize(true);
 
-        bidAdapter = new OngoingBidsAdapter(context, jwtObject.getString("sub"));
+        bidAdapter = new OngoingBidsAdapter(context, dashboardViewModel.getUserData().getUserId());
         bidAdapter.setData(ongoingBidDataList);
         bidRecycler.setAdapter(bidAdapter);
 
@@ -263,7 +277,7 @@ public class DashboardActivity extends AppCompatActivity {
         contractRecycler.setLayoutManager(contractLayoutManager);
 
         contractAdapter = new ContractListAdapter(context, jwtObject.getBoolean("isStudent"));
-        contractAdapter.setUserId(jwtObject.getString("sub"));
+        contractAdapter.setUserId(dashboardViewModel.getUserData().getUserId());
         contractRecycler.setAdapter(contractAdapter);
 
     }
@@ -276,7 +290,7 @@ public class DashboardActivity extends AppCompatActivity {
 
     private void findBidRequests() throws JSONException {
         Intent activity = new Intent(this, FindBidsActivity.class);
-        activity.putExtra("user_id", jwtObject.getString("sub"));
+        activity.putExtra("user_id", dashboardViewModel.getUserData().getUserId());
         startActivity(activity);
     }
 

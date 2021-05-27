@@ -2,7 +2,6 @@ package com.example.studenttutormatchapp;
 
 import android.app.Application;
 
-import com.example.studenttutormatchapp.dagger.AppComponent;
 import com.example.studenttutormatchapp.dagger.AppModule;
 
 public class MyApplication extends Application {
