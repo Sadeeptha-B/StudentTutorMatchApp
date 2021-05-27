@@ -191,4 +191,14 @@ public class BidFormActivity extends AppCompatActivity {
         Bid createdBid = new Bid(bidType, userID ,dateOpenedStr, dateClosedStr, subject, additionalInfo);
         return createdBid;
     }
+
+    public static class BidFormController {
+
+        BidFormPageView bidFormPageView;
+
+        public BidFormController(BidFormPageView formPageView) {
+            bidFormPageView = formPageView;
+
+        }
+    }
 }

@@ -13,7 +13,10 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.studenttutormatchapp.MyApplication;
 import com.example.studenttutormatchapp.R;
+import com.example.studenttutormatchapp.viewmodel.LoginViewModel;
+import com.example.studenttutormatchapp.viewmodel.ViewModelFactory;
 import com.example.studenttutormatchapp.helpers.Credentials;
 import com.example.studenttutormatchapp.remote.APIUtils;
 import com.example.studenttutormatchapp.remote.dao.UserService;
@@ -23,6 +26,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+
+import javax.inject.Inject;
 
 import okhttp3.ResponseBody;
 import retrofit2.Response;
@@ -41,6 +46,8 @@ public class LoginActivity extends AppCompatActivity {
     SharedPreferences jwtFile;
     SharedPreferences.Editor jwtFileEditor;
 
+    @Inject
+    ViewModelFactory viewModelFactory;
     LoginViewModel loginViewModel;
 
     @Override
@@ -51,7 +58,10 @@ public class LoginActivity extends AppCompatActivity {
         user = findViewById(R.id.userName);
         password = findViewById(R.id.Password);
 
-        loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+        ((MyApplication) getApplication()).getAppComponent().inject(this);
+
+        loginViewModel = new ViewModelProvider(this, viewModelFactory).get(LoginViewModel.class);
+
         getLifecycle().addObserver(loginViewModel);
 
         jwtFile = getSharedPreferences("jwt", 0);
@@ -60,12 +70,20 @@ public class LoginActivity extends AppCompatActivity {
         apiInterface = APIUtils.getUserService();
         context = this;
 
+
         loginViewModel.loginHandle.observe(this, new Observer<ApiResource<ResponseBody>>() {
             @Override
             public void onChanged(ApiResource<ResponseBody> loginResponse) {
                 switch (loginResponse.getStatus()){
                     case SUCCESS:
-                        Toast.makeText(context, "Successfully logged in", Toast.LENGTH_SHORT).show();
+                        onLoginSuccess(loginResponse.getData());
+                        try {
+                            Log.d("CHECK", loginResponse.getData().string());
+                            JSONObject response = new JSONObject(loginResponse.getData().string());
+                            Log.d("CHECK", response.getString("jwt"));
+                        } catch (IOException | JSONException e) {
+                            e.printStackTrace();
+                        }
                         break;
                     case ERROR:
                         Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
@@ -78,38 +96,12 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onLoginClick(View v){
         loginViewModel.login(new Credentials(user.getText().toString(), password.getText().toString()));
+    }
 
-//        Call<ResponseBody> call  = apiInterface.loginUser(new Credentials(user.getText().toString(), password.getText().toString()));
-//        call.enqueue(new Callback<ResponseBody>() {
-//            @Override
-//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                if(response.isSuccessful()){
-//                    storeJWT(response);
-//                    moveToDashboard();
-//
-//                    Toast.makeText(context, "Successfully logged in", Toast.LENGTH_SHORT).show();
-//                }
-//                switch (response.code()){
-//                    case 400:
-//                        Log.d("Login_debug", "Error: "+ response.code() + " Request body was invalid");
-//                        Toast.makeText(context, "Please enter Username/ Password", Toast.LENGTH_SHORT).show();
-//                        break;
-//                    case 401:
-//                        Log.d("Login_debug", "Invalid API key");
-//                        break;
-//                    case 403:
-//                        Toast.makeText(context, "Invalid Username/Password", Toast.LENGTH_SHORT).show();
-//                        Log.d("Login_debug", "Invalid login");
-//                        break;
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ResponseBody> call, Throwable t) {
-//                Log.d("Login_debug", t.getMessage());
-//            }
-//        });
-
+    public void onLoginSuccess(ResponseBody response){
+        loginViewModel.onLoginSuccess(response);
+        Toast.makeText(context, "Successfully logged in", Toast.LENGTH_SHORT).show();
+        moveToDashboard();
     }
 
     public void storeJWT(Response<ResponseBody> response){

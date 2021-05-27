@@ -2,11 +2,14 @@ package com.example.studenttutormatchapp;
 
 import android.app.Application;
 
+import com.example.studenttutormatchapp.dagger.AppComponent;
+import com.example.studenttutormatchapp.dagger.AppModule;
+
 public class MyApplication extends Application {
 
-    private static AppComponent appComponent;
+    private AppComponent appComponent;
 
-    public static AppComponent getAppComponent(){
+    public AppComponent getAppComponent(){
         return appComponent;
     }
 
@@ -18,7 +21,7 @@ public class MyApplication extends Application {
 
     public AppComponent buildComponent(){
         return DaggerAppComponent.builder()
-                .appModule(new AppModule(this))
+                .appModule(new AppModule(this.getApplicationContext()))
                 .build();
     }
 }

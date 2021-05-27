@@ -9,13 +9,12 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.studenttutormatchapp.R;
-import com.example.studenttutormatchapp.controller.BidFormController;
 import com.example.studenttutormatchapp.helpers.SubjectSpinner;
 
 public class BidFormPageView implements GenericView {
 
     Context context;
-    BidFormController controller;
+    BidFormActivity.BidFormController controller;
     View rootView;
 
     private TextView subjectField;
@@ -26,7 +25,7 @@ public class BidFormPageView implements GenericView {
     public BidFormPageView(Context context, ViewGroup viewGroup) {
         this.context = context;
         rootView = LayoutInflater.from(context).inflate(R.layout.bid_form_layout, viewGroup);
-        controller = new BidFormController(this);
+        controller = new BidFormActivity.BidFormController(this);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.example.studenttutormatchapp;
+package com.example.studenttutormatchapp.dagger;
 
 import android.content.Context;
 
@@ -21,7 +21,7 @@ public class AppModule {
     @Singleton
     @Provides
     @NonNull
-    public Context providerContext(){
+    public Context provideContext(){
         return context;
     }
 }
