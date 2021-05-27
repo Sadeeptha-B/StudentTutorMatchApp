@@ -19,4 +19,13 @@
         app:title="Monitoring Dashboard"
         app:titleTextColor="#FFFFFF" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/MonitoringList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/monitorDashboardToolbar" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

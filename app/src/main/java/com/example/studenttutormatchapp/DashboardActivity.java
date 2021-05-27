@@ -243,7 +243,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         String message = "Your contract with " + otherParty + " expires on " + contract.getExpiryDateString();
 
-        if (monthBeforeExpiry.isAfter(todaysDate) && todaysDate.isBefore(monthBeforeExpiry.minusDays(3))) {
+        if (monthBeforeExpiry.isAfter(todaysDate) && todaysDate.isAfter(monthBeforeExpiry.minusDays(3))) {
             Snackbar snackbar = Snackbar.make(layout, message, Snackbar.LENGTH_INDEFINITE);
             View view = snackbar.getView();
             CoordinatorLayout.LayoutParams params=(CoordinatorLayout.LayoutParams)view.getLayoutParams();
@@ -303,7 +303,11 @@ public class DashboardActivity extends AppCompatActivity {
                         finish();
                         break;
                     case R.id.monitorDashboard:
-                        monitoringDashboard();
+                        try {
+                            monitoringDashboard();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                         break;
 
                 }
@@ -342,8 +346,9 @@ public class DashboardActivity extends AppCompatActivity {
         startActivity(activity);
     }
 
-    private void monitoringDashboard(){
+    private void monitoringDashboard() throws JSONException {
         Intent activity = new Intent(this, MonitorDashboardActivity.class);
+        activity.putExtra("userId", jwtObject.getString("sub"));
         startActivity(activity);
     }
 
