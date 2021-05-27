@@ -1,6 +1,6 @@
 package com.example.studenttutormatchapp.helpers;
 
-import com.example.studenttutormatchapp.model.Message;
+import com.example.studenttutormatchapp.model.pojo.Message;
 
 import java.util.Comparator;
 

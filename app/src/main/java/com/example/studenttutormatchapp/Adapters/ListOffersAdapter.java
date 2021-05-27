@@ -15,15 +15,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.studenttutormatchapp.ChatActivity;
-import com.example.studenttutormatchapp.ContractFormActivity;
+import com.example.studenttutormatchapp.view.ChatActivity;
+import com.example.studenttutormatchapp.view.ContractFormActivity;
 import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.helpers.ContractAdditionalInfo;
 import com.example.studenttutormatchapp.helpers.ContractLessonInfo;
 import com.example.studenttutormatchapp.helpers.ContractPaymentInfo;
 import com.example.studenttutormatchapp.helpers.DateClosedDownWrapper;
 import com.example.studenttutormatchapp.helpers.Offer;
-import com.example.studenttutormatchapp.model.Contract;
+import com.example.studenttutormatchapp.model.pojo.Contract;
 
 import com.example.studenttutormatchapp.remote.APIUtils;
 import com.google.gson.Gson;

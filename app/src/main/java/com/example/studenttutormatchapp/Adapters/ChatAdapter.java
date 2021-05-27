@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studenttutormatchapp.R;
-import com.example.studenttutormatchapp.model.Message;
+import com.example.studenttutormatchapp.model.pojo.Message;
 
 import java.util.List;
 
