@@ -83,7 +83,7 @@ public class FindBidsActivity extends AppCompatActivity {
     }
 
     public void getUserCompetencies(){
-        Call<User> call = APIUserInterface.getUserSubject(userId);
+        Call<User> call = APIUserInterface.getUserSubjects(userId);
 
         call.enqueue(new Callback<User>() {
             @Override

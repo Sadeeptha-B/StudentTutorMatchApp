@@ -17,7 +17,7 @@ public class CommonViewModel extends ViewModel {
         return userRepository.getUserSharedPref();
     }
 
-    public UserRepository getUserRepository() {
+    protected UserRepository getUserRepository() {
         return userRepository;
     }
 }

@@ -83,7 +83,23 @@ public class DashboardActivity extends AppCompatActivity {
         ((MyApplication) getApplication()).getAppComponent().inject(this);
         dashboardViewModel = new ViewModelProvider(this, viewModelFactory).get(DashboardViewModel.class);
         setUIElements();
+        getLifecycle().addObserver(dashboardViewModel);
 
+        setObservers();
+    }
+
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d("CHECK", "I run");
+        dashboardViewModel.getBidLiveData().removeObservers(this);
+        dashboardViewModel.getContractLiveData().removeObservers(this);
+        ongoingBidDataList.clear();
+        setObservers();
+    }
+
+    public void setObservers(){
         dashboardViewModel.getBidLiveData().observe(this, new Observer<ApiResource<User>>() {
             @Override
             public void onChanged(ApiResource<User> userApiResource) {
@@ -115,21 +131,6 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
     }
-
-//    @Override
-//    protected void onRestart() {
-//        super.onRestart();
-//        //Temporary fix
-//        ongoingBidDataList.clear();
-//        contractAdapter.clearContracts();
-//
-//        try {
-//            getBids();
-////            getContracts();
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
 
     private void onBidsObtained(List<Bid> bids){

@@ -77,7 +77,7 @@ public class MakeOfferFormActivity extends AppCompatActivity {
 
     private void getUser(String userId){
         UserService apiUserService = APIUtils.getUserService();
-        Call<User> userCall = apiUserService.getUserSubject(userId);
+        Call<User> userCall = apiUserService.getUserSubjects(userId);
         userCall.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {

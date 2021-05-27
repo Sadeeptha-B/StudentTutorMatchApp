@@ -1,7 +1,6 @@
 package com.example.studenttutormatchapp.model.repositories;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -12,7 +11,6 @@ import com.example.studenttutormatchapp.remote.APIUtils;
 import com.example.studenttutormatchapp.remote.dao.UserService;
 import com.example.studenttutormatchapp.remote.response.ApiResource;
 import com.example.studenttutormatchapp.remote.response.CallAdapter;
-import com.example.studenttutormatchapp.remote.response.RetrofitLiveData;
 
 
 import java.util.HashMap;
@@ -33,8 +31,6 @@ public class UserRepository implements Repository.UserInterface {
     }
 
     public void storeUserSharedPref(HashMap<String, String> userData){
-        Log.d("CHECK", "storeUserSharedPref: I run");
-
         preference_userProfile.putUserId(userData.get("id"));
         preference_userProfile.putUsername(userData.get("username"));
         preference_userProfile.putIsStudent(Boolean.parseBoolean(userData.get("isStudent")));
@@ -47,13 +43,14 @@ public class UserRepository implements Repository.UserInterface {
 
     public LiveData<ApiResource<ResponseBody>> loginUser(Credentials credentials){
         return new CallAdapter<>(userService.loginUser(credentials)).getLiveData();
-//        return new RetrofitLiveData<>(userService.loginUser(credentials));
     }
 
     public LiveData<ApiResource<User>> getStudentBids(){
         return new CallAdapter<>(userService.getStudentBids(getUserSharedPref().getUserId())).getLiveData();
     }
 
-
+    public LiveData<ApiResource<User>> getUserWithSubjects(){
+        return new CallAdapter<>(userService.getUserSubjects(getUserSharedPref().getUserId())).getLiveData();
+    }
 
 }
