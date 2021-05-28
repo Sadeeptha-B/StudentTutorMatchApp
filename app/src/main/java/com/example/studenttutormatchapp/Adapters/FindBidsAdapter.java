@@ -27,6 +27,7 @@ import com.example.studenttutormatchapp.helpers.DateClosedDownWrapper;
 import com.example.studenttutormatchapp.model.pojo.Bid;
 import com.example.studenttutormatchapp.model.pojo.Contract;
 import com.example.studenttutormatchapp.remote.APIUtils;
+import com.google.gson.Gson;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -79,12 +80,15 @@ public class FindBidsAdapter extends RecyclerView.Adapter<FindBidsAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, MakeOfferFormActivity.class);
+
+                Gson gson = new Gson();
                 intent.putExtra("tutorId", userId);
                 intent.putExtra("subjectName", subjectString);
                 intent.putExtra("subjectId", bid.getSubject().getId());
                 intent.putExtra("competency", bid.getAdditionalInfo().getCompetency());
                 intent.putExtra("userId", userId);
                 intent.putExtra("isRenewal", false);
+                intent.putExtra("bidJson", gson.toJson(bid));
                 context.startActivity(intent);
             }
         });
