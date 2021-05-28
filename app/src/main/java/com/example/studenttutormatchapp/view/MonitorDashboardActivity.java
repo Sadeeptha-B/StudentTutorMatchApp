@@ -71,23 +71,24 @@ public class MonitorDashboardActivity extends AppCompatActivity {
     }
 
     public void getAllBids(List<String> bidIds){
-        for (int i = 0; i < bidIds.size(); i++){
-            Call<Bid> call = APIUtils.getBidService().getBid(bidIds.get(i));
+        if (bidIds != null) {
+            for (int i = 0; i < bidIds.size(); i++) {
+                Call<Bid> call = APIUtils.getBidService().getBid(bidIds.get(i));
 
-            call.enqueue(new Callback<Bid>() {
-                @Override
-                public void onResponse(Call<Bid> call, Response<Bid> response) {
-                    monitoringBidsAdapter.addMonitoringBid(response.body());
-                    monitoringBidsAdapter.notifyDataSetChanged();
-                }
+                call.enqueue(new Callback<Bid>() {
+                    @Override
+                    public void onResponse(Call<Bid> call, Response<Bid> response) {
+                        monitoringBidsAdapter.addMonitoringBid(response.body());
+                        monitoringBidsAdapter.notifyDataSetChanged();
+                    }
 
-                @Override
-                public void onFailure(Call<Bid> call, Throwable t) {
+                    @Override
+                    public void onFailure(Call<Bid> call, Throwable t) {
 
-                }
-            });
+                    }
+                });
+            }
         }
-
     }
 
 

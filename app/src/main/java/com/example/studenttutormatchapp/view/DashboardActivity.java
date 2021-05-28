@@ -172,7 +172,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         String message = "Your contract with " + otherParty + " expires on " + contract.getExpiryDateString();
 
-        if (todaysDate.isAfter(monthBeforeExpiry) && todaysDate.isAfter(monthBeforeExpiry.minusDays(21))) {
+        if (monthBeforeExpiry.isBefore(todaysDate) && todaysDate.isBefore(monthBeforeExpiry.plusDays(21))) {
             Snackbar snackbar = Snackbar.make(layout, message, Snackbar.LENGTH_INDEFINITE);
             View view = snackbar.getView();
             CoordinatorLayout.LayoutParams params=(CoordinatorLayout.LayoutParams)view.getLayoutParams();
@@ -187,7 +187,6 @@ public class DashboardActivity extends AppCompatActivity {
 
         }
     }
-
 
     private void onBidsObtained(List<Bid> bids){
         for (int i=0; i< bids.size(); i++){
