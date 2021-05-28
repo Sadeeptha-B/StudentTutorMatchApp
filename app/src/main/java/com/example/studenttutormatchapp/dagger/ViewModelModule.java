@@ -8,6 +8,7 @@ import com.example.studenttutormatchapp.viewmodel.ChatViewModel;
 import com.example.studenttutormatchapp.viewmodel.ContractFormViewModel;
 import com.example.studenttutormatchapp.viewmodel.DashboardViewModel;
 import com.example.studenttutormatchapp.viewmodel.FindBidsViewModel;
+import com.example.studenttutormatchapp.viewmodel.ListOffersViewModel;
 import com.example.studenttutormatchapp.viewmodel.MessageListViewModel;
 import com.example.studenttutormatchapp.viewmodel.ViewModelFactory;
 import com.example.studenttutormatchapp.viewmodel.LoginViewModel;
@@ -45,9 +46,12 @@ public abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(FindBidsViewModel.class)
-    abstract  ViewModel findBidsViewModel(FindBidsViewModel findBidsViewModel);
+    abstract ViewModel findBidsViewModel(FindBidsViewModel findBidsViewModel);
 
-    //ListOffersViewModel
+    @Binds
+    @IntoMap
+    @ViewModelKey(ListOffersViewModel.class)
+    abstract ViewModel listOffersViewModel(ListOffersViewModel listOffersViewModel);
 
     @Binds
     @IntoMap

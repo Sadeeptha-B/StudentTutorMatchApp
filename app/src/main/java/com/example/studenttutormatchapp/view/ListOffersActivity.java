@@ -2,6 +2,7 @@ package com.example.studenttutormatchapp.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -9,13 +10,18 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.studenttutormatchapp.Adapters.ListOffersAdapter;
+import com.example.studenttutormatchapp.MyApplication;
 import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.helpers.Offer;
 import com.example.studenttutormatchapp.model.pojo.Bid;
 import com.example.studenttutormatchapp.remote.APIUtils;
 import com.example.studenttutormatchapp.remote.dao.BidService;
+import com.example.studenttutormatchapp.viewmodel.ListOffersViewModel;
+import com.example.studenttutormatchapp.viewmodel.ViewModelFactory;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,6 +38,10 @@ public class ListOffersActivity extends AppCompatActivity {
     Bid bid;
     List<Offer> offers;
 
+    @Inject
+    ViewModelFactory viewModelFactory;
+    ListOffersViewModel listOffersViewModel;
+
     BidService APIBidInterface;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +49,9 @@ public class ListOffersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list_offers);
 
         APIBidInterface = APIUtils.getBidService();
+
+        ((MyApplication) getApplication()).getAppComponent().inject(this);
+        listOffersViewModel = new ViewModelProvider(this, viewModelFactory).get(ListOffersViewModel.class);
 
         Intent page = getIntent();
         Bundle bundle = page.getExtras();
@@ -60,7 +73,6 @@ public class ListOffersActivity extends AppCompatActivity {
 
         adapter = new ListOffersAdapter(bidId, userId, this);
         recyclerView.setAdapter(adapter);
-
     }
 
     public void getBid(){

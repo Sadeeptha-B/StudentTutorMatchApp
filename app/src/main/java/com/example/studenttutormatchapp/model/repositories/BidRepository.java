@@ -24,4 +24,8 @@ public class BidRepository implements Repository.BidInterface{
         return new CallAdapter<>(bidService.createBid(bid)).getLiveData();
     }
 
+    public LiveData<ApiResource<Bid>> getBid(String bidId){
+        return new CallAdapter<>(bidService.getBid(bidId)).getLiveData();
+    }
+
 }
