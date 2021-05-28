@@ -144,14 +144,11 @@ public class DashboardActivity extends AppCompatActivity {
 
     public List<Contract> getValidContracts(List<Contract> contracts, String userId) {
         List<Contract> list = new ArrayList<>();
-        Log.d("OFFER", String.valueOf(contracts.size()));
         for (int i = 0; i < contracts.size(); i++){
             Contract contract = contracts.get(i);
             if ((contract.getFirstParty().getId().equals(userId)) || (contract.getSecondParty().getId().equals(userId)))
                 list.add(contract);
         }
-        Log.d("OFFER", String.valueOf(list.size()));
-        Log.d("OFFER", "List");
         return list;
 
     }
@@ -160,7 +157,7 @@ public class DashboardActivity extends AppCompatActivity {
         ZonedDateTime todaysDate = ZonedDateTime.now();
         View dashboard = findViewById(R.id.DashboardConstraintLayout);
         for(int i = 0; i < contracts.size(); i++){
-            Contract contract = contracts.get(0);
+            Contract contract = contracts.get(i);
             checkContractExpiry(contract, todaysDate, dashboard);
         }
     }
@@ -175,7 +172,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         String message = "Your contract with " + otherParty + " expires on " + contract.getExpiryDateString();
 
-        if (monthBeforeExpiry.isAfter(todaysDate) && todaysDate.isAfter(monthBeforeExpiry.minusDays(3))) {
+        if (todaysDate.isAfter(monthBeforeExpiry) && todaysDate.isAfter(monthBeforeExpiry.minusDays(21))) {
             Snackbar snackbar = Snackbar.make(layout, message, Snackbar.LENGTH_INDEFINITE);
             View view = snackbar.getView();
             CoordinatorLayout.LayoutParams params=(CoordinatorLayout.LayoutParams)view.getLayoutParams();
