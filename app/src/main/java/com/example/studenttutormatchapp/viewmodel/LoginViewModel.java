@@ -58,8 +58,8 @@ public class LoginViewModel extends CommonViewModel {
 
             userData.put("id", jwtObject.getString("sub"));
             userData.put("username", jwtObject.getString("username"));
-            userData.put("IS_STUDENT", jwtObject.getString("isStudent"));
-            userData.put("IS_TUTOR", jwtObject.getString("isTutor"));
+            userData.put("isStudent", jwtObject.getString("isStudent"));
+            userData.put("isTutor", jwtObject.getString("isTutor"));
 
             getUserRepository().storeUserSharedPref(userData);
         } catch(IOException | JSONException e){

@@ -125,7 +125,7 @@ public class DashboardActivity extends AppCompatActivity {
                 switch(listApiResource.getStatus()){
                     case SUCCESS:
                         List<Contract> contracts = getValidContracts(listApiResource.getData(), dashboardViewModel.getUserData().getUserId());
-                        contractAdapter.setContracts(listApiResource.getData());
+                        contractAdapter.setContracts(contracts);
                         contractAdapter.notifyDataSetChanged();
                         checkContract(contracts);
                         break;
@@ -269,6 +269,7 @@ public class DashboardActivity extends AppCompatActivity {
 
 
         contractAdapter = new ContractListAdapter(context,  dashboardViewModel.getUserData().getIsStudent());
+        contractAdapter.setDate(ZonedDateTime.now());
         contractAdapter.setUserId(dashboardViewModel.getUserData().getUserId());
         contractRecycler.setAdapter(contractAdapter);
     }

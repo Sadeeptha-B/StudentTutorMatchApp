@@ -67,7 +67,7 @@ public class ContractListAdapter extends RecyclerView.Adapter<ContractListAdapte
         if (isStudent){
             otherParty = contract.getFirstParty();
         }
-        holder.otherParty.setText(otherParty.getGivenName());
+        holder.otherParty.setText(otherParty.getUserName());
         holder.subject.setText(contract.getSubject().getDescription());
 
         if (contract.getDateSigned() == null){
@@ -96,7 +96,7 @@ public class ContractListAdapter extends RecyclerView.Adapter<ContractListAdapte
             holder.signed.setVisibility(View.VISIBLE);
         }
 
-//        if (contract.getDateOfExpiry().isBefore(date)){
+        if (contract.getDateOfExpiry().isBefore(date)){
             holder.signButton.setVisibility(View.GONE);
 
             if (isStudent){
@@ -123,7 +123,7 @@ public class ContractListAdapter extends RecyclerView.Adapter<ContractListAdapte
                 holder.signed.setText("Expired");
                 holder.signed.setVisibility(View.VISIBLE);
             }
-//        }
+        }
 
     }
 
