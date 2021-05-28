@@ -16,4 +16,5 @@ public class ListOffersViewModel extends CommonViewModel {
     }
 
 
+
 }

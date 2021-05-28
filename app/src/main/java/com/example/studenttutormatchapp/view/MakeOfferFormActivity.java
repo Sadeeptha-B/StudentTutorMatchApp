@@ -49,7 +49,7 @@ public class MakeOfferFormActivity extends AppCompatActivity {
         /* Get data*/
         Gson gson = new Gson();
         Intent intent = getIntent();
-        bid = gson.fromJson(intent.getStringExtra("bidJson"), Bid.class);
+        bid = gson.fromJson(intent.getExtras().getString("bidJson"), Bid.class);
         userId = intent.getExtras().getString("userId");
 
         getUser(userId);

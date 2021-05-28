@@ -57,7 +57,7 @@ public class ListOffersActivity extends AppCompatActivity {
         Bundle bundle = page.getExtras();
 
         bidId = bundle.getString("bidId");
-        userId = bundle.getString("userId");
+        userId = listOffersViewModel.getUserData().getUserId();
         String subjectDescription = bundle.getString("subject");
 
         Toolbar toolbar = findViewById(R.id.OffersToolbar);
@@ -66,7 +66,6 @@ public class ListOffersActivity extends AppCompatActivity {
         getBid();
 
         recyclerView = findViewById(R.id.listOffersRecycler);
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);

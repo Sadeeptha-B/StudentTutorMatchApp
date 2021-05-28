@@ -207,7 +207,6 @@ public class DashboardActivity extends AppCompatActivity {
 
 
     public void setUIElements()  {
-
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -224,7 +223,7 @@ public class DashboardActivity extends AppCompatActivity {
         if (dashboardViewModel.getUserData().getIsStudent()){
             menuNav.setGroupVisible(R.id.studentMenuItems, true);
             menuNav.setGroupVisible(R.id.tutorMenuItems, false);
-        } else if (dashboardViewModel.getUserData().getIsStudent()){
+        } else if (dashboardViewModel.getUserData().getIsTutor()){
             menuNav.setGroupVisible(R.id.tutorMenuItems, true);
             menuNav.setGroupVisible(R.id.studentMenuItems, false);
             findViewById(R.id.textViewOngoingBids).setVisibility(View.GONE);
@@ -261,7 +260,7 @@ public class DashboardActivity extends AppCompatActivity {
         bidRecycler.setLayoutManager(bidLayoutManager);
         bidRecycler.setHasFixedSize(true);
 
-        bidAdapter = new OngoingBidsAdapter(context, dashboardViewModel.getUserData().getUserId());
+        bidAdapter = new OngoingBidsAdapter(context);
         bidAdapter.setData(ongoingBidDataList);
         bidRecycler.setAdapter(bidAdapter);
 

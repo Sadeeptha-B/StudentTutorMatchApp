@@ -32,9 +32,8 @@ public class OngoingBidsAdapter extends RecyclerView.Adapter<OngoingBidsAdapter.
         return viewHolder;
     }
 
-    public OngoingBidsAdapter(Context context, String userId){
+    public OngoingBidsAdapter(Context context){
         this.context = context;
-        this.userId = userId;
     }
 
     public void setData(List<OngoingBidData> _data){
@@ -48,13 +47,11 @@ public class OngoingBidsAdapter extends RecyclerView.Adapter<OngoingBidsAdapter.
         holder.createdDate.setText(this.data.get(position).getDateCreated());
         holder.bidType.setText(this.data.get(position).getBidType());
 
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent activity = new Intent(v.getContext(), ListOffersActivity.class);
                 activity.putExtra("bidId", data.get(position).getBidId());
-                activity.putExtra("userId", userId);
                 activity.putExtra("subject", data.get(position).getSubjectName());
                 v.getContext().startActivity(activity);
             }
