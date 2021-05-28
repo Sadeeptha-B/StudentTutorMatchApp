@@ -83,6 +83,8 @@ public class DashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_dashboard_layout);
 
+        context = this;
+
         ((MyApplication) getApplication()).getAppComponent().inject(this);
         dashboardViewModel = new ViewModelProvider(this, viewModelFactory).get(DashboardViewModel.class);
         setUIElements();

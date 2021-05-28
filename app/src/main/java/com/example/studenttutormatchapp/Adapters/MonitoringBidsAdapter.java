@@ -36,7 +36,12 @@ public class MonitoringBidsAdapter extends RecyclerView.Adapter<MonitoringBidsAd
 
         String subject = bid.getSubject().getName()+ " " + bid.getSubject().getDescription();
 
+        String date = bid.getDateCreated();
+        String[] dateCreated =  date.split("T");
+
+
         holder.studentName.setText(bid.getInitiator().getUserName());
+        holder.bidDate.setText(dateCreated[0]);
         holder.subject.setText(subject);
 
         holder.viewOffers.setOnClickListener(new View.OnClickListener() {
@@ -69,12 +74,14 @@ public class MonitoringBidsAdapter extends RecyclerView.Adapter<MonitoringBidsAd
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView studentName;
+        private TextView bidDate;
         private TextView subject;
         private Button viewOffers;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             studentName = itemView.findViewById(R.id.studentName);
+            bidDate = itemView.findViewById(R.id.monitoredBidDate);
             subject = itemView.findViewById(R.id.monitoringSubject);
             viewOffers = itemView.findViewById(R.id.viewAllmonitoredOffers);
         }
