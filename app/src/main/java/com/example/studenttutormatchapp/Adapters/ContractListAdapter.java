@@ -27,6 +27,7 @@ import com.example.studenttutormatchapp.remote.dao.ContractService;
 import com.example.studenttutormatchapp.view.ContractFormActivity;
 
 
+import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -40,7 +41,6 @@ public class ContractListAdapter extends RecyclerView.Adapter<ContractListAdapte
 
     private ZonedDateTime date;
     private List<Contract> contracts;
-    private ArrayList<User> tutors = new ArrayList<>();
     private boolean isStudent;
     private String userId;
     private String competencyLevel;
@@ -96,7 +96,7 @@ public class ContractListAdapter extends RecyclerView.Adapter<ContractListAdapte
             holder.signed.setVisibility(View.VISIBLE);
         }
 
-        if (contract.getDateOfExpiry().isBefore(date)){
+//        if (contract.getDateOfExpiry().isBefore(date)){
             holder.signButton.setVisibility(View.GONE);
 
             if (isStudent){
@@ -123,7 +123,7 @@ public class ContractListAdapter extends RecyclerView.Adapter<ContractListAdapte
                 holder.signed.setText("Expired");
                 holder.signed.setVisibility(View.VISIBLE);
             }
-        }
+//        }
 
     }
 
@@ -264,9 +264,8 @@ public class ContractListAdapter extends RecyclerView.Adapter<ContractListAdapte
 
     public void getSuitableTutors(List<Competency> competencies, String subjectId){
         for (int i = 0; i < competencies.size(); i++){
-            Competency competency = competencies.iterator().next();
+            Competency competency = competencies.get(i);
             if (competency.getOwner().getIsTutor() && competency.getSubject().getId().equals(subjectId))
-                tutors.add(competency.getOwner());
                 if (competency.getOwner().getId().equals(userId))
                     competencyLevel = competency.getLevel().toString();
         }

@@ -20,7 +20,6 @@ import com.example.studenttutormatchapp.R;
 import com.example.studenttutormatchapp.helpers.BidAdditionalInfo;
 import com.example.studenttutormatchapp.helpers.BidInfoForm;
 import com.example.studenttutormatchapp.helpers.Offer;
-import com.example.studenttutormatchapp.helpers.SubjectSpinner;
 import com.example.studenttutormatchapp.model.pojo.Bid;
 import com.example.studenttutormatchapp.model.pojo.Competency;
 import com.example.studenttutormatchapp.model.pojo.Subject;
@@ -34,6 +33,7 @@ import com.example.studenttutormatchapp.viewmodel.ViewModelFactory;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
+import com.example.studenttutormatchapp.helpers.CustomSpinner;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -62,7 +62,7 @@ public class BidFormActivity extends AppCompatActivity {
 
     /* Fields : Used to extract data*/
     private TextView subjectField;
-    private SubjectSpinner subjectSpinner;
+    private CustomSpinner subjectSpinner;
     private RadioGroup bidGroup;
 
     private static final int COMPETENCY_DIFF = 2;

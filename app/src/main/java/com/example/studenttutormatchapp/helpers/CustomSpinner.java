@@ -5,9 +5,9 @@ import android.util.AttributeSet;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 
-public class SubjectSpinner extends androidx.appcompat.widget.AppCompatSpinner {
+public class CustomSpinner extends androidx.appcompat.widget.AppCompatSpinner {
     AdapterView.OnItemSelectedListener listener;
-    public SubjectSpinner(Context context, AttributeSet attrs) {
+    public CustomSpinner(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 

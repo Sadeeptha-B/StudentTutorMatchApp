@@ -6,7 +6,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -19,22 +21,25 @@ import com.example.studenttutormatchapp.helpers.BidInfoForm;
 import com.example.studenttutormatchapp.helpers.ContractAdditionalInfo;
 import com.example.studenttutormatchapp.helpers.ContractLessonInfo;
 import com.example.studenttutormatchapp.helpers.ContractPaymentInfo;
+import com.example.studenttutormatchapp.helpers.CustomSpinner;
 import com.example.studenttutormatchapp.helpers.Offer;
 
+import com.example.studenttutormatchapp.model.pojo.Competency;
 import com.example.studenttutormatchapp.model.pojo.Contract;
 import com.example.studenttutormatchapp.model.pojo.Qualification;
 import com.example.studenttutormatchapp.model.pojo.User;
 import com.example.studenttutormatchapp.remote.APIUtils;
+import com.example.studenttutormatchapp.remote.dao.CompetencyService;
 import com.example.studenttutormatchapp.remote.dao.ContractService;
 import com.example.studenttutormatchapp.remote.dao.UserService;
 import com.example.studenttutormatchapp.viewmodel.ContractFormViewModel;
-import com.example.studenttutormatchapp.viewmodel.LoginViewModel;
 import com.example.studenttutormatchapp.viewmodel.ViewModelFactory;
 import com.google.gson.Gson;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -58,11 +63,13 @@ public class ContractFormActivity extends AppCompatActivity {
     BidInfoForm contractForm;
 
     private Spinner contractExpiry;
+    private CustomSpinner tutorSpinner;
 
     @Inject
     ViewModelFactory viewModelFactory;
     ContractFormViewModel contractFormViewModel;
 
+    private List<User> tutors = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +77,8 @@ public class ContractFormActivity extends AppCompatActivity {
 
         ((MyApplication) getApplication()).getAppComponent().inject(this);
         contractFormViewModel = new ViewModelProvider(this, viewModelFactory).get(ContractFormViewModel.class);
+
+
 
         Gson gson = new Gson();
         Intent intent = getIntent();
@@ -80,8 +89,9 @@ public class ContractFormActivity extends AppCompatActivity {
         tutorsCompetency = intent.getExtras().getString("competency");
         isRenewal = intent.getExtras().getBoolean("isRenewal");
 
-        if (isRenewal)
-            contractId = intent.getExtras().getString("contractId");
+        if (isRenewal) {
+            handleRenewalContractUI(intent);
+        }
 
         getInfo(tutorId);
 
@@ -94,6 +104,34 @@ public class ContractFormActivity extends AppCompatActivity {
         contractExpiry.setSelection(1);
     }
 
+    private void handleRenewalContractUI(Intent intent){
+        getNewTutorList(offeredSubjectId);
+        contractId = intent.getExtras().getString("contractId");
+        tutorSpinner = findViewById(R.id.tutorSpinner);
+        tutorSpinner.setVisibility(View.VISIBLE);
+
+        List<String> tutorNames = getListOfTutorNames(tutors);
+        Log.d("OFFER", String.valueOf(tutorNames.size()));
+        Log.d("OFFER", String.valueOf(tutors.size()));
+        ArrayAdapter<String> tutorAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item,tutorNames);
+        tutorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        tutorSpinner.setAdapter(tutorAdapter);tutorAdapter.notifyDataSetChanged();
+
+        tutorSpinner.setOnItemSelectedEvenIfUnchangedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                TextView textView = findViewById(R.id.textViewContractTutor);
+                textView.setText(tutorSpinner.getSelectedItem().toString());
+                tutorId = tutors.get(position).getId();
+                tutorSpinner.setSelection(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
 
     private void getInfo(String tutorId){
         UserService apiUserService = APIUtils.getUserService();
@@ -201,8 +239,45 @@ public class ContractFormActivity extends AppCompatActivity {
         });
     }
 
+    private List<String> getListOfTutorNames(List<User> tutors){
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < tutors.size(); i++){
+            list.add(tutors.get(i).getUserName());
+        }
+        return list;
+    }
+
     private void onSuccess(String message){
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
         finish();
+    }
+
+    public void getNewTutorList(String subject){
+        CompetencyService apiCompetencyInterface = APIUtils.getCompetencyService();
+
+        Call<List<Competency>> call = apiCompetencyInterface.getCompetencies();
+
+        call.enqueue(new Callback<List<Competency>>() {
+            @Override
+            public void onResponse(Call<List<Competency>> call, Response<List<Competency>> response) {
+                if (response.isSuccessful()){
+                    getSuitableTutors(response.body(), subject);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Competency>> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    public void getSuitableTutors(List<Competency> competencies, String subjectId){
+        for (int i = 0; i < competencies.size(); i++){
+            Competency competency = competencies.get(i);
+            if (competency.getOwner().getIsTutor() && competency.getSubject().getId().equals(subjectId))
+                tutors.add(competency.getOwner());
+        }
     }
 }
